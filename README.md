@@ -1,5 +1,7 @@
 # AgentDesk
 
+![AgentDesk agent-ready workstation](assets/README-hero.png)
+
 Make any machine ready for human and AI-agent work.
 
 AgentDesk packages repeatable setup skills for the local workstation layer: WSL2, macOS, browsers, monitors, Codex, Claude Code, OpenClaw, Bitwarden-backed personal profiles, and the small repair workflows that make agents useful on a real machine.
