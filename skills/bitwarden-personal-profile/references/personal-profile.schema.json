@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/personal-profile.schema.json",
+  "title": "Bitwarden Personal Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "person", "contact"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["givenName", "familyName", "name"],
+      "properties": {
+        "givenName": {"type": "string"},
+        "familyName": {"type": "string"},
+        "name": {"type": "string"},
+        "birthDate": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "birthPlace": {"$ref": "#/$defs/place"},
+        "nationality": {"$ref": "#/$defs/languageString"},
+        "maritalStatus": {"$ref": "#/$defs/languageString"}
+      }
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "email": {"type": "string"},
+        "telephone": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "mobile": {"type": "string"}
+          }
+        }
+      }
+    },
+    "address": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "streetAddress": {"type": "string"},
+        "postalCode": {"type": "string"},
+        "addressLocality": {"type": "string"},
+        "addressRegion": {"$ref": "#/$defs/languageString"},
+        "addressCountry": {"$ref": "#/$defs/languageString"}
+      }
+    },
+    "employment": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "jobTitle": {"type": "string"},
+        "generalProfession": {"$ref": "#/$defs/languageString"},
+        "monthlyNetIncome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["amount", "currency", "period"],
+          "properties": {
+            "amount": {"type": "number"},
+            "currency": {"type": "string"},
+            "period": {"type": "string"}
+          }
+        },
+        "employer": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "name": {"type": "string"},
+            "url": {"type": "string"},
+            "telephone": {"type": "string"},
+            "employedSince": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+          }
+        }
+      }
+    },
+    "housing": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "forms": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "languageString": {
+      "oneOf": [
+        {"type": "string"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "default": {"type": "string"},
+            "de": {"type": "string"},
+            "en": {"type": "string"}
+          }
+        }
+      ]
+    },
+    "place": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string"},
+        "country": {"$ref": "#/$defs/languageString"}
+      }
+    }
+  }
+}

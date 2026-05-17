@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenClaw Browser"
+  short_description: "Set up and troubleshoot OpenClaw browser"
+  default_prompt: "Use $openclaw-browser-setup to get the local or remote OpenClaw browser working and prove it with a real snapshot."

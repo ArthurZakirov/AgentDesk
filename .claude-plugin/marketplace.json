@@ -1,0 +1,17 @@
+{
+  "name": "arthur-zakirov",
+  "owner": {
+    "name": "Arthur Zakirov"
+  },
+  "description": "Arthur Zakirov's reusable Claude Code plugin bundle.",
+  "plugins": [
+    {
+      "name": "agentdesk",
+      "source": "./",
+      "description": "Setup skills for agent-ready workstation environments.",
+      "author": {
+        "name": "Arthur Zakirov"
+      }
+    }
+  ]
+}

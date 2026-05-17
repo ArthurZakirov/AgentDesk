@@ -1,0 +1,38 @@
+{
+  "name": "agentdesk",
+  "version": "0.1.0",
+  "description": "AgentDesk makes any machine ready for human and AI-agent work.",
+  "author": {
+    "name": "Arthur Zakirov",
+    "url": "https://github.com/ArthurZakirov"
+  },
+  "homepage": "https://github.com/ArthurZakirov/AgentDesk",
+  "repository": "https://github.com/ArthurZakirov/AgentDesk",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "codex",
+    "claude-code",
+    "plugin",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AgentDesk",
+    "shortDescription": "Agent-ready workstation setup",
+    "longDescription": "Setup skills for WSL2, macOS, browsers, monitors, Codex, Claude Code, OpenClaw, and other agent-ready workstation tools.",
+    "developerName": "Arthur Zakirov",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/ArthurZakirov/AgentDesk",
+    "defaultPrompt": [
+      "Set up this machine for human and AI-agent work.",
+      "Configure browser, monitor, macOS, WSL2, or credential-profile setup.",
+      "Repair this workstation setup using the relevant AgentDesk skill."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

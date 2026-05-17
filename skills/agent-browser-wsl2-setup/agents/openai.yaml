@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Browser WSL2 Setup"
+  short_description: "Prepare agent-browser for WSL2"
+  default_prompt: "Use $agent-browser-wsl2-setup to install agent-browser on Windows plus WSL2 and attach it to an already-working browser path."

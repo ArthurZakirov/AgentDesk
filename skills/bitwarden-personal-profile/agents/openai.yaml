@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bitwarden Personal Profile"
+  short_description: "Load Bitwarden-backed profile data for forms."
+  default_prompt: "Use $bitwarden-personal-profile to load and validate my private personal profile for a form-filling task."

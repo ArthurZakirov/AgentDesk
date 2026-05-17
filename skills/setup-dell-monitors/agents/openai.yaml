@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup Dell Monitors"
+  short_description: "Fix Dell monitor daisy-chain setup"
+  default_prompt: "Use $setup-dell-monitors to troubleshoot my Dell P2725DE/P2225D daisy-chain display setup."
