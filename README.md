@@ -86,6 +86,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | `job-application-operator` | Assist Arthur with human-reviewed job applications using local private profile data, document manifests, browser automation, and strict stop-before-submit rules. |
 | `manage-caffeinate` | Turn macOS caffeinate sleep prevention on or off, check its status, or explain the launchd-backed setup. Use when the user says to enable, disable, start, stop, toggle, inspect, or troubleshoot caffeinate / coffee Nate / keep-awake behavior for local terminal, Codex, Claude Code, or other agent workflows. |
 | `openclaw-browser-setup` | Troubleshoot and operate OpenClaw browser on local or remote gateways. Use when Codex needs to enable the bundled browser plugin, resolve `pairing required` or device approval errors, choose between the managed `openclaw` profile and the attached `user` profile, handle Linux headless or Chrome CDP startup failures, or prove browser control with `profiles`, `start`, `open`, `snapshot`, and `screenshot`. |
+| `personal-task-system` | Manage Arthur's personal productivity system through AI-first task capture, Todoist MCP task updates, lightweight Google Calendar/time-block planning, active-seven triage, emoji/category conventions, and cross-device constraints. Use when Arthur asks to manage personal tasks, life admin, reminders, Todoist, calendar planning, weekly/daily triage, backlog anxiety, or the evolving personal operating system. |
 | `setup-dell-monitors` | Troubleshoot Arthur's Dell P2725DE/P2225D monitor setup, especially DisplayPort daisy chaining, "No DP signal from your device" on the P2225D, Windows Fast Startup or shutdown-related display breakage, and reset/reinstall steps for a Lenovo laptop or Dell desktop tower using original Dell cables. |
 | `setup-macbook-productivity` | Configure repeatable macOS productivity settings on a user's MacBook, especially voice typing / Dictation setup. Use when Codex is asked to set up, repair, or document MacBook productivity features such as voice typing, Dictation, Dictation shortcuts, microphone input for Dictation, or future local macOS workflow preferences. |
 | `wsl2-browser-setup` | Install and configure browsers for Windows plus WSL2. Use when a user wants native Linux Chrome inside WSL to work for normal browsing or sign-in flows, or when a tool in WSL needs a Windows host Chrome or Edge instance exposed over CDP. Prefer this skill before any tool-specific browser automation setup. |
@@ -141,6 +142,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   ├── job-application-operator/
 │   ├── manage-caffeinate/
 │   ├── openclaw-browser-setup/
+│   ├── personal-task-system/
 │   ├── setup-dell-monitors/
 │   ├── setup-macbook-productivity/
 │   └── wsl2-browser-setup/
