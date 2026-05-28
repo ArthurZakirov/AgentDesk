@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Caffeinate"
+  short_description: "Toggle macOS keep-awake mode."
+  default_prompt: "Use $manage-caffeinate to turn on caffeinate."

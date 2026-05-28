@@ -84,6 +84,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | `bitwarden-personal-profile` | Load, validate, and use a user's private personal profile from Bitwarden CLI for form filling, PDF completion, applications, and identity/contact/employment/housing reuse. Use when an agent needs stable personal data backed by Bitwarden, language-aware profile values, a bundled schema for personal facts, or a safe workflow that materializes real profile values outside Git. |
 | `codex-history` | Access OpenAI Codex CLI conversation history to continue work started in Codex, or to find a past Codex chat by topic or keyword. Use when the user says "codex history", "continue from codex", "what was I doing in codex", "pick up from codex", "codex session", "find the codex chat about X", or wants to resume or locate a task that was started in Codex CLI. |
 | `job-application-operator` | Assist Arthur with human-reviewed job applications using local private profile data, document manifests, browser automation, and strict stop-before-submit rules. |
+| `manage-caffeinate` | Turn macOS caffeinate sleep prevention on or off, check its status, or explain the launchd-backed setup. Use when the user says to enable, disable, start, stop, toggle, inspect, or troubleshoot caffeinate / coffee Nate / keep-awake behavior for local terminal, Codex, Claude Code, or other agent workflows. |
 | `openclaw-browser-setup` | Troubleshoot and operate OpenClaw browser on local or remote gateways. Use when Codex needs to enable the bundled browser plugin, resolve `pairing required` or device approval errors, choose between the managed `openclaw` profile and the attached `user` profile, handle Linux headless or Chrome CDP startup failures, or prove browser control with `profiles`, `start`, `open`, `snapshot`, and `screenshot`. |
 | `setup-dell-monitors` | Troubleshoot Arthur's Dell P2725DE/P2225D monitor setup, especially DisplayPort daisy chaining, "No DP signal from your device" on the P2225D, Windows Fast Startup or shutdown-related display breakage, and reset/reinstall steps for a Lenovo laptop or Dell desktop tower using original Dell cables. |
 | `setup-macbook-productivity` | Configure repeatable macOS productivity settings on a user's MacBook, especially voice typing / Dictation setup. Use when Codex is asked to set up, repair, or document MacBook productivity features such as voice typing, Dictation, Dictation shortcuts, microphone input for Dictation, or future local macOS workflow preferences. |
@@ -138,6 +139,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   ├── bitwarden-personal-profile/
 │   ├── codex-history/
 │   ├── job-application-operator/
+│   ├── manage-caffeinate/
 │   ├── openclaw-browser-setup/
 │   ├── setup-dell-monitors/
 │   ├── setup-macbook-productivity/
