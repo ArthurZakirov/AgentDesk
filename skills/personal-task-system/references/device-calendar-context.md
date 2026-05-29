@@ -52,6 +52,29 @@ Observed on 2026-05-28:
 
 Operationally, give calendar-worthy Todoist tasks a due date and time. Do not force every task into the calendar; use timed Todoist tasks for Red Zone calls/admin windows and other work that benefits from appearing on phone/watch calendars.
 
+## External Availability First
+
+Before scheduling any task that depends on an outside organization, check when that organization can actually act.
+
+Applies to:
+
+- banks and insurance
+- doctors, therapists, pharmacies, and public health services
+- government offices and public services
+- customer support desks
+- shops, pickup counters, and delivery windows
+- landlords, housing platforms, and apartment managers
+
+When scheduling these tasks:
+
+- Research official opening hours, phone availability hours, and service/channel-specific hours before picking a time.
+- Treat phone availability as different from office hours unless an official source says otherwise.
+- Prefer the channel the organization says is most effective, such as written online banking messages instead of phone support.
+- Avoid common dead zones unless confirmed useful: lunch break around 12:00-14:00, Friday afternoon, weekends, public holidays, and the last 30-60 minutes before closing.
+- For urgent calls, prefer early in the availability window, after the opening rush if likely; for written requests, schedule close to when staff will next process them.
+- If nobody can act until the next business day, do not create false urgency over the weekend. Schedule the task before work or in a protected admin window on the next business day.
+- Preserve the source/reason in the task description when the timing depends on external availability.
+
 ## Work Busy Blocks
 
 Arthur added the KONUX work Google Calendar (`arthur.zakirov@konux.de`) into Google Calendar. It may show work meetings as `busy` blocks rather than full meeting details.
