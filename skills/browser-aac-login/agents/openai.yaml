@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser AAC Login"
+  short_description: "Use Agent Access for browser logins"
+  default_prompt: "Use $browser-aac-login to log into a website with Agent Access and the Codex in-app browser without printing credentials."
