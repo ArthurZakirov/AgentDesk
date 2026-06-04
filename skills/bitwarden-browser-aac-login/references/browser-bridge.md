@@ -1,22 +1,22 @@
-# In-App Browser Bridge
+# Browser Bridge
 
-Use this reference when implementing an `aac run` login bridge for Codex in-app Browser.
+Use this reference when implementing an `aac run` login bridge for an agent-controlled browser.
 
 ## Security Model
 
-`aac run --env-all` injects credentials into the child process environment. The values are not exported into the parent shell, but the child process can read them. If the child sends those values to Browser automation, Codex-controlled code handles them in memory. That is not transcript exposure, but it is not strictly agent-blind.
+`aac run --env-all` injects credentials into the child process environment. The values are not exported into the parent shell, but the child process can read them. If the child sends those values to browser automation, agent-controlled code handles them in memory. That is not transcript exposure, but it is not strictly agent-blind.
 
 Safer options, in order:
 
 1. Human types or approves the login manually.
-2. A credential-blind helper types into the focused browser and never returns values to Codex.
-3. A temporary local bridge passes credentials in memory to active Browser automation, with no logging and immediate cleanup.
+2. A credential-blind helper types into the focused browser and never returns values to the agent.
+3. A temporary local bridge passes credentials in memory to active browser automation, with no logging and immediate cleanup.
 
 Use option 3 only when the user understands the in-memory trust boundary.
 
 ## Active Bridge Shape
 
-Keep all browser work inside one active Browser execution:
+Keep all browser work inside one active browser-control execution:
 
 ```js
 // Pseudocode only. Do not paste real domains or credentials into source.
@@ -32,7 +32,7 @@ if (await email.count() !== 1 || await password.count() !== 1 || await submit.co
 // Spawn:
 //   aac run --domain example-app.test --env-all -- node -e '<helper>'
 // The helper posts { u: AAC_USERNAME, p: AAC_PASSWORD } to the local server.
-// The active Browser execution fills and submits, then closes the server.
+// The active browser-control execution fills and submits, then closes the server.
 ```
 
 Never print the POST body, the environment, request headers, or the credential-bearing command internals.
