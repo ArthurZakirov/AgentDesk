@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voice Work Feedback"
+  short_description: "Spoken updates for invisible work"
+  default_prompt: "Use $voice-delegation-feedback before doing invisible work in a voice conversation."

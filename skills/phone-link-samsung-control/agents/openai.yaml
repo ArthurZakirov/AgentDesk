@@ -1,0 +1,4 @@
+interface:
+  display_name: "Phone Link Samsung Control"
+  short_description: "Operate a Samsung phone via Phone Link"
+  default_prompt: "Use $phone-link-samsung-control to operate a Samsung phone through Windows Phone Link."

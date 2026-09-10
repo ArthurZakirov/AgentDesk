@@ -36,6 +36,12 @@ Install one specific skill:
 npx skills add https://github.com/ArthurZakirov/AgentDesk --skill wsl2-browser-setup -a codex -g -y
 ```
 
+## Private workstation context
+
+The monitor/KVM and personal Phone Link references are installed separately from a private context checkout. Link its `workstation/` directory to `~/.config/AgentDesk/workstation` (on Windows, under the user profile). Check for an existing directory and reconcile it before linking. If Windows cannot link to a WSL checkout, put the absolute path to its `workstation/` directory in `~/.config/AgentDesk/workstation-root.txt`; the skills support this locator without duplicating private files. Installing this public skill pack does not install personal hardware inventory or routine preferences.
+
+Edit skill sources in the repository and refresh installed skills after committing. Treat `npx skills` copies as generated installations.
+
 ## Install As A Claude Code Plugin
 
 ```text
@@ -84,12 +90,17 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | `bitwarden-browser-aac-login` | Use Bitwarden Agent Access CLI (`aac`) with agent-controlled browser login flows. Use when a user wants an AI agent to log into a website through `aac listen`/`aac run`, approve credentials in Bitwarden Agent Access, fill browser login forms without printing passwords, debug Agent Access browser login pairing, or build a credential-conscious bridge between `aac run` env injection and browser automation. |
 | `bitwarden-personal-profile` | Load, validate, and use a user's private personal profile from Bitwarden CLI for form filling, PDF completion, applications, and identity/contact/employment/housing reuse. Use when an agent needs stable personal data backed by Bitwarden, language-aware profile values, a bundled schema for personal facts, or a safe workflow that materializes real profile values outside Git. |
 | `codex-history` | Access OpenAI Codex CLI conversation history to continue work started in Codex, or to find a past Codex chat by topic or keyword. Use when the user says "codex history", "continue from codex", "what was I doing in codex", "pick up from codex", "codex session", "find the codex chat about X", or wants to resume or locate a task that was started in Codex CLI. |
+| `codex-windows-clipboard-screenshots` | Recover pasted screenshot images in Windows Codex Desktop when the message says a C:\Users\...\Temp\codex-clipboard-*.png file could not be read. |
+| `dell-monitor-kvm-setup` | Recall a saved digital workstation inventory for Dell monitor hubs, KVM and USB switches, interchangeable laptop docks, DisplayLink, audio, peripherals and connectivity. Use for troubleshooting the user's existing setup; physical furniture and ergonomics belong to desk-ergonomics-setup. |
 | `job-application-operator` | Assist Arthur with human-reviewed job applications using local private profile data, document manifests, browser automation, and strict stop-before-submit rules. |
 | `manage-caffeinate` | Turn macOS caffeinate sleep prevention on or off, check its status, or explain the launchd-backed setup. Use when the user says to enable, disable, start, stop, toggle, inspect, or troubleshoot caffeinate / coffee Nate / keep-awake behavior for local terminal, Codex, Claude Code, or other agent workflows. |
 | `openclaw-browser-setup` | Troubleshoot and operate OpenClaw browser on local or remote gateways. Use when Codex needs to enable the bundled browser plugin, resolve `pairing required` or device approval errors, choose between the managed `openclaw` profile and the attached `user` profile, handle Linux headless or Chrome CDP startup failures, or prove browser control with `profiles`, `start`, `open`, `snapshot`, and `screenshot`. |
 | `personal-task-system` | Manage Arthur's personal productivity system through AI-first task capture, Todoist MCP task updates, lightweight Google Calendar/time-block planning, active-seven triage, emoji/category conventions, and cross-device constraints. Use when Arthur asks to manage personal tasks, life admin, reminders, Todoist, calendar planning, weekly/daily triage, backlog anxiety, or the evolving personal operating system. |
+| `phone-link-samsung-control` | Control a Samsung phone through Windows Phone Link using Codex Computer Use. Use when asked to operate, configure, or test the mirrored Samsung phone from the Windows desktop; do not use for ordinary browser-only or Android-advice tasks. |
 | `setup-dell-monitors` | Troubleshoot Arthur's Dell P2725DE/P2225D monitor setup, especially DisplayPort daisy chaining, "No DP signal from your device" on the P2225D, Windows Fast Startup or shutdown-related display breakage, and reset/reinstall steps for a Lenovo laptop or Dell desktop tower using original Dell cables. |
 | `setup-macbook-productivity` | Configure repeatable macOS productivity settings on a user's MacBook, especially voice typing / Dictation setup. Use when Codex is asked to set up, repair, or document MacBook productivity features such as voice typing, Dictation, Dictation shortcuts, microphone input for Dictation, or future local macOS workflow preferences. |
+| `voice-delegation-feedback` | Give concise spoken feedback before invisible work during realtime voice. Use when the user is away from the screen and the assistant will research, edit files, inspect tools, change settings, or coordinate subagents/tasks by voice. |
+| `windows-macos-input-setup` | Configure and verify a Windows 11 PC for macOS-like Logitech keyboard shortcuts, virtual-desktop switching, cross-monitor window movement, and natural scrolling. Use for reproducing or repairing this specific setup without stacking conflicting remappers. |
 | `wsl2-browser-setup` | Install and configure browsers for Windows plus WSL2. Use when a user wants native Linux Chrome inside WSL to work for normal browsing or sign-in flows, or when a tool in WSL needs a Windows host Chrome or Edge instance exposed over CDP. Prefer this skill before any tool-specific browser automation setup. |
 <!-- END GENERATED SECTION: skills -->
 
@@ -141,12 +152,17 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   ├── bitwarden-browser-aac-login/
 │   ├── bitwarden-personal-profile/
 │   ├── codex-history/
+│   ├── codex-windows-clipboard-screenshots/
+│   ├── dell-monitor-kvm-setup/
 │   ├── job-application-operator/
 │   ├── manage-caffeinate/
 │   ├── openclaw-browser-setup/
 │   ├── personal-task-system/
+│   ├── phone-link-samsung-control/
 │   ├── setup-dell-monitors/
 │   ├── setup-macbook-productivity/
+│   ├── voice-delegation-feedback/
+│   ├── windows-macos-input-setup/
 │   └── wsl2-browser-setup/
 ├── pyproject.toml
 └── uv.lock

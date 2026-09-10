@@ -1,0 +1,4 @@
+interface:
+  display_name: "Windows macOS Input Setup"
+  short_description: "Mac-like keyboard, desktops, windows, and scrolling on Windows"
+  default_prompt: "Set up and verify my Windows PC for macOS-like keyboard shortcuts, desktop switching, window movement, and natural scrolling."
