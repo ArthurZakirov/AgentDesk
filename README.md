@@ -42,6 +42,14 @@ The monitor/KVM and personal Phone Link references are installed separately from
 
 Edit skill sources in the repository and refresh installed skills after committing. Treat `npx skills` copies as generated installations.
 
+## Shared skills across harnesses
+
+```bash
+npx skills add ArthurZakirov/AgentDesk --skill '*' -a codex claude-code opencode -g -y
+```
+
+Codex and OpenCode discover the generated `~/.agents/skills` tree directly; Claude Code uses aliases to that same tree. Keep repository `skills/` as the editing source. Global personal rules live separately in a private checkout and are connected with SkillPort's guidance bootstrap. See [SkillPort maintenance conventions](https://github.com/ArthurZakirov/SkillPort/blob/main/docs/cross-device-maintenance.md).
+
 ## Install As A Claude Code Plugin
 
 ```text
