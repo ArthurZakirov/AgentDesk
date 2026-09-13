@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cross-Device Agent Ecosystem"
+  short_description: "Route work across private devices and agents"
+  default_prompt: "Use $cross-device-agent-ecosystem to choose the right private device, host, and connection for this task."

@@ -99,6 +99,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | `bitwarden-personal-profile` | Load, validate, and use a user's private personal profile from Bitwarden CLI for form filling, PDF completion, applications, and identity/contact/employment/housing reuse. Use when an agent needs stable personal data backed by Bitwarden, language-aware profile values, a bundled schema for personal facts, or a safe workflow that materializes real profile values outside Git. |
 | `codex-history` | Access OpenAI Codex CLI conversation history to continue work started in Codex, or to find a past Codex chat by topic or keyword. Use when the user says "codex history", "continue from codex", "what was I doing in codex", "pick up from codex", "codex session", "find the codex chat about X", or wants to resume or locate a task that was started in Codex CLI. |
 | `codex-windows-clipboard-screenshots` | Recover pasted screenshot images in Windows Codex Desktop when the message says a C:\Users\...\Temp\codex-clipboard-*.png file could not be read. |
+| `cross-device-agent-ecosystem` | Route work across Arthur's private Mac, Windows/WSL, and Android agent environments. Use when choosing between ChatGPT Remote, raw SSH, app SSH projects, Computer Use, Logitech Flow, or SkillPort synchronization, or when diagnosing cross-device behavior; not for detailed monitor cabling. |
 | `dell-monitor-kvm-setup` | Recall a saved digital workstation inventory for Dell monitor hubs, KVM and USB switches, interchangeable laptop docks, DisplayLink, audio, peripherals and connectivity. Use for troubleshooting the user's existing setup; physical furniture and ergonomics belong to desk-ergonomics-setup. |
 | `job-application-operator` | Assist Arthur with human-reviewed job applications using local private profile data, document manifests, browser automation, and strict stop-before-submit rules. |
 | `manage-caffeinate` | Turn macOS caffeinate sleep prevention on or off, check its status, or explain the launchd-backed setup. Use when the user says to enable, disable, start, stop, toggle, inspect, or troubleshoot caffeinate / coffee Nate / keep-awake behavior for local terminal, Codex, Claude Code, or other agent workflows. |
@@ -161,6 +162,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   ├── bitwarden-personal-profile/
 │   ├── codex-history/
 │   ├── codex-windows-clipboard-screenshots/
+│   ├── cross-device-agent-ecosystem/
 │   ├── dell-monitor-kvm-setup/
 │   ├── job-application-operator/
 │   ├── manage-caffeinate/
