@@ -1,16 +1,26 @@
 ---
 name: dell-monitor-kvm-setup
-description: Recall a saved digital workstation inventory for Dell monitor hubs, KVM and USB switches, interchangeable laptop docks, DisplayLink, audio, peripherals and connectivity. Use for troubleshooting the user's existing setup; physical furniture and ergonomics belong to desk-ergonomics-setup.
+description: Recall and troubleshoot Arthur's documented Dell U3225QE multi-computer hub, KVM, DisplayLink, audio, and peripheral topology. Use for Arthur's setup or when someone explicitly asks about this published workstation; do not assume the same wiring for other Dell desks.
 ---
 
-# Monitor and KVM setup
+# Dell monitor and KVM setup
 
-Before asking the user to repeat their wiring, read `~/.config/AgentDesk/workstation/monitor-kvm-setup.md`. If that path is absent, read `~/.config/AgentDesk/workstation-root.txt` as a plain absolute directory path and load the same filename there. This is private context installed separately from this public skill. If absent, locate the user's configured private context checkout or ask only for its location. Never infer that another machine has the private inventory merely because this skill is installed.
+Read [references/workstation-inventory.md](references/workstation-inventory.md) before answering questions about this workstation. It is the authoritative inventory for the package and contains the topology, evidence labels, dated observations, unresolved details, and troubleshooting lessons.
 
-Use confirmed facts while distinguishing user reports, historical observations, authoritative corrections and untested proposals. Identify the occupied docking path rather than inferring wiring from laptop identity. Do not infer extra monitor upstream ports, adapter capabilities or missing model numbers.
+Identify the occupied docking path rather than inferring wiring from the laptop identity. Laptop positions are interchangeable. Separate host video, USB data, charging, DisplayLink, and audio paths when reasoning about failures; a USB-C connector alone does not establish a cable's protocol or direction.
 
-Inspect relevant devices and settings before current-state changes. Preserve headphone output when adjusting microphone input. Verify actual behavior and report what was checked. Consult windows-macos-input-setup for the related input configuration when installed.
+Preserve the reference's evidence labels:
 
-Update the private reference with dates and evidence when wiring or verified settings change. Keep proposals and purchase preferences separate from installed equipment. Store private inventory only in its private source repository; do not add it to this public skill.
+- **Verified** means observed in a dated inspection or checked against the cited manufacturer specification.
+- **Arthur-reported** means a concrete description that has not been independently inspected.
+- **Historical** means useful prior behavior that may not describe the current state.
+- **Ordered / untested** and **proposed** must never be presented as installed or compatible.
+- **Unknown** must stay unknown until new evidence resolves it.
 
-For furniture, physical placement, dimensions, lighting and power, use desk-ergonomics-setup only when relevant and available.
+Inspect relevant devices and settings before changing current state. Preserve headphone output when adjusting microphone input, back up mutable configuration when practical, and verify observable behavior after changes. Do not convert a successful connector fit, valid configuration file, or detected process into a compatibility guarantee.
+
+Use `windows-macos-input-setup` when the task concerns Arthur's related keyboard remapping, desktop switching, window movement, or natural-scrolling configuration rather than the KVM's physical USB path.
+
+When Arthur confirms a hardware, wiring, or settings change, update only the in-package inventory so this skill retains one authoritative public copy. Keep security-device placement, serial numbers, accounts, network identifiers, employer-specific details, and other personal-risk data out of the package.
+
+Physical furniture, room layout, lighting, power-strip placement, and ergonomics are outside this skill.

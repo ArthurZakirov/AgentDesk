@@ -5,7 +5,7 @@ description: Troubleshoot Arthur's Dell P2725DE/P2225D monitor setup, especially
 
 # Setup Dell Monitors
 
-This is a historical DisplayPort daisy-chain recovery workflow. Before applying it to the user's present desk, load `dell-monitor-kvm-setup` and its dated private inventory when available. Apply the topology below only if the current connection actually matches it; do not replace a newer saved hub/KVM or DisplayLink topology with these older assumptions.
+This is a historical DisplayPort daisy-chain recovery workflow. Before applying it to the user's present desk, load `dell-monitor-kvm-setup` and its dated in-package inventory. Apply the topology below only if the current connection actually matches it; do not replace the newer saved hub/KVM or DisplayLink topology with these older assumptions.
 
 ## Overview
 

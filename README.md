@@ -36,9 +36,9 @@ Install one specific skill:
 npx skills add https://github.com/ArthurZakirov/AgentDesk --skill wsl2-browser-setup -a codex -g -y
 ```
 
-## Private workstation context
+## Published workstation example
 
-The detailed monitor/KVM reference is installed separately from a private context checkout. Link its `workstation/` directory to `~/.config/AgentDesk/workstation` (on Windows, under the user profile). Check for an existing directory and reconcile it before linking. If Windows cannot link to a WSL checkout, put the absolute path to its `workstation/` directory in `~/.config/AgentDesk/workstation-root.txt`; the monitor/KVM skill supports this locator without duplicating private files. Installing this public skill pack does not install the private monitor wiring inventory.
+Arthur's complete published monitor, computer, cable, adapter, KVM, audio, and peripheral topology ships inside the single `dell-monitor-kvm-setup` skill package. It is a public-safe, evidence-labelled real-world example and requires no sidecar or runtime link.
 
 Edit skill sources in the repository and refresh installed skills after committing. Treat `npx skills` copies as generated installations.
 
@@ -100,7 +100,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | `codex-history` | Access OpenAI Codex CLI conversation history to continue work started in Codex, or to find a past Codex chat by topic or keyword. Use when the user says "codex history", "continue from codex", "what was I doing in codex", "pick up from codex", "codex session", "find the codex chat about X", or wants to resume or locate a task that was started in Codex CLI. |
 | `codex-windows-clipboard-screenshots` | Recover pasted screenshot images in Windows Codex Desktop when the message says a C:\Users\...\Temp\codex-clipboard-*.png file could not be read. |
 | `cross-device-agent-ecosystem` | Route work across Arthur's private Mac, Windows/WSL, and Android agent environments. Use when choosing between ChatGPT Remote, raw SSH, app SSH projects, Computer Use, Logitech Flow, or SkillPort synchronization, or when diagnosing cross-device behavior; not for detailed monitor cabling. |
-| `dell-monitor-kvm-setup` | Recall a saved digital workstation inventory for Dell monitor hubs, KVM and USB switches, interchangeable laptop docks, DisplayLink, audio, peripherals and connectivity. Use for troubleshooting the user's existing setup; physical furniture and ergonomics belong to desk-ergonomics-setup. |
+| `dell-monitor-kvm-setup` | Recall and troubleshoot Arthur's documented Dell U3225QE multi-computer hub, KVM, DisplayLink, audio, and peripheral topology. Use for Arthur's setup or when someone explicitly asks about this published workstation; do not assume the same wiring for other Dell desks. |
 | `job-application-operator` | Assist Arthur with human-reviewed job applications using local private profile data, document manifests, browser automation, and strict stop-before-submit rules. |
 | `manage-caffeinate` | Turn macOS caffeinate sleep prevention on or off, check its status, or explain the launchd-backed setup. Use when the user says to enable, disable, start, stop, toggle, inspect, or troubleshoot caffeinate / coffee Nate / keep-awake behavior for local terminal, Codex, Claude Code, or other agent workflows. |
 | `openclaw-browser-setup` | Troubleshoot and operate OpenClaw browser on local or remote gateways. Use when Codex needs to enable the bundled browser plugin, resolve `pairing required` or device approval errors, choose between the managed `openclaw` profile and the attached `user` profile, handle Linux headless or Chrome CDP startup failures, or prove browser control with `profiles`, `start`, `open`, `snapshot`, and `screenshot`. |
