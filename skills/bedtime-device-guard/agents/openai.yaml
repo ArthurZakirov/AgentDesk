@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bedtime Device Guard"
+  short_description: "Block late-night Codex prompts locally"
+  default_prompt: "Set up or verify a local Codex bedtime guard without committing my personal schedule."
