@@ -9,6 +9,32 @@ Use the bundled `UserPromptSubmit` hook to reject Codex prompts during a configu
 
 This guard applies only to Codex surfaces that load and trust user hooks. Treat it as one layer alongside operating-system restrictions, scheduled shutdown, router rules, and phone controls. Do not claim it blocks another app or prevents a determined administrator from removing it.
 
+## Device-level schedules
+
+The optional native schedules are broader than the Codex hook and can discard unsaved work. Confirm that the user wants forced shutdown before installing them. Each scheduled action re-checks the live local window before acting, so a job released late after sleep or coalescing does nothing after the configured end time.
+
+macOS installs three user LaunchAgents: a warning before the start, a shutdown request at the start, and a forced GUI logout two minutes later if the Mac is still running. Install or manage them with:
+
+```bash
+bash skills/bedtime-device-guard/scripts/install-device-macos.sh install \
+  --start HH:MM --end HH:MM --timezone local --warning-minutes 10
+bash skills/bedtime-device-guard/scripts/install-device-macos.sh verify
+bash skills/bedtime-device-guard/scripts/install-device-macos.sh uninstall
+```
+
+The shutdown request uses macOS System Events and may require the user to approve Automation access once. The logout fallback is deliberately forceful and is independent of that approval.
+
+Windows installs two per-user native Scheduled Tasks: a warning and `shutdown.exe /s /f /t 0`. Run from PowerShell:
+
+```powershell
+& skills/bedtime-device-guard/scripts/install-device-windows.ps1 install `
+  -Start HH:mm -End HH:mm -Timezone local -WarningMinutes 10
+& skills/bedtime-device-guard/scripts/install-device-windows.ps1 verify
+& skills/bedtime-device-guard/scripts/install-device-windows.ps1 uninstall
+```
+
+Keep emergency communication on a separately constrained device; these schedules intentionally do not provide an on-computer bypass.
+
 ## Install
 
 Choose the user's schedule and timezone at installation time. Never add personal values to this repository.

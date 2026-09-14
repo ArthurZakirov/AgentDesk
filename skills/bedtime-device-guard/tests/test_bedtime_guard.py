@@ -15,7 +15,13 @@ SCRIPTS = SKILL_ROOT / "scripts"
 spec = importlib.util.spec_from_file_location("bedtime_guard", SCRIPTS / "bedtime_guard.py")
 assert spec and spec.loader
 bedtime_guard = importlib.util.module_from_spec(spec)
+sys.modules["bedtime_guard"] = bedtime_guard
 spec.loader.exec_module(bedtime_guard)
+
+device_spec = importlib.util.spec_from_file_location("device_guard", SCRIPTS / "device_guard.py")
+assert device_spec and device_spec.loader
+device_guard = importlib.util.module_from_spec(device_spec)
+device_spec.loader.exec_module(device_guard)
 
 
 class WindowTests(unittest.TestCase):
@@ -30,6 +36,17 @@ class WindowTests(unittest.TestCase):
         config = {"start": "09:00", "end": "17:00", "timezone": "local"}
         self.assertTrue(bedtime_guard.evaluate(config, "2030-01-01T12:00:00"))
         self.assertFalse(bedtime_guard.evaluate(config, "2030-01-01T18:00:00"))
+
+    def test_warning_only_runs_before_start(self) -> None:
+        config = {
+            "start": "23:15",
+            "end": "06:45",
+            "timezone": "local",
+            "warning_minutes": 10,
+        }
+        self.assertTrue(device_guard.warning_due(config, "2030-01-01T23:07:00"))
+        self.assertFalse(device_guard.warning_due(config, "2030-01-01T23:16:00"))
+        self.assertFalse(device_guard.warning_due(config, "2030-01-02T08:00:00"))
 
     def test_disabled(self) -> None:
         config = {
