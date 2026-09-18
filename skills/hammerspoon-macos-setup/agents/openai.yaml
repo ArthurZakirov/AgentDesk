@@ -1,0 +1,3 @@
+interface:
+  display_name: "Hammerspoon macOS setup"
+  short_description: "Install and verify modular macOS window shortcuts"
