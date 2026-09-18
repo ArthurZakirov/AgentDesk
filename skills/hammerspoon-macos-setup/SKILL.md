@@ -19,9 +19,11 @@ The installer:
 
 - requires macOS and Homebrew;
 - installs Hammerspoon when absent;
-- backs up an existing `~/.hammerspoon` directory before replacing it;
-- installs the complete modular configuration;
+- backs up existing managed configuration before changing it;
+- symlinks `~/.hammerspoon/init.lua` and `~/.hammerspoon/modules` to this skill's bundled assets while preserving unrelated entries such as `Spoons/`;
 - launches Hammerspoon and enables launch at login through the config.
+
+The symlinks make the installed AgentDesk skill the live source of truth. A repository checkout update or SkillPort refresh updates the files behind those stable paths; reload Hammerspoon with `ctrl+alt+cmd+r` to apply the new version. Re-running the installer is idempotent when the links already target this skill version.
 
 Do not copy credentials, private machine inventories, monitor serials, or account data into this public configuration. Displays are numbered dynamically by virtual-desktop position.
 
