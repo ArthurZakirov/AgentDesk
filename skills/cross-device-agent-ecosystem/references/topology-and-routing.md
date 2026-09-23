@@ -76,6 +76,40 @@ current app behavior differs from this reference.
 - Any route: host permissions, approvals, sandbox boundaries, browser state,
   plugins, and tools remain those of the host where execution occurs.
 
+## Dispatch a Codex task to another connected desktop host
+
+Controlling one computer from another does not move the current Codex task. To
+run new work on a connected desktop host, create a task whose execution host is
+that destination instead of trying to operate destination-local apps from the
+source task.
+
+1. List accessible Codex tasks and projects. Identify the destination by its
+   human-readable host name and retain the host identifier returned by the app;
+   never invent or hardcode a machine identifier.
+2. Prefer creating a fresh task in a suitable project on the destination host.
+   Check the project's repository status and use its normal local or worktree
+   environment as appropriate.
+3. If the app does not expose a suitable destination project, choose a recent,
+   accessible task already backed by that host and fork it into a same-directory
+   child. Rename the child for the new work, then send the complete task prompt
+   to the child with the destination host identifier.
+4. Do not place unrelated work directly into the existing task merely because it
+   proves the host is reachable. The clean child preserves the original task's
+   context and ownership.
+5. Verify the new task once with a bounded status snapshot. Report that the
+   request was dispatched and name the destination host. Let the destination
+   task carry out host-local work under its own permissions.
+
+A fork can fail when the selected source task is stale or its rollout is no
+longer loaded. In that case, select a more recent loaded or idle task on the same
+host and try once more. Do not repeatedly poll unchanged state, and do not treat
+an unavailable stale task as evidence that the host itself is disconnected.
+
+Keep the prompt self-contained: state the desired outcome, identify resources by
+human-readable names or approved links, and preserve the source task's permission
+boundaries. Do not include credentials, private connection details, or local
+machine identifiers.
+
 ## Troubleshoot the exact layer first
 
 Before trying fixes, state the failed path end to end and identify the first

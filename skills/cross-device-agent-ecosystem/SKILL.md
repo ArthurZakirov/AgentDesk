@@ -33,7 +33,8 @@ different hosts, shells, permissions, projects, and browser capabilities.
 Read [topology and routing](references/topology-and-routing.md) whenever choosing
 a device, connection, shell, browser, or troubleshooting layer. It contains the
 owner-verified device inventory, interface table, preconditions, and diagnostic
-rules.
+rules. It also contains the concrete Codex task-dispatch procedure for starting
+work on another connected desktop host without reusing an unrelated task.
 
 Read [synchronization and public-safety rules](references/synchronization-and-safety.md)
 when changing repositories, skills, global guidance, refresh automation, or
