@@ -4,4 +4,5 @@ components:
   - agents-md-components/git-workflow.md
   - agents-md-components/relevance-first-information-design.md
   - agents-md-components/information-representation-design.md
+  - agents-md-components/behavior-feedback-debugging.md
   - agents-md-components/managed-repositories-skills-global-rules.md
