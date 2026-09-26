@@ -51,8 +51,8 @@ def main() -> None:
     command = [
         sys.executable,
         str(script_dir / "bootstrap-agents-md.py"),
-        "--common", str(agentdesk_root / "agent-guidance" / "common.md"),
-        "--overlay", str(agentdesk_root / "agent-guidance" / overlay_name),
+        "--common", str(agentdesk_root / "global-guidance" / "common.md"),
+        "--overlay", str(agentdesk_root / "global-guidance" / overlay_name),
         "--platform", target_platform,
         "--registry", str(private_root / "skillport" / "repositories.json"),
     ]

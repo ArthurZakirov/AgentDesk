@@ -18,7 +18,7 @@ class RegenerateAgentsMdTests(unittest.TestCase):
             root = Path(temp_dir)
             private = root / "AgentDesk-private-context"
             agentdesk = root / "AgentDesk"
-            guidance = agentdesk / "agent-guidance"
+            guidance = agentdesk / "global-guidance"
             registry_dir = private / "skillport"
             guidance.mkdir(parents=True)
             registry_dir.mkdir(parents=True)
