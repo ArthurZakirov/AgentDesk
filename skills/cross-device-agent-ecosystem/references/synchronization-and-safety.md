@@ -16,7 +16,7 @@ OpenCode. Edit the canonical repository source, review it, then reinstall the
 explicit configured remote subset.
 
 Use the cross-tool environment variables `SKILLPORT_ROOT` and
-`PRIVATE_CONTEXT_ROOT` to locate the local SkillPort and private guidance roots.
+`AGENTDESK_ROOT` to locate AgentDesk global guidance and its repository registry.
 Do not publish or hardcode machine-specific checkout locations.
 
 ## Refresh automation

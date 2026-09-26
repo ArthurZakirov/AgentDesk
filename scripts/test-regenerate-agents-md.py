@@ -16,15 +16,11 @@ class RegenerateAgentsMdTests(unittest.TestCase):
     def test_argumentless_contract_with_explicit_test_roots(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
-            private = root / "AgentDesk-private-context"
             agentdesk = root / "AgentDesk"
             guidance = agentdesk / "global-guidance"
-            registry_dir = private / "skillport"
             guidance.mkdir(parents=True)
-            registry_dir.mkdir(parents=True)
             (guidance / "common.md").write_text("common rule\n", encoding="utf-8")
             (guidance / "macos.md").write_text("mac rule\n", encoding="utf-8")
-            (registry_dir / "repositories.json").write_text('{"version":1,"repositories":[{"name":"SkillPort","source":"ArthurZakirov/SkillPort","role":"Distribution.","checkout":{"kind":"skillport-root"},"refresh":true,"skills":true}]}\n', encoding="utf-8")
             codex = root / ".codex"
             claude = root / ".claude"
             opencode = root / ".config" / "opencode"
@@ -36,7 +32,6 @@ class RegenerateAgentsMdTests(unittest.TestCase):
 
             subprocess.run([
                 sys.executable, str(fake_scripts / "regenerate-agents-md.py"),
-                "--private-context-root", str(private),
                 "--platform", "macos",
                 "--codex-home", str(codex),
                 "--claude-home", str(claude),

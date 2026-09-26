@@ -67,11 +67,4 @@ At the start of every new conversation, make the runtime identification visible 
 - Global rules are composed from this common source plus exactly one platform overlay. Edit those canonical layers, not the generated global `AGENTS.md`.
 - Preserve and reconcile existing global instructions before first replacement. SkillPort's composer backs up non-generated prior guidance and updates later generated output atomically.
 - Keep storage harness-neutral. Adding a harness must not create another editable copy of skills. Check its supported skill discovery and global-rule conventions rather than assuming one universal path or import syntax.
-- Use the generated repository-role overview to route work. Do not maintain a second hand-written checkout or repository inventory in guidance.
-
-<a id="privacy-boundaries"></a>
-# 🔐 Public and private boundaries
-
-- Public repositories may contain only reviewed, low-risk material appropriate to their stated role. Keep precise residential location, credentials, account identifiers, insurance information, private career records, compensation, employer or customer internals, and unrelated private records out of public sources.
-- The private context repository remains canonical for nonpublic personal context. Load only the relevant domain and never copy the repository wholesale into a public skill pack.
-- A repository's visibility and role are deliberate. Treat application source, profile content, private context, and skill repositories as equally authoritative within their own purpose.
+- Before deciding repository ownership, publication/privacy boundaries, or where Arthur's reusable personal context belongs, read [agents-md-references/repository-routing-and-data-boundaries.md](agents-md-references/repository-routing-and-data-boundaries.md).
