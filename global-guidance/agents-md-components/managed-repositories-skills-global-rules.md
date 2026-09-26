@@ -1,11 +1,77 @@
 <a id="managed-rules"></a>
 # 🧰 Managed repositories, skills, and global rules
 
-- Treat every physical computer as an independent checkout state. Use that computer's safe Git refresh to receive committed changes. Inspect local changes and divergence first and never discard local work.
-- Edit managed skills only in the canonical repository `skills/` directory, never in generated global installations or legacy aliases. The repository source must be reviewed, validated, committed, and pushed before generated installations are refreshed.
-- Generated skill installs are per operating system and are not independent editing sources. Use SkillPort's documented maintenance commands and the canonical registry's explicit skill subset; do not duplicate operational commands in this guidance.
-- Global rules are composed from the ordered files declared in `agents-md-manifest.yaml`. Edit those canonical component sources, not the generated global `AGENTS.md`.
-- Preserve and reconcile existing global instructions before first replacement. SkillPort's composer backs up non-generated prior guidance and updates later generated output atomically.
-- Keep storage harness-neutral. Adding a harness must not create another editable copy of skills. Check its supported skill discovery and global-rule conventions rather than assuming one universal path or import syntax.
-- Before deciding repository ownership, publication/privacy boundaries, or where Arthur's reusable personal context belongs, read [agents-md-references/repository-routing-and-data-boundaries.md](agents-md-references/repository-routing-and-data-boundaries.md).
-- Before downloading, creating, editing, merging, converting, signing, scanning, exporting, or otherwise processing Arthur's personal documents or personal data files (including PDFs, CSVs, spreadsheets, or bank exports), read [agents-md-references/personal-document-workflow.md](agents-md-references/personal-document-workflow.md).
+## Working across physical computers
+
+**When**
+
+- Using or refreshing a repository on another physical computer.
+
+**Then**
+
+- Treat that computer as an independent checkout state.
+- Inspect local changes and divergence before receiving committed changes, and use a safe fast-forward/update path that preserves local work.
+
+## Editing managed skills
+
+**When**
+
+- Creating or modifying a managed skill.
+
+**Then**
+
+- Edit only the canonical repository `skills/` source, never a generated global installation or legacy alias.
+- Review, validate, commit, and push the repository source before refreshing generated installations.
+
+## Refreshing installed skills
+
+**When**
+
+- Updating generated skill installations on a machine.
+
+**Then**
+
+- Use SkillPort's documented maintenance flow and the canonical registry's selected skill subset.
+- Treat generated installs as per-OS outputs, not independent editing sources.
+
+## Editing global agent rules
+
+**When**
+
+- Creating or changing global agent guidance.
+
+**Then**
+
+- Edit the canonical components declared by `agents-md-manifest.yaml`, not generated global `AGENTS.md` output.
+- Preserve and reconcile existing non-generated guidance before a first replacement.
+
+## Adding or supporting another agent harness
+
+**When**
+
+- Adding support for another harness or agent product.
+
+**Then**
+
+- Keep canonical storage harness-neutral and avoid creating another editable copy of skills.
+- Verify that harness's actual skill-discovery and global-rule conventions instead of assuming universal paths or import syntax.
+
+## Deciding repository or data boundaries
+
+**When**
+
+- Deciding repository ownership, publication/privacy boundaries, or where reusable personal context belongs.
+
+**Then**
+
+- Read [agents-md-references/repository-routing-and-data-boundaries.md](agents-md-references/repository-routing-and-data-boundaries.md) before deciding.
+
+## Processing personal documents or data files
+
+**When**
+
+- Downloading, creating, editing, merging, converting, signing, scanning, exporting, or otherwise processing personal documents or personal data files, including PDFs, CSVs, spreadsheets, or bank exports.
+
+**Then**
+
+- Read [agents-md-references/personal-document-workflow.md](agents-md-references/personal-document-workflow.md) before acting.
