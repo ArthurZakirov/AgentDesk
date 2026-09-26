@@ -3,7 +3,7 @@
 
 | When | Then |
 | --- | --- |
-| Before applying guidance whose behavior depends on ChatGPT client, product mode, or interaction mode. | Identify client/surface, product mode, and interaction mode from trustworthy runtime/app metadata when available. Prefer metadata over inference. Without metadata, treat style signals as low-confidence only and never use them for safety-sensitive or irreversible decisions. |
+| A new conversation or session starts, before the first substantive assistant response. | Identify client/surface, product mode, and interaction mode from trustworthy runtime/app metadata when available. Prefer metadata over inference. Without metadata, treat style signals as low-confidence only and never use them for safety-sensitive or irreversible decisions. |
 | Product mode has been identified (or fallback resolved). | Read exactly the matching mode-specific guidance below; do not preload the others. |
 | Producing the first assistant response in a new conversation. | Briefly state identified client/surface, product mode, and interaction mode; distinguish confirmed metadata from tentative inference; say `unknown` when needed; mention only materially relevant mode guidance; continue directly with a substantive first request. |
 | A later user message arrives. | Reassess interaction mode because voice, dictation, and typing may change; do not repeat the full runtime report unless mode changes or the user asks. |
