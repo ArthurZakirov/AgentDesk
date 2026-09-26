@@ -1,4 +1,4 @@
-name: Check Generated README
+name: Check Generated Artifacts
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  readme-generated:
+  generated-artifacts:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -26,3 +26,6 @@ jobs:
 
       - name: Verify README is clean
         run: git diff --exit-code -- README.md
+
+      - name: Run pytest suite
+        run: uv run pytest

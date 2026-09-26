@@ -19,8 +19,13 @@ class RegenerateAgentsMdTests(unittest.TestCase):
             agentdesk = root / "AgentDesk"
             guidance = agentdesk / "global-guidance"
             guidance.mkdir(parents=True)
-            (guidance / "common.md").write_text("common rule\n", encoding="utf-8")
-            (guidance / "macos.md").write_text("mac rule\n", encoding="utf-8")
+            components = guidance / "agents-md-components"
+            components.mkdir()
+            (components / "common-rule.md").write_text("common rule\n", encoding="utf-8")
+            (guidance / "agents-md-manifest.yaml").write_text(
+                "version: 1\ncomponents:\n  - agents-md-components/common-rule.md\n",
+                encoding="utf-8",
+            )
             codex = root / ".codex"
             claude = root / ".claude"
             opencode = root / ".config" / "opencode"
@@ -32,7 +37,6 @@ class RegenerateAgentsMdTests(unittest.TestCase):
 
             subprocess.run([
                 sys.executable, str(fake_scripts / "regenerate-agents-md.py"),
-                "--platform", "macos",
                 "--codex-home", str(codex),
                 "--claude-home", str(claude),
                 "--opencode-home", str(opencode),
@@ -40,7 +44,6 @@ class RegenerateAgentsMdTests(unittest.TestCase):
 
             rendered = (codex / "AGENTS.md").read_text(encoding="utf-8")
             self.assertIn("common rule", rendered)
-            self.assertIn("mac rule", rendered)
             self.assertIn("bootstrap-agents-md.py", rendered)
 
 

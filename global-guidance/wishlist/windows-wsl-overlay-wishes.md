@@ -1,5 +1,6 @@
-<a id="platform-overlay"></a>
-# 🪟 Windows and WSL overlay
+# 🪟 Windows and WSL overlay wishes
+
+These platform-specific rules are parked here and are intentionally not active global guidance. Promote individual rules only after their need and runtime behavior are deliberately validated.
 
 - Windows owns the canonical editable checkouts. WSL accesses those same physical directories through its mounted Windows filesystem; never create a second editable WSL clone or use Git push and pull to transfer changes between two views of one checkout.
 - Legacy WSL paths may remain compatibility links only after their targets are verified. They are aliases, not additional canonical repositories.

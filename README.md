@@ -159,8 +159,6 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   ├── regenerate-agents-md.py
 │   ├── repository_registry.py
 │   ├── setup-local-links.sh
-│   ├── test-bootstrap-agents-md.py
-│   ├── test-regenerate-agents-md.py
 │   └── update-readme.sh
 ├── skills/
 │   ├── aerospace-macos-setup/
