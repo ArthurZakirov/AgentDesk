@@ -3,6 +3,7 @@ components:
   - agents-md-components/chatgpt-runtime-mode-identification.md
   - agents-md-components/git-workflow.md
   - agents-md-components/relevance-first-information-design.md
+  - agents-md-components/anchoring-reader-never-searches.md
   - agents-md-components/information-representation-design.md
   - agents-md-components/visual-semantic-signifiers.md
   - agents-md-components/chat-response-presentation.md
