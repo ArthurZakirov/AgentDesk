@@ -12,7 +12,8 @@ def main() -> None:
     script_dir = Path(__file__).resolve().parent
     agentdesk_root = script_dir.parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--codex-home", type=Path)
+    parser.add_argument("--agents-home", type=Path)
+    parser.add_argument("--codex-home", dest="legacy_codex_home", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--claude-home", type=Path)
     parser.add_argument("--opencode-home", type=Path)
     parser.add_argument("--replace-existing", action="store_true")
@@ -24,8 +25,9 @@ def main() -> None:
         str(script_dir / "bootstrap-agents-md.py"),
         "--manifest", str(agentdesk_root / "global-guidance" / "agents-md-manifest.yaml"),
     ]
-    if args.codex_home:
-        command += ["--codex-home", str(args.codex_home)]
+    agents_home = args.legacy_codex_home or args.agents_home
+    if agents_home:
+        command += ["--agents-home", str(agents_home)]
     if args.claude_home:
         command += ["--claude-home", str(args.claude_home)]
     if args.opencode_home:

@@ -26,7 +26,7 @@ class RegenerateAgentsMdTests(unittest.TestCase):
                 "version: 1\ncomponents:\n  - agents-md-components/common-rule.md\n",
                 encoding="utf-8",
             )
-            codex = root / ".codex"
+            agents_home = root / "home"
             claude = root / ".claude"
             opencode = root / ".config" / "opencode"
 
@@ -37,12 +37,12 @@ class RegenerateAgentsMdTests(unittest.TestCase):
 
             subprocess.run([
                 sys.executable, str(fake_scripts / "regenerate-agents-md.py"),
-                "--codex-home", str(codex),
+                "--agents-home", str(agents_home),
                 "--claude-home", str(claude),
                 "--opencode-home", str(opencode),
             ], check=True)
 
-            rendered = (codex / "AGENTS.md").read_text(encoding="utf-8")
+            rendered = (agents_home / "AGENTS.md").read_text(encoding="utf-8")
             self.assertIn("common rule", rendered)
             self.assertIn("bootstrap-agents-md.py", rendered)
 

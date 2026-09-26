@@ -50,6 +50,40 @@ def _sync_runtime_agents(source_dir: Path, destination_dir: Path, dry_run: bool 
             destination.unlink()
 
 
+def _remove_legacy_codex_guidance(legacy_home: Path, agents_home: Path, dry_run: bool = False) -> None:
+    legacy_home = legacy_home.resolve()
+    agents_home = agents_home.resolve()
+    if legacy_home == agents_home:
+        return
+
+    legacy_agents = legacy_home / "AGENTS.md"
+    if legacy_agents.is_file():
+        existing = legacy_agents.read_text(encoding="utf-8", errors="replace")
+        if existing.startswith(GENERATED_MARKER) or any(existing.startswith(marker) for marker in LEGACY_GENERATED_MARKERS):
+            print(f"{'Would remove' if dry_run else 'Remove'} legacy generated guidance: {legacy_agents}")
+            if not dry_run:
+                legacy_agents.unlink()
+
+    legacy_refs = legacy_home / "agents-md-references"
+    current_refs = agents_home / "agents-md-references"
+    if not legacy_refs.is_dir():
+        return
+    for legacy in legacy_refs.iterdir():
+        if not legacy.is_file():
+            continue
+        existing = legacy.read_text(encoding="utf-8", errors="replace")
+        generated = existing.startswith(RUNTIME_AGENT_MARKER)
+        current = current_refs / legacy.name
+        identical_generated_copy = current.is_file() and legacy.read_bytes() == current.read_bytes()
+        if not (generated or identical_generated_copy):
+            continue
+        print(f"{'Would remove' if dry_run else 'Remove'} legacy generated guidance: {legacy}")
+        if not dry_run:
+            legacy.unlink()
+    if not dry_run and legacy_refs.is_dir() and not any(legacy_refs.iterdir()):
+        legacy_refs.rmdir()
+
+
 def _atomic_write(destination: Path, content: str) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     handle, temporary_name = tempfile.mkstemp(prefix=f".{destination.name}.", dir=destination.parent)
@@ -116,15 +150,15 @@ def _apply_plans(plans: list[tuple[Path, str, bool, bool]], replace: bool,
         )
 
 
-def install(source: Path, codex_home: Path, claude_home: Path,
+def install(source: Path, agents_home: Path, claude_home: Path,
             replace: bool = False, dry_run: bool = False,
             opencode_home: Path | None = None) -> None:
     source = source.resolve(strict=True)
     if not source.is_file() or not source.read_text(encoding="utf-8").strip():
         raise ValueError("Source must be a nonempty UTF-8 guidance file")
-    codex = codex_home / "AGENTS.md"
+    agents = agents_home / "AGENTS.md"
     claude = claude_home / "CLAUDE.md"
-    override = codex_home / "AGENTS.override.md"
+    override = agents_home / "AGENTS.override.md"
     if override.exists() and override.read_text(encoding="utf-8").strip():
         raise ValueError(f"Reconcile the overriding global guidance first: {override}")
     wrapper = ("Before responding or taking action, read the complete shared personal "
@@ -134,7 +168,7 @@ def install(source: Path, codex_home: Path, claude_home: Path,
     # Claude treats the remainder of a one-line import as the path, including
     # spaces. Codex uses a symlink and OpenCode stores a JSON string.
     imports = f"@{source.as_posix()}\n"
-    plans = [(codex, wrapper, os.name != "nt"), (claude, imports, False)]
+    plans = [(agents, wrapper, os.name != "nt"), (claude, imports, False)]
     if opencode_home is not None:
         config = opencode_home / "opencode.json"
         if (opencode_home / "opencode.jsonc").exists():
@@ -184,22 +218,22 @@ def _load_manifest(manifest_path: Path) -> list[tuple[Path, str]]:
     return resolved
 
 
-def install_layered(manifest: Path, codex_home: Path, claude_home: Path,
+def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
                     replace: bool = False, dry_run: bool = False,
                     opencode_home: Path | None = None,
                     agents_path_label: str | None = None) -> None:
     manifest = manifest.resolve(strict=True)
     components = _load_manifest(manifest)
     guidance_root = manifest.parent
-    codex_home = codex_home.resolve()
+    agents_home = agents_home.resolve()
     claude_home = claude_home.resolve()
     if opencode_home is not None:
         opencode_home = opencode_home.resolve()
 
     component_text = "\n\n".join(text for _, text in components)
-    manifest_link = Path(os.path.relpath(manifest, start=codex_home)).as_posix()
-    component_links = [Path(os.path.relpath(path, start=codex_home)).as_posix() for path, _ in components]
-    regenerate_link = Path(os.path.relpath(Path(__file__).with_name("regenerate-agents-md.py").resolve(), start=codex_home)).as_posix()
+    manifest_link = Path(os.path.relpath(manifest, start=agents_home)).as_posix()
+    component_links = [Path(os.path.relpath(path, start=agents_home)).as_posix() for path, _ in components]
+    regenerate_link = Path(os.path.relpath(Path(__file__).with_name("regenerate-agents-md.py").resolve(), start=agents_home)).as_posix()
     protected_sources = {path for path, _ in components} | {manifest}
     source_lines = [
         "This file is generated atomically from the ordered sources declared in:",
@@ -232,21 +266,21 @@ def install_layered(manifest: Path, codex_home: Path, claude_home: Path,
         "instructions that apply after loading (`what`) in the referenced `agents-md-references/*.md` file. A reference "
         "file must not contain rules about whether it should have been opened, whether sibling references "
         "should be loaded, or how progressive disclosure itself should work.\n\n"
-        f"**AGENTS.md absolute path:** `{agents_path_label or (codex_home / 'AGENTS.md').as_posix()}`\n\n"
+        f"**AGENTS.md absolute path:** `{agents_path_label or (agents_home / 'AGENTS.md').as_posix()}`\n\n"
         "**Path rule for agents:** Resolve every relative Markdown link and every relative path in this "
         "file relative to the directory containing this `AGENTS.md` (that is, relative to `./AGENTS.md`), "
         "never relative to the active working directory.\n\n"
         f"{component_text}\n"
     )
-    codex = codex_home / "AGENTS.md"
+    agents = agents_home / "AGENTS.md"
     claude = claude_home / "CLAUDE.md"
-    override = codex_home / "AGENTS.override.md"
+    override = agents_home / "AGENTS.override.md"
     if override.exists() and override.read_text(encoding="utf-8").strip():
         raise ValueError(f"Reconcile the overriding global guidance first: {override}")
 
     imports = "".join(f"@{path.as_posix()}\n" for path, _ in components)
     plans: list[tuple[Path, str, bool, bool]] = [
-        (codex, rendered, False, True),
+        (agents, rendered, False, True),
         (claude, imports, False, False),
     ]
     if opencode_home is not None:
@@ -269,23 +303,27 @@ def install_layered(manifest: Path, codex_home: Path, claude_home: Path,
         data.setdefault("$schema", "https://opencode.ai/config.json")
         plans.append((config, json.dumps(data, indent=2) + "\n", False, False))
     _apply_plans(plans, replace, dry_run, protected_sources)
-    _sync_runtime_agents(guidance_root / "agents-md-references", codex_home / "agents-md-references", dry_run)
+    _sync_runtime_agents(guidance_root / "agents-md-references", agents_home / "agents-md-references", dry_run)
+    if agents_home == Path.home().resolve():
+        legacy_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
+        _remove_legacy_codex_guidance(legacy_home, agents_home, dry_run)
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--source", type=Path)
     mode.add_argument("--manifest", type=Path)
-    parser.add_argument("--codex-home", type=Path, default=Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")))
+    parser.add_argument("--agents-home", type=Path, default=Path.home())
+    parser.add_argument("--codex-home", dest="legacy_codex_home", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--claude-home", type=Path, default=Path.home() / ".claude")
     parser.add_argument("--opencode-home", type=Path, default=Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "opencode")
     parser.add_argument("--replace-existing", action="store_true", help="Only after merging old preferences; originals are backed up")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     if args.source:
-        install(args.source, args.codex_home, args.claude_home, args.replace_existing, args.dry_run, args.opencode_home)
+        install(args.source, args.legacy_codex_home or args.agents_home, args.claude_home, args.replace_existing, args.dry_run, args.opencode_home)
     else:
-        install_layered(args.manifest, args.codex_home,
+        install_layered(args.manifest, args.legacy_codex_home or args.agents_home,
                         args.claude_home, args.replace_existing, args.dry_run,
                         args.opencode_home)
 
