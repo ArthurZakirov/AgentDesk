@@ -151,11 +151,16 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 ├── commands/
 │   └── list-skills.md
 ├── scripts/
+│   ├── bootstrap-agents-md.py
 │   ├── create-claude-command.sh
 │   ├── create-shared-skill.sh
 │   ├── generate-readme.py
 │   ├── install-git-hooks.sh
+│   ├── regenerate-agents-md.py
+│   ├── repository_registry.py
 │   ├── setup-local-links.sh
+│   ├── test-bootstrap-agents-md.py
+│   ├── test-regenerate-agents-md.py
 │   └── update-readme.sh
 ├── skills/
 │   ├── aerospace-macos-setup/

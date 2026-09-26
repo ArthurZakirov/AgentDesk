@@ -41,6 +41,14 @@ when changing repositories, skills, global guidance, refresh automation, or
 push policy. Remote Git repositories remain canonical; generated skill installs
 and rendered global instructions are not editable sources.
 
+Global `AGENTS.md` may use lazy-loaded runtime-mode references in a sibling
+`Agents/` directory. Keep only runtime detection and conditional links in the
+main file; keep detailed mode-specific instructions in separate Markdown files
+and load only the file for the identified product mode. The private context
+repository owns personal runtime content, while SkillPort materializes managed
+`Agents/*.md` copies next to the generated `AGENTS.md`. Do not put private
+runtime instructions in this public AgentDesk repository.
+
 For detailed monitor, dock, KVM, or physical cabling work, use
 `dell-monitor-kvm-setup` when installed. This skill retains only the digital
 routing context needed to select a host and interface.
