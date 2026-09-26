@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import tempfile
 
@@ -218,6 +219,23 @@ def _load_manifest(manifest_path: Path) -> list[tuple[Path, str]]:
     return resolved
 
 
+def _component_toc_lines(components: list[tuple[Path, str]]) -> list[str]:
+    toc: list[str] = []
+    for path, text in components:
+        heading_match = re.search(r'^#\s+(.+)$', text, flags=re.MULTILINE)
+        if not heading_match:
+            raise ValueError(f"Guidance component must declare an H1 heading for TOC generation: {path}")
+        heading = heading_match.group(1)
+        anchor_match = re.search(r'<a id="([^"]+)"></a>', text)
+        if anchor_match:
+            anchor = anchor_match.group(1)
+        else:
+            anchor = re.sub(r'[^a-z0-9 -]', '', heading.lower())
+            anchor = re.sub(r'\s+', '-', anchor.strip())
+        toc.append(f"- [{heading}](#{anchor})")
+    return toc
+
+
 def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
                     replace: bool = False, dry_run: bool = False,
                     opencode_home: Path | None = None,
@@ -231,6 +249,7 @@ def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
         opencode_home = opencode_home.resolve()
 
     component_text = "\n\n".join(text for _, text in components)
+    component_toc_text = "\n".join(_component_toc_lines(components))
     manifest_link = Path(os.path.relpath(manifest, start=agents_home)).as_posix()
     component_links = [Path(os.path.relpath(path, start=agents_home)).as_posix() for path, _ in components]
     regenerate_link = Path(os.path.relpath(Path(__file__).with_name("regenerate-agents-md.py").resolve(), start=agents_home)).as_posix()
@@ -252,10 +271,7 @@ def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
         f"<!-- Source digest: {digest} -->\n\n"
         "## 🗂️ Contents\n\n"
         "- [🛠️ Updating this AGENTS.md](#agents-md-maintenance)\n"
-        "- [🧭 ChatGPT runtime mode identification](#chatgpt-runtime-mode)\n"
-        "- [🔀 Git workflow](#git-workflow)\n"
-        "- [🧭 Relevance-first information design](#relevance-first-information-design)\n"
-        "- [🧰 Managed repositories, skills, and global rules](#managed-rules)\n"
+        f"{component_toc_text}\n"
         "<a id=\"agents-md-maintenance\"></a>\n"
         "# 🛠️ Updating this AGENTS.md\n\n"
         f"{source_text}\n\n"

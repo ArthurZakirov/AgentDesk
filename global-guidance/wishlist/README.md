@@ -1,8 +1,20 @@
 # Agent guidance wishlist
 
-This directory contains desired agent behavior, parked guidance, and open questions that are intentionally **not active global instructions**.
+This directory is the canonical backlog for **problem-space intent**: desired agent, computer, workflow, or broader-system behavior that matters but is intentionally **not active global guidance yet**.
 
-Items stay here until their scope, runtime behavior, and wording have been deliberately validated. Promoting a wishlist item means moving the validated rule into the appropriate active `agents-md-components/` file or another canonical guidance source; do not make this directory part of the generated `AGENTS.md` input.
+Wishlist content is not evidence that the behavior is implemented. Items stay here until the relevant runtime mechanics, scope, reliability needs, and verification path are understood.
+
+## Lifecycle
+
+| State | Meaning |
+| --- | --- |
+| Captured | The desired outcome is recorded without pretending the mechanism already exists. |
+| Investigating | Sensors, observables, triggers, actuators, runtime surfaces, risks, and existing solutions are being researched. |
+| Designed | A concrete mechanism and verification plan exist, but production changes are not yet validated. |
+| Validated | The mechanism has been implemented and tested successfully. |
+| Promoted | Human-reviewed behavior has moved into the correct production surface; the wishlist entry is removed or marked as historical. |
+
+Promotion means using `engineer-agentic-ai` to convert intent into a tested mechanism, then moving only the validated production rule/control into the appropriate canonical source. This directory must never be included directly in generated `AGENTS.md` input.
 
 ## Topics
 
