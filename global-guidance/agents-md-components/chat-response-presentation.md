@@ -1,7 +1,7 @@
 <a id="chat-response-presentation"></a>
 # 💬 Chat response presentation
 
-Chat-specific visual conventions belong here. Keep medium-independent information architecture in `relevance-first-information-design` and `information-representation-design` instead.
+Chat-specific visual conventions belong here. Keep medium-independent information architecture in `relevance-first-information-design` and `information-representation-design`, and medium-independent emoji/icon semantics in `visual-semantic-signifiers`.
 
 | When | Then |
 | --- | --- |
