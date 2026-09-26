@@ -68,7 +68,7 @@ class BootstrapTests(unittest.TestCase):
             overlay = root / "private context" / "macos.md"
             common.parent.mkdir()
             common.write_text("# Common\n\nshared rule\n")
-            agents = common.parent / "Agents"
+            agents = common.parent / "agents-md-references"
             agents.mkdir()
             (agents / "chatgpt-chat.md").write_text("# Chat mode\n\nchat-only rule\n")
             overlay.write_text("# macOS\n\nmac-only rule\n")
@@ -94,10 +94,10 @@ class BootstrapTests(unittest.TestCase):
             self.assertIn("2. [macOS platform overlay](<../private context/macos.md>)", rendered)
             self.assertIn("3. [Repository registry](<../private context/repositories.json>)", rendered)
             self.assertIn("[`regenerate-agents-md.py`](<", rendered)
-            runtime_file = codex / "Agents" / "chatgpt-chat.md"
+            runtime_file = codex / "agents-md-references" / "chatgpt-chat.md"
             self.assertTrue(runtime_file.read_text().startswith(bootstrap.RUNTIME_AGENT_MARKER))
             self.assertIn("chat-only rule", runtime_file.read_text())
-            foreign = codex / "Agents" / "my-notes.md"
+            foreign = codex / "agents-md-references" / "my-notes.md"
             foreign.write_text("keep me\n")
             self.assertIn(f"**AGENTS.md absolute path:** `{(codex.resolve() / 'AGENTS.md').as_posix()}`", rendered)
             self.assertIn("every relative Markdown link and every relative path", rendered)

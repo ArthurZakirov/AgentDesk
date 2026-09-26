@@ -208,13 +208,13 @@ def install_layered(common: Path, overlay: Path, platform: str, codex_home: Path
         "<a id=\"agents-md-maintenance\"></a>\n"
         "# 🛠️ Updating this AGENTS.md\n\n"
         f"{source_text}\n\n"
-        "To update this file or its generated `Agents/*.md` references, edit the canonical source files "
+        "To update this file or its generated `agents-md-references/*.md` references, edit the canonical source files "
         "in the AgentDesk repository and then run "
         f"[`regenerate-agents-md.py`](<{regenerate_link}>) from the AgentDesk checkout. "
         "Do not edit generated files under the agent home directly.\n\n"
         "**Progressive disclosure rule:** Put every condition that determines whether a reference file "
         "should be opened (`when`) in this `AGENTS.md`, before the reference is loaded. Put only the "
-        "instructions that apply after loading (`what`) in the referenced `Agents/*.md` file. A reference "
+        "instructions that apply after loading (`what`) in the referenced `agents-md-references/*.md` file. A reference "
         "file must not contain rules about whether it should have been opened, whether sibling references "
         "should be loaded, or how progressive disclosure itself should work.\n\n"
         f"**AGENTS.md absolute path:** `{(codex_home / 'AGENTS.md').as_posix()}`\n\n"
@@ -248,7 +248,7 @@ def install_layered(common: Path, overlay: Path, platform: str, codex_home: Path
         data.setdefault("$schema", "https://opencode.ai/config.json")
         plans.append((config, json.dumps(data, indent=2) + "\n", False, False))
     _apply_plans(plans, replace, dry_run, protected_sources)
-    _sync_runtime_agents(common.parent / "Agents", codex_home / "Agents", dry_run)
+    _sync_runtime_agents(common.parent / "agents-md-references", codex_home / "agents-md-references", dry_run)
 
 
 def main() -> None:

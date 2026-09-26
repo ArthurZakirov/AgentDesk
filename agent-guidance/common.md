@@ -25,9 +25,9 @@ After identifying the product mode, read exactly the matching mode-specific file
 
 | Product mode | Required mode-specific guidance |
 | --- | --- |
-| Ordinary ChatGPT Chat | [Agents/chatgpt-chat.md](Agents/chatgpt-chat.md) |
-| ChatGPT Work | [Agents/chatgpt-work.md](Agents/chatgpt-work.md) |
-| Codex | [Agents/codex.md](Agents/codex.md) |
+| Ordinary ChatGPT Chat | [agents-md-references/chatgpt-chat.md](agents-md-references/chatgpt-chat.md) |
+| ChatGPT Work | [agents-md-references/chatgpt-work.md](agents-md-references/chatgpt-work.md) |
+| Codex | [agents-md-references/codex.md](agents-md-references/codex.md) |
 
 
 At the start of every new conversation, make the runtime identification visible to Arthur in the first assistant response:
