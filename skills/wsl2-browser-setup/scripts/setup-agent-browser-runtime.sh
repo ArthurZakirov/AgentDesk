@@ -124,12 +124,12 @@ print_summary() {
 Runtime setup complete.
 
 Next:
-  1. Ensure a browser path already works via $wsl2-browser-setup
+  1. Ensure a browser path already works in this skill
   2. For native WSL browsing, try:
        agent-browser doctor --offline --quick
        agent-browser open https://example.com
   3. For a Windows host bridge, attach with:
-       bash "${CODEX_HOME:-$HOME/.codex}/skills/agent-browser-wsl2-setup/scripts/connect-windows-browser.sh"
+       bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/connect-windows-browser.sh"
 EOF
 }
 

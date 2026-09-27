@@ -8,6 +8,8 @@ usage() {
   cat <<'EOF'
 Usage:
   connect-windows-browser.sh [--session NAME] [--bridge-port PORT]
+
+Connect agent-browser to an existing Windows host CDP bridge.
 EOF
 }
 

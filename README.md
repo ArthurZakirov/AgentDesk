@@ -94,7 +94,6 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | Skill | Description |
 | --- | --- |
 | `aerospace-macos-setup` | Install, configure, and debug AeroSpace on macOS. Use when Codex needs to set up AeroSpace with Homebrew, create or repair ~/.aerospace.toml, configure window movement hotkeys for multi-monitor workflows, diagnose Accessibility or server/config problems, or automate binding tests with the AeroSpace CLI. |
-| `agent-browser-wsl2-setup` | Install and configure `agent-browser` on a Windows machine with WSL2 after a browser path is already working. Use when a user wants the `agent-browser` CLI, its downloaded runtime, the `vercel-labs/agent-browser` repository, or an `agent-browser` attachment to a Windows host browser bridge from WSL2. |
 | `bedtime-device-guard` | Install, configure, verify, or remove a lightweight Codex bedtime guard on macOS or Windows. Use when prompts should be blocked during a local overnight window without sending schedule checks to the model; this is a Codex defense-in-depth layer, not a substitute for device, network, or emergency-access controls. |
 | `bitwarden-browser-aac-login` | Use Bitwarden Agent Access CLI (`aac`) with agent-controlled browser login flows. Use when a user wants an AI agent to log into a website through `aac listen`/`aac run`, approve credentials in Bitwarden Agent Access, fill browser login forms without printing passwords, debug Agent Access browser login pairing, or build a credential-conscious bridge between `aac run` env injection and browser automation. |
 | `bitwarden-personal-profile` | Load, validate, and use a user's private personal profile from Bitwarden CLI for form filling, PDF completion, applications, and identity/contact/employment/housing reuse. Use when an agent needs stable personal data backed by Bitwarden, language-aware profile values, a bundled schema for personal facts, or a safe workflow that materializes real profile values outside Git. |
@@ -112,7 +111,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 | `setup-macbook-productivity` | Configure repeatable macOS productivity settings on a user's MacBook, especially voice typing / Dictation setup. Use when Codex is asked to set up, repair, or document MacBook productivity features such as voice typing, Dictation, Dictation shortcuts, microphone input for Dictation, or future local macOS workflow preferences. |
 | `voice-delegation-feedback` | Give concise spoken feedback before invisible work during realtime voice. Use when the user is away from the screen and the assistant will research, edit files, inspect tools, change settings, or coordinate subagents/tasks by voice. |
 | `windows-macos-input-setup` | Configure and verify a Windows 11 PC for macOS-like Logitech keyboard shortcuts, virtual-desktop switching, cross-monitor window movement, and natural scrolling. Use for reproducing or repairing this specific setup without stacking conflicting remappers. |
-| `wsl2-browser-setup` | Install and configure browsers for Windows plus WSL2. Use when a user wants native Linux Chrome inside WSL to work for normal browsing or sign-in flows, or when a tool in WSL needs a Windows host Chrome or Edge instance exposed over CDP. Prefer this skill before any tool-specific browser automation setup. |
+| `wsl2-browser-setup` | Set up browser access from WSL2 through native Linux Chrome or a Windows Chrome/Edge CDP bridge, with optional `agent-browser` installation and attachment. Use for WSL2 browsing, sign-in, connectivity, or browser automation; not for browser setup outside WSL2. |
 <!-- END GENERATED SECTION: skills -->
 
 ## Available Commands
@@ -162,7 +161,6 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   └── update-readme.sh
 ├── skills/
 │   ├── aerospace-macos-setup/
-│   ├── agent-browser-wsl2-setup/
 │   ├── bedtime-device-guard/
 │   ├── bitwarden-browser-aac-login/
 │   ├── bitwarden-personal-profile/

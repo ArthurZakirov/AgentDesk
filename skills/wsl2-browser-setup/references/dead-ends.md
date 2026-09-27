@@ -1,39 +1,30 @@
 # Dead Ends
 
-These were explored and did not shorten the path to success.
+## Adding Browser Packages Before Proving The Short Path
 
-## `dbus-x11`
+`dbus-x11` and Ubuntu `chromium-browser` were not required for the working setup. Ubuntu's `chromium-browser` is often a Snap wrapper and is not the default here.
 
-Not required for the final working setup.
+## Starting With Low-Level DNS Or Firewall Surgery
 
-## Ubuntu `chromium-browser`
+For native Chrome, start with mirrored networking, DNS tunneling, a WSL restart, and Secure DNS fully off. For a Windows endpoint, use the bridge helper before making manual firewall edits.
 
-Not required for the final working setup.
+## Treating Console Noise As The Root Cause
 
-It is often a Snap wrapper on Ubuntu and is not the default recommendation here.
+Focus on observable behavior:
 
-## Low-Level DNS Or Firewall Surgery First
+- Does `google-chrome` open?
+- Do normal HTTPS pages and the real sign-in page load?
+- Does the bridge respond on `/json/version`?
+- Can the selected client attach after the browser path works?
 
-Do not start by changing random DNS files, browser flags, or firewall rules by hand.
+## Repeating Browser Repair For A Client Failure
 
-The shortest real path was:
+If manual Chrome browsing works but `agent-browser` hangs, debug the client layer or switch it to the Windows bridge. Do not reinstall Chrome or repeat networking changes without new browser-layer evidence.
 
-1. mirrored WSL networking
-2. `dnsTunneling=true`
-3. `wsl --shutdown`
-4. Secure DNS fully off in Chrome
+## Treating The Windows Bridge As Client-Specific
 
-Use the bridge helper if a Windows-host browser endpoint is needed.
+The Windows host bridge is a generic CDP endpoint. Keep bridge validation separate from the behavior of any one client, including `agent-browser`.
 
-## Treating Every Chrome Console Message As A Root Cause
+## Using The Combined Wrapper By Default
 
-Many shell messages looked scary but were not blockers.
-
-Focus on:
-
-- whether `google-chrome` opens
-- whether `https://example.com` loads
-- whether a real target site and sign-in page load interactively
-- whether the Windows bridge responds on `/json/version`
-
-Those checks mattered more than the console noise.
+The combined `setup-agent-browser-wsl2.sh` helper is convenient for a full Windows-bridge setup, but the separate browser and client checks reveal failures more clearly. Prefer the smallest helper that matches the requested layer.

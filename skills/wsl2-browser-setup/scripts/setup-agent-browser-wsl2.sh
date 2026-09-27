@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RUNTIME_SCRIPT="${SCRIPT_DIR}/setup-agent-browser-runtime.sh"
-BROWSER_BRIDGE_SCRIPT="${SCRIPT_DIR}/../../wsl2-browser-setup/scripts/setup-windows-host-browser-bridge.sh"
+BROWSER_BRIDGE_SCRIPT="${SCRIPT_DIR}/setup-windows-host-browser-bridge.sh"
 CONNECT_SCRIPT="${SCRIPT_DIR}/connect-windows-browser.sh"
 
 CHECK_ONLY=0
@@ -22,9 +22,9 @@ usage() {
 Usage:
   setup-agent-browser-wsl2.sh [options]
 
-This is a compatibility wrapper around:
+This combines:
   1. setup-agent-browser-runtime.sh
-  2. wsl2-browser-setup/scripts/setup-windows-host-browser-bridge.sh
+  2. setup-windows-host-browser-bridge.sh
   3. connect-windows-browser.sh
 
 Options:
@@ -69,7 +69,7 @@ run_bridge_setup() {
 print_summary() {
   cat <<EOF
 
-Compatibility wrapper complete.
+Combined setup complete.
 
 Next commands:
   agent-browser --session ${SESSION_NAME} get title

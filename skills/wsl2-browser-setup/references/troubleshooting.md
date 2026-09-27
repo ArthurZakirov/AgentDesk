@@ -1,53 +1,65 @@
 # Troubleshooting
 
-## `google-chrome` opens but external sites fail
-
-Do these in order:
+## Native Chrome Opens But External Sites Fail
 
 1. Ensure Windows `.wslconfig` contains:
 
-```ini
-[wsl2]
-networkingMode=mirrored
-dnsTunneling=true
-```
+   ```ini
+   [wsl2]
+   networkingMode=mirrored
+   dnsTunneling=true
+   ```
 
-2. Run `wsl --shutdown`
-3. Reopen WSL
-4. Open `chrome://settings/security`
-5. Turn `Use secure DNS` fully `Off`
+2. Run `wsl --shutdown`.
+3. Reopen WSL.
+4. Open `chrome://settings/security`.
+5. Turn `Use secure DNS` fully off. `OS default (when available)` means it is still enabled.
 
-## `Use secure DNS` looks disabled but still says `OS default (when available)`
+## A Site Works But The Sign-In Flow Fails In Headless Tests
 
-That is still enabled.
+Use the interactive browser as the browser-layer ground truth. If the target site and sign-in page render in interactive Chrome, investigate the automation client instead of repeating browser setup.
 
-The actual toggle must be off.
+## Chrome Prints Noisy Errors
 
-## A normal site works but the target sign-in flow still acts strange in headless tests
-
-Use the interactive browser as the ground truth for browser setup success.
-
-If the target site opens and the sign-in page renders correctly in an interactive Chrome window, treat the browser setup itself as working.
-
-Any remaining failure may belong to the specific automation client rather than the browser path.
-
-## Shell shows noisy Chrome errors
-
-These were harmless in this setup:
+These messages were harmless in the proven setup:
 
 - `dbus ... UPower ... ServiceUnknown`
 - `Created TensorFlow Lite XNNPACK delegate for CPU`
 - `Registration response error message: DEPRECATED_ENDPOINT`
 - `Registration URL fetching failed`
 
-Do not treat those as the root cause by default.
+Judge success by page loading and sign-in behavior, not console noise alone.
 
-## Windows host bridge is not reachable from WSL2
+## Windows Host Bridge Is Unreachable
 
-Check these in order:
+Check, in order:
 
-1. The Windows browser is running with the requested remote debugging port
-2. The Windows elevation step completed
-3. `http://HOST_IP:BRIDGE_PORT/json/version` responds from WSL2
+1. The Windows browser is running with the requested remote-debugging port.
+2. The Windows elevation step completed.
+3. `http://HOST_IP:BRIDGE_PORT/json/version` responds from WSL2.
 
-If the bridge still is not reachable, rerun the bridge setup script before changing anything lower level.
+Rerun the bridge helper before making lower-level firewall or networking changes:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-windows-host-browser-bridge.sh" --check-only
+```
+
+## `agent-browser` Is Missing
+
+Run:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-agent-browser-runtime.sh"
+```
+
+## Native `agent-browser` Hangs After Manual Chrome Works
+
+Treat this as a client-layer failure. Check `agent-browser doctor --offline --quick`, then use the Windows bridge path if native control still hangs.
+
+## `connect-windows-browser.sh` Fails
+
+First prove that the bridge responds on `/json/version` with the bridge helper's `--check-only` mode. Repair the bridge if that endpoint is unavailable; otherwise inspect the `agent-browser` client.
+
+## The Upstream Skill Installer Blocks Progress
+
+`npx skills add vercel-labs/agent-browser` is interactive and belongs to the human. It is optional unless the user specifically wants that upstream skill package; the CLI and runtime installer can proceed independently.

@@ -1,22 +1,19 @@
 ---
 name: wsl2-browser-setup
-description: Install and configure browsers for Windows plus WSL2. Use when a user wants native Linux Chrome inside WSL to work for normal browsing or sign-in flows, or when a tool in WSL needs a Windows host Chrome or Edge instance exposed over CDP. Prefer this skill before any tool-specific browser automation setup.
+description: Set up browser access from WSL2 through native Linux Chrome or a Windows Chrome/Edge CDP bridge, with optional `agent-browser` installation and attachment. Use for WSL2 browsing, sign-in, connectivity, or browser automation; not for browser setup outside WSL2.
 ---
 
 # WSL2 Browser Setup
 
-This skill owns browser setup only.
+Make one browser path work before configuring an automation client:
 
-It does not install or configure `agent-browser`. Use this skill first to make a browser path work from WSL2, then layer any specific automation client on top.
+- **Native WSL Chrome** for interactive browsing, account sign-in, or verifying WSLg browser access.
+- **Windows host browser bridge** when a WSL-side tool must control Windows Chrome or Edge over CDP.
+- **`agent-browser`** only after either browser path works.
 
-## Choose A Method
+Read [architecture](./references/architecture.md) when choosing a path or diagnosing which layer failed.
 
-Use one of these methods depending on the task:
-
-- Native WSL Chrome: best for interactive browsing, account sign-in, testing whether WSLg browsing works at all, and any case where the user wants Chrome running inside WSL itself
-- Windows host browser bridge: best when a tool in WSL must control a Windows Chrome or Edge instance over CDP
-
-## Method A: Native WSL Chrome
+## Native WSL Chrome
 
 Run:
 
@@ -24,43 +21,11 @@ Run:
 bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-native-wsl-chrome.sh"
 ```
 
-The script:
+The script installs Linux Chrome when needed and writes the standard Windows `.wslconfig` networking settings. If it changes `.wslconfig`, have the human run `wsl --shutdown`, reopen WSL, and launch `google-chrome`.
 
-- verifies WSL2
-- installs Linux `google-chrome` if it is missing
-- writes the standard Windows `.wslconfig` networking settings
-- tells the user when `wsl --shutdown` is required
+In Chrome, open `chrome://settings/security`, turn `Use secure DNS` fully off, restart Chrome, and verify both a normal external HTTPS site and the target sign-in page.
 
-After the script says restart is needed, have the human run:
-
-```powershell
-wsl --shutdown
-```
-
-Then reopen WSL and continue with the manual Chrome step.
-
-## Manual Chrome Step
-
-Open Linux Chrome:
-
-```bash
-google-chrome
-```
-
-In Chrome:
-
-- open `chrome://settings/security`
-- set `Use secure DNS` to `Off`
-- do not leave it at `OS default (when available)`
-- close all Chrome windows
-- reopen `google-chrome`
-- open `https://example.com`
-- open one other normal external HTTPS site
-- open the real sign-in page or app you need
-
-If those pages open and the sign-in page renders normally, treat native WSL Chrome as working.
-
-## Method B: Windows Host Browser Bridge
+## Windows Host Browser Bridge
 
 Run:
 
@@ -68,42 +33,49 @@ Run:
 bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-windows-host-browser-bridge.sh"
 ```
 
-The script:
+The script launches Windows Edge or Chrome with remote debugging, requests elevation for the port proxy and firewall rule, and waits until WSL2 can reach `/json/version`.
 
-- verifies WSL2
-- finds Windows Edge or Chrome
-- launches the Windows browser with remote debugging enabled
-- asks Windows for elevation to create the port proxy and firewall rule
-- waits until WSL2 can reach the CDP endpoint
+## Optional `agent-browser`
 
-This method is still generic browser setup. It exposes a Windows browser to WSL2 over CDP, but it does not connect any specific client to it.
+After a browser path works, install the CLI, its downloaded runtime, and the upstream repository when needed:
 
-## Safe Smoke Tests
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-agent-browser-runtime.sh"
+```
 
-Use these first:
+If the user also wants the upstream `vercel-labs/agent-browser` skill package, have the human complete its interactive installer:
+
+```bash
+npx skills add vercel-labs/agent-browser
+```
+
+For native WSL Chrome, test the client directly:
+
+```bash
+agent-browser doctor --offline --quick
+agent-browser open https://example.com
+agent-browser snapshot -i -c
+```
+
+For the Windows host bridge, attach to its CDP endpoint:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/connect-windows-browser.sh" --session windows-host --bridge-port 9333
+agent-browser --session windows-host get title
+agent-browser --session windows-host snapshot -i -c
+```
+
+Use [`setup-agent-browser-wsl2.sh`](./scripts/setup-agent-browser-wsl2.sh) only when a single command should install the runtime, create the Windows bridge, and connect the client.
+
+## Checks And Troubleshooting
+
+Start with non-mutating checks:
 
 ```bash
 bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-native-wsl-chrome.sh" --check-only
 bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-windows-host-browser-bridge.sh" --check-only
-google-chrome >/dev/null 2>&1 &
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-agent-browser-runtime.sh" --check-only
 ```
 
-## What To Skip First
-
-Do not start here:
-
-- `dbus-x11`
-- Ubuntu `chromium-browser`
-- low-level DNS surgery
-- random browser flags
-- manual Windows firewall edits outside the bridge helper
-
-These were explored and were either unnecessary or only useful after the shorter path had already failed.
-
-## Bundled Resources
-
-- Use [`scripts/setup-native-wsl-chrome.sh`](./scripts/setup-native-wsl-chrome.sh) for native Linux Chrome inside WSL2
-- Use [`scripts/setup-windows-host-browser-bridge.sh`](./scripts/setup-windows-host-browser-bridge.sh) for a Windows Chrome or Edge CDP bridge into WSL2
-- Use [`references/architecture.md`](./references/architecture.md) to choose between the two browser paths
-- Use [`references/troubleshooting.md`](./references/troubleshooting.md) when the browser launches but browsing or sign-in still fails
-- Use [`references/dead-ends.md`](./references/dead-ends.md) for the specific fixes that looked promising but did not shorten the path
+- Read [troubleshooting](./references/troubleshooting.md) when a browser launches but browsing, sign-in, bridge access, or `agent-browser` fails.
+- Read [dead ends](./references/dead-ends.md) before attempting lower-level DNS, browser-package, firewall, or client workarounds.

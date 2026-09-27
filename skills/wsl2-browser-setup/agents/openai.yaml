@@ -1,4 +1,4 @@
 interface:
   display_name: "WSL2 Browser Setup"
-  short_description: "Prepare Chrome paths for WSL2"
-  default_prompt: "Use $wsl2-browser-setup to install and configure native WSL Chrome or a Windows host browser bridge for browsing and sign-in flows from WSL2."
+  short_description: "Set up WSL2 browser paths and agent-browser"
+  default_prompt: "Use $wsl2-browser-setup to configure native WSL Chrome or a Windows browser bridge, then install or connect agent-browser when requested."
