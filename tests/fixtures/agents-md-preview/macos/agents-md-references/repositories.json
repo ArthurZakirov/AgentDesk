@@ -69,7 +69,7 @@
     {
       "name": "SystemSmith",
       "source": "ArthurZakirov/SystemSmith",
-      "role": "Public reusable engineering methods for code, agents, architecture, documentation, security, communication, and self-review.",
+      "role": "Public reusable engineering methods for code, agents, architecture, documentation, security, communication, and information design.",
       "checkout": {
         "kind": "skillport-sibling",
         "directory": "SystemSmith"
