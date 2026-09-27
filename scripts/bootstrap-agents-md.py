@@ -264,6 +264,8 @@ def _component_toc_lines(components: list[GuidanceComponent] | tuple[GuidanceCom
     for component in components:
         heading, anchor = _component_heading(component)
         toc.append(f"{'  ' * depth}- [{heading}](#{anchor})")
+        if anchor == "workspace-and-agent-system":
+            toc.append(f"{'  ' * (depth + 1)}- [🛠️ Updating this AGENTS.md](#agents-md-maintenance)")
         toc.extend(_component_toc_lines(component.children, depth + 1))
     return toc
 
@@ -300,20 +302,27 @@ def _local_toc(component: GuidanceComponent, depth: int) -> str:
         return ""
     heading_level = min(6, depth + 2)
     lines = [f"{'#' * heading_level} 🗂️ Contents", ""]
+    _, anchor = _component_heading(component)
+    if anchor == "workspace-and-agent-system":
+        lines.append("- [🛠️ Updating this AGENTS.md](#agents-md-maintenance)")
     for child in component.children:
         heading, anchor = _component_heading(child)
         lines.append(f"- [{heading}](#{anchor})")
     return "\n".join(lines)
 
 
-def _render_component_blocks(components: list[GuidanceComponent] | tuple[GuidanceComponent, ...], depth: int = 0) -> list[str]:
+def _render_component_blocks(components: list[GuidanceComponent] | tuple[GuidanceComponent, ...], depth: int = 0,
+                             maintenance_text: str | None = None) -> list[str]:
     blocks: list[str] = []
     for component in components:
         blocks.append(_demote_markdown_headings(component.text, depth))
         local_toc = _local_toc(component, depth)
         if local_toc:
             blocks.append(local_toc)
-        blocks.extend(_render_component_blocks(component.children, depth + 1))
+        _, anchor = _component_heading(component)
+        if anchor == "workspace-and-agent-system" and maintenance_text is not None:
+            blocks.append(maintenance_text)
+        blocks.extend(_render_component_blocks(component.children, depth + 1, maintenance_text))
     return blocks
 
 def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
@@ -329,8 +338,14 @@ def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
     if opencode_home is not None:
         opencode_home = opencode_home.resolve()
 
-    component_text = "\n\n".join(_render_component_blocks(component_tree))
-    component_toc_text = "\n".join(_component_toc_lines(component_tree))
+    has_workspace_group = any(
+        _component_heading(component)[1] == "workspace-and-agent-system"
+        for component in component_tree
+    )
+    component_toc_lines = _component_toc_lines(component_tree)
+    if not has_workspace_group:
+        component_toc_lines.insert(0, "- [🛠️ Updating this AGENTS.md](#agents-md-maintenance)")
+    component_toc_text = "\n".join(component_toc_lines)
     manifest_link = Path(os.path.relpath(manifest, start=agents_home)).as_posix()
     component_links = [Path(os.path.relpath(component.path, start=agents_home)).as_posix() for component in components]
     regenerate_link = Path(os.path.relpath(Path(__file__).with_name("regenerate-agents-md.py").resolve(), start=agents_home)).as_posix()
@@ -342,26 +357,31 @@ def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
         "",
         "Resolved order:",
         "",
-        *[f"{index}. [Global guidance component: {component.path.relative_to(guidance_root).as_posix()}](<{link}>)" for index, (component, link) in enumerate(zip(components, component_links), start=1)],
+        *[f"{index}. [{component.path.name}](<{link}>)" for index, (component, link) in enumerate(zip(components, component_links), start=1)],
     ]
     source_text = "\n".join(source_lines)
-    digest_material = "\0".join([manifest.read_text(encoding="utf-8"), *(component.text for component in components)])
-    digest = hashlib.sha256(digest_material.encode()).hexdigest()[:16]
-    rendered = (
-        f"{GENERATED_MARKER}\n"
-        f"<!-- Source digest: {digest} -->\n\n"
-        "## 🗂️ Contents\n\n"
-        "- [🛠️ Updating this AGENTS.md](#agents-md-maintenance)\n"
-        f"{component_toc_text}\n"
-        "<a id=\"agents-md-maintenance\"></a>\n"
-        "# 🛠️ Updating this AGENTS.md\n\n"
+    maintenance_text = (
+        '<a id="agents-md-maintenance"></a>\n'
+        f"{'##' if has_workspace_group else '#'} 🛠️ Updating this AGENTS.md\n\n"
         f"{source_text}\n\n"
         "| When | Then |\n"
         "| --- | --- |\n"
         f"| Updating global agent guidance. | Change the manifest, its canonical components, or generated `agents-md-references/*.md` sources in AgentDesk; do not edit generated files under the agent home directly. Run [`regenerate-agents-md.py`](<{regenerate_link}>) after changing canonical sources. |\n"
         "| A rule determines whether a reference file should be opened. | Put that `when` condition in the applicable AGENTS.md component before the reference is loaded. Put only post-load instructions in the referenced file; do not put sibling-routing or progressive-disclosure logic inside the reference. |\n"
         "| Resolving a relative Markdown link or relative path from this global guidance. | Resolve it relative to the directory containing this `AGENTS.md` (`./AGENTS.md`), never relative to the active working directory. |\n\n"
-        f"**AGENTS.md absolute path:** `{agents_path_label or (agents_home / 'AGENTS.md').as_posix()}`\n\n"
+        f"**AGENTS.md absolute path:** `{agents_path_label or (agents_home / 'AGENTS.md').as_posix()}`"
+    )
+    component_blocks = _render_component_blocks(component_tree, maintenance_text=maintenance_text)
+    if not has_workspace_group:
+        component_blocks.insert(0, maintenance_text)
+    component_text = "\n\n".join(component_blocks)
+    digest_material = "\0".join([manifest.read_text(encoding="utf-8"), *(component.text for component in components)])
+    digest = hashlib.sha256(digest_material.encode()).hexdigest()[:16]
+    rendered = (
+        f"{GENERATED_MARKER}\n"
+        f"<!-- Source digest: {digest} -->\n\n"
+        "## 🗂️ Contents\n\n"
+        f"{component_toc_text}\n"
         f"{component_text}\n"
     )
     agents = agents_home / "AGENTS.md"

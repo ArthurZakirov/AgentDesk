@@ -55,3 +55,13 @@ def test_agents_md_preview_relative_links_resolve() -> None:
             if not resolved.exists():
                 missing.append(f"{markdown.relative_to(FIXTURE)} -> {target}")
     assert missing == []
+
+
+def test_agents_md_preview_exposes_grouped_navigation() -> None:
+    rendered = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    assert "- [🛠️ Workspace and agent system](#workspace-and-agent-system)" in rendered
+    assert "  - [🛠️ Updating this AGENTS.md](#agents-md-maintenance)" in rendered
+    assert "- [🎛️ Runtime and interaction](#runtime-and-interaction)" in rendered
+    assert "- [🧭 Reasoning and agent behavior](#reasoning-and-agent-behavior)" in rendered
+    assert "- [🧠 Information presentation](#information-presentation)" in rendered
+    assert "Global guidance component:" not in rendered

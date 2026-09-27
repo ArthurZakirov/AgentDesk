@@ -1,17 +1,23 @@
 version: 2
 components:
-  - path: agents-md-components/chatgpt-runtime-mode-identification.md
-  - path: agents-md-components/interaction-mode-behavior.md
-  - path: agents-md-components/problem-intent-and-proposed-solutions.md
-  - path: agents-md-components/git-workflow.md
-  - path: agents-md-components/information-presentation/index.md
+  - path: agents-md-components/workspace-and-agent-system.md
+    children:
+      - path: agents-md-components/git-workflow.md
+      - path: agents-md-components/managed-repositories-skills-global-rules.md
+      - path: agents-md-components/agent-behavior-lifecycle.md
+  - path: agents-md-components/runtime-and-interaction.md
+    children:
+      - path: agents-md-components/chatgpt-runtime-mode-identification.md
+      - path: agents-md-components/interaction-mode-behavior.md
+  - path: agents-md-components/reasoning-and-agent-behavior.md
+    children:
+      - path: agents-md-components/problem-intent-and-proposed-solutions.md
+      - path: agents-md-components/information-presentation/evidence-grounding.md
+      - path: agents-md-components/behavior-feedback-debugging.md
+  - path: agents-md-components/information-presentation/information-presentation.md
     children:
       - path: agents-md-components/information-presentation/relevance.md
       - path: agents-md-components/information-presentation/anchoring.md
-      - path: agents-md-components/information-presentation/evidence-grounding.md
       - path: agents-md-components/information-presentation/representation.md
       - path: agents-md-components/information-presentation/visual-semantics.md
-  - path: agents-md-components/chat-response-presentation.md
-  - path: agents-md-components/behavior-feedback-debugging.md
-  - path: agents-md-components/agent-behavior-lifecycle.md
-  - path: agents-md-components/managed-repositories-skills-global-rules.md
+      - path: agents-md-components/chat-response-presentation.md
