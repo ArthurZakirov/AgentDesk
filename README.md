@@ -48,7 +48,7 @@ Edit skill sources in the repository and refresh installed skills after committi
 npx skills add ArthurZakirov/AgentDesk --skill '*' -a codex claude-code opencode -g -y
 ```
 
-Codex and OpenCode discover the generated `~/.agents/skills` tree directly; Claude Code uses aliases to that same tree. Keep repository `skills/` as the editing source. Global personal rules live separately in a private checkout and are connected with SkillPort's guidance bootstrap. See [SkillPort maintenance conventions](https://github.com/ArthurZakirov/SkillPort/blob/main/docs/cross-device-maintenance.md).
+Codex and OpenCode discover the generated `~/.agents/skills` tree directly; Claude Code uses aliases to that same tree. Keep repository `skills/` as the editing source. Global personal rules are generated from `global-guidance/` into each product's supported location; for Codex that is `$CODEX_HOME/AGENTS.md` (default `~/.codex/AGENTS.md`).
 
 ## Install As A Claude Code Plugin
 
