@@ -65,3 +65,4 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "- [🧭 Reasoning and agent behavior](#reasoning-and-agent-behavior)" in rendered
     assert "- [🧠 Information presentation](#information-presentation)" in rendered
     assert "Global guidance component:" not in rendered
+    assert sum(line == "---" for line in rendered.splitlines()) == 4
