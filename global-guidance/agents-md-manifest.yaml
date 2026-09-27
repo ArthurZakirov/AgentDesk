@@ -9,6 +9,7 @@ components:
     children:
       - path: agents-md-components/runtime-and-interaction/chatgpt-runtime-mode-identification.md
       - path: agents-md-components/runtime-and-interaction/interaction-mode-behavior.md
+      - path: agents-md-components/runtime-and-interaction/delegated-chat-naming.md
   - path: agents-md-components/reasoning-and-agent-behavior/reasoning-and-agent-behavior.md
     children:
       - path: agents-md-components/reasoning-and-agent-behavior/problem-intent-and-proposed-solutions.md

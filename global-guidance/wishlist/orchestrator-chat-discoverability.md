@@ -10,6 +10,10 @@ The important distinction is the chat's **interaction role**, not merely whether
 - **Delegated worker** — a separate chat created to perform a bounded subtask whose details normally return to the orchestrator.
 - **Standalone** — an ordinary chat that is neither the coordinator nor a delegated child.
 
+## Promotion status
+
+The default title prefix for separate user-visible delegated worker chats has been behaviorally validated and promoted to [Delegated chat naming](../agents-md-components/runtime-and-interaction/delegated-chat-naming.md). The broader grouping, provenance, notification-routing, and lifecycle requirements in this wishlist entry remain under investigation.
+
 ## Observed problem
 
 The current sidebar presents orchestrator and delegated worker chats as similar peer records. Completed workers can leave several unread indicators, so recent activity and unread state amplify low-value threads while the orchestrator becomes harder to locate. Titles usually describe the task but do not reliably expose the interaction role. In the inspected thread data, the blue-dot condition is represented as `isUnread`; it is not itself a semantic “completed” status.
@@ -49,16 +53,12 @@ A title prefix is a useful fallback, but the durable solution should capture pro
 | 1 | **Structured role and parent metadata** | Lets the product group, filter, collapse, and route notifications without parsing titles. | Requires product/runtime support or a durable external registry. |
 | 2 | **Automatic sidebar routing** | Keep orchestrators in a prominent `🧭 Orchestrators` section and delegated workers in a collapsed `⚙️ Delegated` section. | Depends on recognizing the relationship at creation time. |
 | 3 | **Attention routing** | Worker completion updates the orchestrator; only required input or failure creates a user-facing alert. | Requires event propagation between chats. |
-| 4 | **Naming convention** | Provides an immediately scannable fallback on every surface. Suggested prefixes: `🧭` for orchestrators and `↳` for delegated workers. | Titles are mutable, can be truncated, and do not encode a robust relationship by themselves. |
+| 4 | **Naming convention** | Provides an immediately scannable fallback on every surface. The validated default prefix is `[DELEGIERT]` for separate user-visible delegated worker chats; orchestrator and ordinary chat titles remain unchanged. | Titles are mutable, can be truncated, and do not encode a robust relationship by themselves. |
 | 5 | **Pin/search/archive workflow** | Available now: pin orchestrators, search them, and archive completed workers. | Mostly manual and treats symptoms rather than provenance. |
 
 ## Proposed naming fallback
 
-Use the semantic role first, followed by the outcome:
-
-- `🧭 <outcome>` for the user-facing orchestrator.
-- `↳ <subtask> · <parent shorthand>` for a delegated worker.
-- `<outcome>` without a role marker for standalone chats.
+Use `[DELEGIERT] <topic or outcome>` only for a separate user-visible chat created by an orchestrator to perform worker work. Keep the user-facing orchestrator and ordinary standalone chats on their normal topic- or outcome-based titles. Native internal subagent threads do not receive this sidebar-chat prefix.
 
 Do not encode completion in the title. Completion, unread, blocked, and needs-input are changing states and belong in status indicators or notifications rather than durable names.
 
@@ -80,7 +80,7 @@ The mechanism must be tested independently for native subagent threads, Codex ta
 Until automatic provenance-aware organization exists:
 
 1. Pin active orchestrator chats or place them in a dedicated custom sidebar section.
-2. Rename orchestrators with `🧭` and any intentionally created delegated chats with `↳` at creation time.
+2. Name any intentionally created separate delegated worker chat with `[DELEGIERT]` at creation time; leave orchestrator and ordinary chat titles unchanged.
 3. Archive finished worker chats after their result has been incorporated into the orchestrator.
 4. Use chat search for the role marker or a remembered phrase, and use the app command for the next chat needing attention when triaging genuine blockers.
 5. Clear unread indicators after reviewing the orchestrator's synthesis when the remaining dots are only worker-completion noise.
