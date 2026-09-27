@@ -291,10 +291,24 @@ def _demote_markdown_headings(text: str, depth: int) -> str:
     return "\n".join(rendered)
 
 
+def _local_toc(component: GuidanceComponent, depth: int) -> str:
+    if not component.children:
+        return ""
+    heading_level = min(6, depth + 2)
+    lines = [f"{'#' * heading_level} 🗂️ Contents", ""]
+    for child in component.children:
+        heading, anchor = _component_heading(child)
+        lines.append(f"- [{heading}](#{anchor})")
+    return "\n".join(lines)
+
+
 def _render_component_blocks(components: list[GuidanceComponent] | tuple[GuidanceComponent, ...], depth: int = 0) -> list[str]:
     blocks: list[str] = []
     for component in components:
         blocks.append(_demote_markdown_headings(component.text, depth))
+        local_toc = _local_toc(component, depth)
+        if local_toc:
+            blocks.append(local_toc)
         blocks.extend(_render_component_blocks(component.children, depth + 1))
     return blocks
 

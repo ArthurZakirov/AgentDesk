@@ -14,7 +14,7 @@ Recovered from the pasted legacy chapters 9/10: anchoring, snippets, links, row-
 | --- | --- | --- |
 | Meaning preservation | Partially represented elsewhere; not audited rule-by-rule | Verify against original `format-markdown` wording before closing migration. |
 | Global TOC | Implemented in AgentDesk generator | Keep. |
-| Local TOCs for nested chapters | Missing | Add to nested-component rendering and preserve as general Markdown/document guidance. |
+| Local TOCs for nested chapters | Implemented for AgentDesk nested component groups | Preserve the broader Markdown/document rule for later audit against the original source. |
 | Heading hierarchy | Partially implemented / currently being expanded by nested manifest work | Verify exact original constraints. |
 | Frontmatter | Not verified as migrated | Audit and place in Markdown-specific skill/guidance. |
 | Inline code | Not verified as migrated | Audit and place in Markdown-specific skill/guidance. |

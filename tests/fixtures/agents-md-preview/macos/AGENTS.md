@@ -85,6 +85,13 @@ Resolved order:
 
 Whenever creating, restructuring, reviewing, presenting, or handing over information to a human or agent, apply all child dimensions below together. The child components define complementary qualities of the same information-bearing output rather than separate trigger domains.
 
+## 🗂️ Contents
+
+- [🧭 Relevance](#relevance-first-information-design)
+- [🔗 Anchoring: the reader never goes searching](#anchoring-reader-never-searches)
+- [🧩 Representation](#information-representation-design)
+- [🏷️ Visual semantics](#visual-semantic-signifiers)
+
 <a id="relevance-first-information-design"></a>
 ## 🧭 Relevance
 
