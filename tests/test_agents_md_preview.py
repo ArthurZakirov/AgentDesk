@@ -67,3 +67,14 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "Global guidance component:" not in rendered
     assert sum(line == "---" for line in rendered.splitlines()) == 4
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
+
+
+def test_agents_md_components_are_physically_grouped() -> None:
+    component_root = ROOT / "global-guidance" / "agents-md-components"
+    assert {path.name for path in component_root.iterdir()} == {
+        "information-presentation",
+        "reasoning-and-agent-behavior",
+        "runtime-and-interaction",
+        "workspace-and-agent-system",
+    }
+    assert all(path.is_dir() for path in component_root.iterdir())
