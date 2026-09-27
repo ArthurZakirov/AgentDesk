@@ -1,7 +1,7 @@
 <a id="visual-semantic-signifiers"></a>
-# 🏷️ Visual semantic signifiers
+# 🏷️ Visual semantics
 
-Use emoji, icons, and equivalent visual markers as semantic information, not decoration. The principle is medium-independent: apply it in chat, Markdown, documentation, issue trackers, knowledge bases, databases, dashboards, and UIs when the target surface supports it and the marker improves recognition or scanning.
+Use emoji, icons, and equivalent visual markers as semantic information, not decoration. Apply them when the target surface supports them and the marker improves recognition or scanning.
 
 | When | Then |
 | --- | --- |

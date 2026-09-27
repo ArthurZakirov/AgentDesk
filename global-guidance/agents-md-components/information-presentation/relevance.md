@@ -1,12 +1,5 @@
 <a id="relevance-first-information-design"></a>
-# 🧭 Relevance-first information design
-
-**When**
-
-- Creating, restructuring, reviewing, or presenting any information-bearing surface for a human or an agent.
-- This includes prose, chat responses, messages, code, APIs, documentation, skills, instruction files, dashboards, charts, UIs, websites, profiles, resumes, articles, posts, or any equivalent interface.
-
-**Then**
+# 🧭 Relevance
 
 - Present the minimum sufficient information at the abstraction level needed for the consumer's current task, decision, or understanding.
 - Defer additional detail until it becomes relevant, but provide an obvious route to drill down when that detail may be needed.
