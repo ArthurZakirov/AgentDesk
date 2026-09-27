@@ -18,6 +18,7 @@ Promotion means using `engineer-agentic-ai` to convert intent into a tested mech
 
 ## Topics
 
+- [Concrete examples and exemplification](concrete-examples-and-exemplification.md)
 - [Continuous voice work orchestration](continuous-voice-work-orchestration.md)
 - [Browser execution and responsive coordination](browser-execution-and-responsive-coordination.md)
 - [Collaboration and coding preferences](collaboration-and-coding-preferences.md)
