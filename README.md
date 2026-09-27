@@ -50,6 +50,8 @@ npx skills add ArthurZakirov/AgentDesk --skill '*' -a codex claude-code opencode
 
 Codex and OpenCode discover the generated `~/.agents/skills` tree directly; Claude Code uses aliases to that same tree. Keep repository `skills/` as the editing source. Global personal rules are generated from `global-guidance/` into each product's supported location; for Codex that is `$CODEX_HOME/AGENTS.md` (default `~/.codex/AGENTS.md`).
 
+For an opt-in, reversible experiment that applies only generated Codex guidance through chezmoi, see the [chezmoi global-guidance pilot](docs/chezmoi-guidance-pilot.md). It does not replace AgentDesk as the editable source or SkillPort's repository, skill, and scheduling responsibilities.
+
 ## Install As A Claude Code Plugin
 
 ```text
@@ -150,6 +152,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   └── list-skills.md
 ├── scripts/
 │   ├── bootstrap-agents-md.py
+│   ├── chezmoi-guidance-pilot.py
 │   ├── create-claude-command.sh
 │   ├── create-shared-skill.sh
 │   ├── generate-readme.py

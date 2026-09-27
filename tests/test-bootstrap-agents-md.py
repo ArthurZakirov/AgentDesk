@@ -108,8 +108,8 @@ class BootstrapTests(unittest.TestCase):
             foreign = codex / "agents-md-references" / "my-notes.md"
             foreign.write_text("keep me\n")
             self.assertIn(f"**AGENTS.md absolute path:** `{(codex.resolve() / 'AGENTS.md').as_posix()}`", rendered)
-            self.assertIn("every relative Markdown link and every relative path", rendered)
-            self.assertIn("relative to `./AGENTS.md`", rendered)
+            self.assertIn("Resolving a relative Markdown link or relative path", rendered)
+            self.assertIn("directory containing this `AGENTS.md` (`./AGENTS.md`)", rendered)
             self.assertIn("never relative to the active working directory", rendered)
             self.assertIn("## 🗂️ Contents", rendered)
             self.assertIn("- [First](#first)", rendered)

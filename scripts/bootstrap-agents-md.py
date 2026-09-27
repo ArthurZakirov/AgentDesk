@@ -331,12 +331,14 @@ def _render_component_blocks(components: list[GuidanceComponent] | tuple[Guidanc
 def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
                     replace: bool = False, dry_run: bool = False,
                     opencode_home: Path | None = None,
-                    agents_path_label: str | None = None) -> None:
+                    agents_path_label: str | None = None,
+                    link_base: Path | None = None) -> None:
     manifest = manifest.resolve(strict=True)
     component_tree = _load_manifest(manifest)
     components = _flatten_components(component_tree)
     guidance_root = manifest.parent
     agents_home = agents_home.resolve()
+    link_base = (link_base or agents_home).resolve()
     claude_home = claude_home.resolve()
     if opencode_home is not None:
         opencode_home = opencode_home.resolve()
@@ -349,9 +351,9 @@ def install_layered(manifest: Path, agents_home: Path, claude_home: Path,
     if not has_workspace_group:
         component_toc_lines.insert(0, "- [🛠️ Updating this AGENTS.md](#agents-md-maintenance)")
     component_toc_text = "\n".join(component_toc_lines)
-    manifest_link = Path(os.path.relpath(manifest, start=agents_home)).as_posix()
-    component_links = [Path(os.path.relpath(component.path, start=agents_home)).as_posix() for component in components]
-    regenerate_link = Path(os.path.relpath(Path(__file__).with_name("regenerate-agents-md.py").resolve(), start=agents_home)).as_posix()
+    manifest_link = Path(os.path.relpath(manifest, start=link_base)).as_posix()
+    component_links = [Path(os.path.relpath(component.path, start=link_base)).as_posix() for component in components]
+    regenerate_link = Path(os.path.relpath(Path(__file__).with_name("regenerate-agents-md.py").resolve(), start=link_base)).as_posix()
     protected_sources = {component.path for component in components} | {manifest}
     source_lines = [
         "This file is generated atomically from the ordered sources declared in:",
@@ -433,6 +435,8 @@ def main() -> None:
     parser.add_argument("--opencode-home", type=Path, default=Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "opencode")
     parser.add_argument("--replace-existing", action="store_true", help="Only after merging old preferences; originals are backed up")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--link-base", type=Path, help="Compute generated Markdown links relative to this eventual AGENTS.md directory")
+    parser.add_argument("--agents-path-label", help="Path label embedded in generated maintenance guidance")
     args = parser.parse_args()
     codex_home = args.codex_home.expanduser()
     if args.source:
@@ -440,7 +444,7 @@ def main() -> None:
     else:
         install_layered(args.manifest, codex_home,
                         args.claude_home, args.replace_existing, args.dry_run,
-                        args.opencode_home)
+                        args.opencode_home, args.agents_path_label, args.link_base)
 
 
 if __name__ == "__main__":

@@ -18,6 +18,8 @@ def main() -> None:
     parser.add_argument("--opencode-home", type=Path)
     parser.add_argument("--replace-existing", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--link-base", type=Path)
+    parser.add_argument("--agents-path-label")
     args = parser.parse_args()
 
     command = [
@@ -35,6 +37,10 @@ def main() -> None:
         command.append("--replace-existing")
     if args.dry_run:
         command.append("--dry-run")
+    if args.link_base:
+        command += ["--link-base", str(args.link_base)]
+    if args.agents_path_label:
+        command += ["--agents-path-label", args.agents_path_label]
 
     subprocess.run(command, check=True)
 
