@@ -1,6 +1,7 @@
 version: 2
 components:
   - path: agents-md-components/chatgpt-runtime-mode-identification.md
+  - path: agents-md-components/interaction-mode-behavior.md
   - path: agents-md-components/problem-intent-and-proposed-solutions.md
   - path: agents-md-components/git-workflow.md
   - path: agents-md-components/information-presentation/index.md
