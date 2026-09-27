@@ -12,7 +12,7 @@ The important distinction is the chat's **interaction role**, not merely whether
 
 ## Observed problem
 
-The current sidebar presents orchestrator and delegated worker chats as similar peer records. Completion creates unread indicators on several worker chats, so recent activity and unread state amplify low-value threads while the orchestrator becomes harder to locate. Titles usually describe the task but do not reliably expose the interaction role.
+The current sidebar presents orchestrator and delegated worker chats as similar peer records. Completed workers can leave several unread indicators, so recent activity and unread state amplify low-value threads while the orchestrator becomes harder to locate. Titles usually describe the task but do not reliably expose the interaction role. In the inspected thread data, the blue-dot condition is represented as `isUnread`; it is not itself a semantic “completed” status.
 
 The user's September 2026 screenshot shows several similarly styled recent chats with blue unread dots and no visible, consistent orchestrator-versus-worker marker. This screenshot is evidence of the experienced navigation problem, not proof of the underlying implementation or parent-child relationships.
 
