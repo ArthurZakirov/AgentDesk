@@ -52,6 +52,8 @@ Codex and OpenCode discover the generated `~/.agents/skills` tree directly; Clau
 
 For an opt-in, reversible experiment that applies only generated Codex guidance through chezmoi, see the [chezmoi global-guidance pilot](docs/chezmoi-guidance-pilot.md). It does not replace AgentDesk as the editable source or SkillPort's repository, skill, and scheduling responsibilities.
 
+For composing the shared manifest with ordered, separately owned overlays, see [layered global guidance](docs/layered-global-guidance.md).
+
 ## Install As A Claude Code Plugin
 
 ```text

@@ -72,6 +72,33 @@ class RegenerateAgentsMdTests(unittest.TestCase):
             self.assertIn("common rule", rendered)
             self.assertFalse((home / "AGENTS.md").exists())
 
+    def test_ordered_overlay_manifest_is_forwarded_to_generator(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            script = self._create_test_agentdesk(root)
+            overlay = root / "overlay"
+            components = overlay / "agents-md-components"
+            components.mkdir(parents=True)
+            (components / "overlay.md").write_text("# Overlay\n\noverlay rule\n", encoding="utf-8")
+            manifest = overlay / "agents-md-manifest.yaml"
+            manifest.write_text(
+                "version: 2\nlayer_id: test-overlay\ncomponents:\n  - path: agents-md-components/overlay.md\n",
+                encoding="utf-8",
+            )
+            codex = root / "codex"
+
+            subprocess.run([
+                sys.executable, str(script),
+                "--overlay-manifest", str(manifest),
+                "--codex-home", str(codex),
+                "--claude-home", str(root / "claude"),
+                "--opencode-home", str(root / "opencode"),
+            ], check=True)
+
+            rendered = (codex / "AGENTS.md").read_text(encoding="utf-8")
+            self.assertLess(rendered.index("common rule"), rendered.index("overlay rule"))
+            self.assertIn("AgentDesk layer set", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()

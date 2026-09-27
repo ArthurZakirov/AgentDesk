@@ -16,6 +16,7 @@ def main() -> None:
     parser.add_argument("--agents-home", dest="codex_home", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--claude-home", type=Path)
     parser.add_argument("--opencode-home", type=Path)
+    parser.add_argument("--overlay-manifest", action="append", type=Path, default=[])
     parser.add_argument("--replace-existing", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--link-base", type=Path)
@@ -33,6 +34,8 @@ def main() -> None:
         command += ["--claude-home", str(args.claude_home)]
     if args.opencode_home:
         command += ["--opencode-home", str(args.opencode_home)]
+    for overlay_manifest in args.overlay_manifest:
+        command += ["--overlay-manifest", str(overlay_manifest)]
     if args.replace_existing:
         command.append("--replace-existing")
     if args.dry_run:
