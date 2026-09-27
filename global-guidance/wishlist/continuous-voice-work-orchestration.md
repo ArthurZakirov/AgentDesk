@@ -29,16 +29,30 @@ In prior ChatGPT Desktop voice/subagent use, launching or monitoring delegated w
 - `firstmate` also documents an important boundary: its open-mic continuous-listening mode is not finished because reliable end-of-speech detection and interruption semantics are part of the hard problem. Its present voice relay deliberately separates speech/status from project mutation.
 - `firstmate` does not currently expose Codex Desktop as a full runtime backend because it lacks a supported shell-callable create/send/read/archive bridge for the same visible Desktop-owned thread.
 
-## Candidate architecture to prototype
+## Solution families to evaluate
 
-1. **Voice capture surface** — ChatGPT Desktop Voice initially; optionally a separate local open-mic/push-to-talk client later.
-2. **Durable inbox** — append-only SQLite or JSONL event log with request id, raw transcript, normalized task(s), priority, dependencies, state, timestamps, and receipt.
-3. **Intake router** — semantic splitter/classifier turns one utterance into one or more work items; this step never blocks capture of the next utterance.
-4. **Scheduler** — FIFO among equal-priority ready items; explicit user commands can reprioritize, pause, cancel, or force-next.
-5. **Workers** — terminal-backed agents (Codex CLI / Claude Code / OpenCode or firstmate-style workers) in isolated worktrees or scoped directories.
-6. **Event return channel** — workers update durable task state; coordinator reads notifications instead of supervising via blocking waits.
-7. **Human decision queue** — plans/irreversible actions become explicit approval items that the voice coordinator can surface one at a time.
-8. **Recovery** — on startup/session refresh, reconstruct in-flight work and unanswered decisions from the durable store.
+The durable-intake invariant is more important than any one UI or orchestration pattern. Evaluate these families independently and in hybrids:
+
+| Family | Routing model | Strength | Main risk / unknown |
+| --- | --- | --- | --- |
+| **Single voice orchestrator** | One conversation semantically splits requests and dispatches workers. | Lowest cognitive switching; matches firstmate-style liaison architecture. | Requires the coordinator surface to remain responsive and to persist intake before delegation. |
+| **Fast switching between specialized voice chats** | The user explicitly selects the destination chat/context, potentially from phone/watch/headset controls. | Human routing avoids classifier mistakes and keeps contexts clean. | Current ChatGPT supports only one Voice conversation at a time; friction of ending/resuming/selecting chats may dominate unless a reliable shortcut/remote-control surface exists. |
+| **Capture inbox, route later** | Phone/watch/headset captures a note immediately; an asynchronous router later assigns it to a chat, project, or worker. | Strongest separation of lossless capture from execution; can work even if an AI session is blocked. | Adds a custom inbox/transcription/routing system and delayed conversational feedback. |
+| **Continuous recorder/transcription pipeline** | Always-on or push-to-talk audio is chunked/transcribed into a persistent event stream, then routed to agents. | Closest to uninterrupted thinking; independent of any one chat UI. | End-of-thought detection, interruption semantics, privacy, audio retention, and false task boundaries are hard. |
+| **Multi-channel ingress / agent OS** | Voice, messaging, web, phone/watch shortcuts, and other surfaces all write into the same durable task/memory layer. | The user can pick the lowest-friction input surface moment by moment without changing the backend work model. OpenYabby and TaskChad OS are current examples of this architectural family. | More infrastructure and identity/routing policy; each ingress has different latency, privacy, and conversational affordances. |
+| **Custom realtime voice client** | A purpose-built client uses a realtime speech API directly and writes every accepted turn to the durable inbox before any agent work starts. | Full control over interruption, receipts, hardware controls, routing commands, and rendering rather than inheriting one product's Voice UX. | Highest build cost; audio/VAD, device handoff, auth, background execution, and playback state become our responsibility. |
+
+A likely hybrid is: **fast capture everywhere → durable inbox → optional human/automatic routing → independent workers → one notification/approval stream**. ChatGPT Voice, Work/Codex, specialized chats, messaging apps, a watch/phone shortcut, or a custom realtime client can all be ingress surfaces without being the system of record.
+
+## Shared backend primitives
+
+1. **Durable inbox** — append-only SQLite or JSONL event log with request id, raw transcript, normalized task(s), priority, dependencies, state, timestamps, and receipt.
+2. **Intake router** — semantic splitter/classifier turns one utterance into one or more work items; explicit user-selected destinations bypass automatic routing.
+3. **Scheduler** — FIFO among equal-priority ready items; explicit user commands can reprioritize, pause, cancel, or force-next.
+4. **Workers** — terminal/cloud agents (Codex CLI, Agents API, Claude Code, OpenCode, firstmate-style workers, or another harness) in isolated worktrees or scoped environments.
+5. **Event return channel** — workers update durable task state; coordinators read notifications instead of supervising through blocking waits.
+6. **Human decision queue** — plans/irreversible actions become explicit approval items surfaced through whichever device is convenient.
+7. **Recovery** — on startup/session refresh, reconstruct in-flight work and unanswered decisions from the durable store.
 
 ## MVP acceptance test
 
