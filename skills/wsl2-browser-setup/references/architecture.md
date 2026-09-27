@@ -1,42 +1,23 @@
 # Architecture
 
-## Separation Of Concerns
+## Browser Paths And Client Layer
 
-This skill is only about making browser paths usable from WSL2.
+Keep browser availability separate from client behavior even though one skill now owns both.
 
-It does not choose or configure a specific CDP client. Tool-specific setup belongs in a separate skill.
+| Layer | Owns | Does not prove |
+| --- | --- | --- |
+| Native WSL Chrome | Linux Chrome installation, WSL networking, interactive browsing, and sign-in | That a specific automation client works. |
+| Windows host bridge | Launching Windows Chrome or Edge, exposing CDP to WSL2, and verifying `/json/version` | That a specific CDP client can attach and operate correctly. |
+| `agent-browser` | CLI/runtime installation and attachment to an established browser path | That the underlying browser or network path is healthy. |
 
-## Method A: Native WSL Chrome
+## Native WSL Chrome
 
-Use this first when the user wants:
+Use this first for interactive browsing, profile sign-in, account login flows, or a direct check that WSLg browsing works. The proven path requires Linux `google-chrome`, mirrored WSL networking, DNS tunneling, a full `wsl --shutdown` restart after configuration changes, and Chrome `Use secure DNS` fully off.
 
-- interactive browsing inside WSL
-- profile sign-in
-- account login flows
-- a quick answer to whether WSLg browsing works at all
+## Windows Host Browser Bridge
 
-This path succeeded once the machine had:
+Use this when a WSL-side tool must drive Windows Chrome or Edge over CDP. The bridge launches the browser with a remote-debugging port, exposes that port to WSL2, and verifies the version endpoint. Any CDP-capable client can then attach.
 
-1. Linux `google-chrome`
-2. WSL `networkingMode=mirrored`
-3. WSL `dnsTunneling=true`
-4. a full `wsl --shutdown` restart
-5. Chrome `Use secure DNS` fully off
+## `agent-browser`
 
-## Method B: Windows Host Browser Bridge
-
-Use this when a tool inside WSL must drive a Windows browser instance over CDP.
-
-The bridge setup is still browser setup rather than client setup:
-
-1. Launch Windows Chrome or Edge with `--remote-debugging-port`
-2. Expose that port from Windows to WSL2
-3. Verify WSL2 can reach `/json/version`
-
-After that, any CDP-capable client can attach.
-
-## Recommendation
-
-Start with native WSL Chrome for human-interactive sign-in and browsing.
-
-Use the Windows host bridge when a WSL-side automation client specifically needs a Windows browser endpoint.
+Test the native path first when Linux Chrome browsing already works. If the client still hangs while manual browsing succeeds, treat it as a client-level failure and use the Windows bridge instead of reopening browser/network diagnosis.

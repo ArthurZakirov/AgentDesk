@@ -37,3 +37,11 @@ Focus on:
 - whether the Windows bridge responds on `/json/version`
 
 Those checks mattered more than the console noise.
+
+## Mixing Browser Repair With Client Repair
+
+If manual Chrome browsing works but `agent-browser` hangs, do not reopen the proven Chrome, WSL networking, or Secure DNS setup. Diagnose the client or switch it to the Windows bridge.
+
+## Treating The Windows Bridge As Client-Specific
+
+The bridge is a generic CDP exposure mechanism. `agent-browser` is only one possible client, so keep bridge setup and client attachment independently testable.

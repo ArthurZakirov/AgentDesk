@@ -51,3 +51,29 @@ Check these in order:
 3. `http://HOST_IP:BRIDGE_PORT/json/version` responds from WSL2
 
 If the bridge still is not reachable, rerun the bridge setup script before changing anything lower level.
+
+## `agent-browser` is missing
+
+Run the [`setup-agent-browser-runtime.sh`](../scripts/setup-agent-browser-runtime.sh) installer:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-agent-browser-runtime.sh"
+```
+
+## Native `agent-browser` hangs while manual Chrome works
+
+Treat this as a client-level failure. Keep the proven native browser setup unchanged and try the Windows host bridge path.
+
+## `connect-windows-browser.sh` fails
+
+First verify the generic bridge:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/wsl2-browser-setup/scripts/setup-windows-host-browser-bridge.sh" --check-only
+```
+
+If `/json/version` is unreachable, repair the bridge before retrying [`connect-windows-browser.sh`](../scripts/connect-windows-browser.sh).
+
+## The upstream skill installer blocks progress
+
+`npx skills add vercel-labs/agent-browser` is interactive and belongs to the human. The agent can complete the separate runtime installer before or after that step.
