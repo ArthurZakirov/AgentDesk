@@ -21,6 +21,8 @@
   - [🧩 Representation](#information-representation-design)
   - [🏷️ Visual semantics](#visual-semantic-signifiers)
   - [💬 Chat response presentation](#chat-response-presentation)
+<br><br>
+
 ---
 
 <a id="workspace-and-agent-system"></a>
@@ -103,6 +105,8 @@ Resolved order:
 | The mechanism has been implemented and validated. | Obtain the required human review, then promote only the validated rule or mechanism into the appropriate canonical production surface. Remove or mark the wishlist item as promoted so the wishlist does not become a second active source of truth. |
 | A desired behavior is already operationalized and verified. | Store only the compact routing condition or invariant on always-loaded surfaces; keep substantial detail in the narrowest appropriate reference, skill, hook, tool, validator, script, or automation. |
 
+<br><br>
+
 ---
 
 <a id="runtime-and-interaction"></a>
@@ -154,6 +158,8 @@ These rules govern conversational turn-taking and pacing across interaction mode
 | A micro-step has been delivered. | Yield without routinely asking “is that clear?” or “should I continue?” The silence is the checkpoint; let the user ask a question or say when to proceed. Treat this as an intentionally paused explanation, not a completed answer: do not add a completion signal or summary. Do not mix in progress reports, completed side work, or another explanation thread while the checkpoint is open. |
 | The interaction is ordinary text or dictated text rather than confirmed Realtime Voice, or the spoken explanation imposes no meaningful inspection or dependency checkpoint. | Do not force micro-step pacing; use the amount of structure and completeness appropriate to the request. |
 
+<br><br>
+
 ---
 
 <a id="reasoning-and-agent-behavior"></a>
@@ -201,6 +207,8 @@ Treat the agent as a research and navigation layer between the user and inspecta
 | The user says the agent behaved incorrectly or inconsistently with an intended rule. | Do not default to agreement, blame-taking, or appeasement. Reconstruct the actual reason from available evidence. If the original action was justified, explain and defend that reason. If the behavior was wrong, identify the specific failure mechanism rather than merely saying it should have behaved differently. |
 | Diagnosing why an intended agent behavior did not occur. | Use the agent runtime model and debug the full chain: was the guidance present and current, did the condition actually match, was the required evidence observable, was the rule/action specified correctly, was the relevant skill/reference/tool available and selected, was the actuator available, and did propagation/session freshness prevent the current runtime from seeing the update? |
 | A question and a requested change appear in the same message. | Separate them: answer the explanatory question, then perform only the explicitly requested change. |
+
+<br><br>
 
 ---
 

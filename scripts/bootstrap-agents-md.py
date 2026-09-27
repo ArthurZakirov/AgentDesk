@@ -316,6 +316,7 @@ def _render_component_blocks(components: list[GuidanceComponent] | tuple[Guidanc
     blocks: list[str] = []
     for component in components:
         if depth == 0:
+            blocks.append("<br><br>")
             blocks.append("---")
         blocks.append(_demote_markdown_headings(component.text, depth))
         local_toc = _local_toc(component, depth)

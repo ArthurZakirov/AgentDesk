@@ -66,3 +66,4 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "- [🧠 Information presentation](#information-presentation)" in rendered
     assert "Global guidance component:" not in rendered
     assert sum(line == "---" for line in rendered.splitlines()) == 4
+    assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
