@@ -94,6 +94,14 @@ For local development from a cloned repo:
 
 Existing non-symlink paths are left untouched unless `--force` is used.
 
+To install or refresh the generated global Codex guidance on any macOS/Linux/WSL machine without cloning AgentDesk first:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ArthurZakirov/AgentDesk/main/scripts/install-global-guidance.sh | sh
+```
+
+The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-in generated `AGENTS.md` plus `agents-md-references/`, rewrites source links to GitHub, and backs up existing guidance before replacement.
+
 ## Included Skills
 
 <!-- BEGIN GENERATED SECTION: skills -->
@@ -163,6 +171,7 @@ Existing non-symlink paths are left untouched unless `--force` is used.
 │   ├── create-shared-skill.sh
 │   ├── generate-readme.py
 │   ├── install-git-hooks.sh
+│   ├── install-global-guidance.sh
 │   ├── regenerate-agents-md.py
 │   ├── repository_registry.py
 │   ├── setup-local-links.sh

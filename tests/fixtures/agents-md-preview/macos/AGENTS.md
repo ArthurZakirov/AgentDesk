@@ -72,6 +72,7 @@ Resolved order:
 | When | Then |
 | --- | --- |
 | Updating global agent guidance. | Change the manifest, its canonical components, or generated `agents-md-references/*.md` sources in AgentDesk; do not edit generated files under the agent home directly. Run [`regenerate-agents-md.py`](<../../../../scripts/regenerate-agents-md.py>) after changing canonical sources. |
+| Installing or refreshing global Codex guidance on a machine without relying on a local AgentDesk checkout. | Run `curl -fsSL https://raw.githubusercontent.com/ArthurZakirov/AgentDesk/main/scripts/install-global-guidance.sh | sh`. The installer downloads the checked-in generated preview and its `agents-md-references/`, rewrites source links to GitHub, respects `$CODEX_HOME` (default `~/.codex`), and backs up existing guidance before replacement. |
 | A rule determines whether a reference file should be opened. | Put that `when` condition in the applicable AGENTS.md component before the reference is loaded. Put only post-load instructions in the referenced file; do not put sibling-routing or progressive-disclosure logic inside the reference. |
 | Resolving a relative Markdown link or relative path from this global guidance. | Resolve it relative to the directory containing this `AGENTS.md` (`./AGENTS.md`), never relative to the active working directory. |
 
