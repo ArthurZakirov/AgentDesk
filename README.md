@@ -100,7 +100,7 @@ To install or refresh the generated global Codex guidance on any macOS/Linux/WSL
 curl -fsSL https://raw.githubusercontent.com/ArthurZakirov/AgentDesk/main/scripts/install-global-guidance.sh | sh
 ```
 
-The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-in generated `AGENTS.md` plus `agents-md-references/`, rewrites source links to GitHub, and backs up existing guidance before replacement.
+The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-in generated `AGENTS.md` plus `agents-md-references/`, mirrors the canonical guidance sources under `$CODEX_HOME/agentdesk-source/`, rewrites maintenance/source links to those local files for editor navigation, and backs up existing guidance before replacement.
 
 ## Included Skills
 

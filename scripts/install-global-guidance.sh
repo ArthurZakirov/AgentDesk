@@ -24,6 +24,8 @@ tar -xzf "$archive" -C "$extract"
 
 root="$(find "$extract" -mindepth 1 -maxdepth 1 -type d | head -n 1)"
 preview="$root/tests/fixtures/agents-md-preview/macos"
+source_tree="$codex_home/agentdesk-source"
+
 [ -f "$preview/AGENTS.md" ] || {
   echo "Downloaded AgentDesk archive does not contain the generated macOS guidance fixture." >&2
   exit 1
@@ -32,24 +34,34 @@ preview="$root/tests/fixtures/agents-md-preview/macos"
   echo "Downloaded AgentDesk archive does not contain agents-md-references." >&2
   exit 1
 }
+[ -d "$root/global-guidance" ] || {
+  echo "Downloaded AgentDesk archive does not contain global-guidance sources." >&2
+  exit 1
+}
+[ -d "$root/scripts" ] || {
+  echo "Downloaded AgentDesk archive does not contain scripts." >&2
+  exit 1
+}
 
 mkdir -p "$codex_home"
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 backup="$codex_home/guidance-backups/$stamp"
 
-if [ -e "$codex_home/AGENTS.md" ] || [ -d "$codex_home/agents-md-references" ]; then
+if [ -e "$codex_home/AGENTS.md" ] || [ -d "$codex_home/agents-md-references" ] || [ -d "$source_tree" ]; then
   mkdir -p "$backup"
   [ ! -e "$codex_home/AGENTS.md" ] || cp "$codex_home/AGENTS.md" "$backup/AGENTS.md"
   [ ! -d "$codex_home/agents-md-references" ] || cp -R "$codex_home/agents-md-references" "$backup/agents-md-references"
+  [ ! -d "$source_tree" ] || cp -R "$source_tree" "$backup/agentdesk-source"
 fi
 
 stage="$tmp/stage"
-mkdir -p "$stage/agents-md-references"
+mkdir -p "$stage/agents-md-references" "$stage/agentdesk-source"
 cp "$preview/AGENTS.md" "$stage/AGENTS.md"
 cp "$preview/agents-md-references/"* "$stage/agents-md-references/"
+cp -R "$root/global-guidance" "$stage/agentdesk-source/global-guidance"
+cp -R "$root/scripts" "$stage/agentdesk-source/scripts"
 
-source_prefix="https://github.com/${repo}/blob/${ref}/"
-sed "s#<../../../../#<${source_prefix}#g; s#\*\*AGENTS.md absolute path:\*\* \`<preview>/AGENTS.md\`#**AGENTS.md absolute path:** \`${codex_home}/AGENTS.md\`#" \
+sed "s#<../../../../#<agentdesk-source/#g; s#\*\*AGENTS.md absolute path:\*\* \`<preview>/AGENTS.md\`#**AGENTS.md absolute path:** \`${codex_home}/AGENTS.md\`#" \
   "$stage/AGENTS.md" > "$stage/AGENTS.md.patched"
 mv "$stage/AGENTS.md.patched" "$stage/AGENTS.md"
 
@@ -62,7 +74,12 @@ for source in "$stage/agents-md-references/"*; do
   mv "$codex_home/agents-md-references/$name.new" "$codex_home/agents-md-references/$name"
 done
 
-printf '%s\n' "Installed AgentDesk guidance from ${repo}@${ref} into ${codex_home}."
+rm -rf "$source_tree.new"
+mv "$stage/agentdesk-source" "$source_tree.new"
+rm -rf "$source_tree"
+mv "$source_tree.new" "$source_tree"
+
+printf '%s\n' "Installed AgentDesk guidance and local sources from ${repo}@${ref} into ${codex_home}."
 if [ -d "$backup" ]; then
   printf '%s\n' "Previous guidance backed up to ${backup}."
 fi

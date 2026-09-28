@@ -32,7 +32,7 @@ The preview fixture is a checked-in expected rendering of the global guidance, n
 ## Architecture references
 
 - `scripts/bootstrap-agents-md.py` implements manifest loading, rendering, installation, preservation, and runtime-reference sync.
-- `scripts/install-global-guidance.sh` is the clone-independent remote installer for the checked-in generated Codex guidance preview and runtime references.
+- `scripts/install-global-guidance.sh` is the clone-independent remote installer for the checked-in generated Codex guidance preview, runtime references, and a local mirror of the canonical guidance sources used by its Markdown links.
 - `scripts/regenerate-agents-md.py` is the thin entrypoint for rebuilding global guidance from the manifest.
 - `tests/test-bootstrap-agents-md.py` protects preservation, manifest ordering, imports, idempotency, and reference sync.
 - `tests/test-regenerate-agents-md.py` protects the regeneration entrypoint contract.
