@@ -54,6 +54,10 @@ For an opt-in, reversible experiment that applies only generated Codex guidance 
 
 For composing the shared manifest with ordered, separately owned overlays, see [layered global guidance](docs/layered-global-guidance.md).
 
+## ChatGPT product configuration
+
+ChatGPT-specific settings that are manually applied in the product are versioned separately under [`chatgpt/`](chatgpt/). The canonical personalization text is [`chatgpt/personalization-instructions.md`](chatgpt/personalization-instructions.md); it is intentionally separate from generated `AGENTS.md` guidance.
+
 ## Install As A Claude Code Plugin
 
 ```text
