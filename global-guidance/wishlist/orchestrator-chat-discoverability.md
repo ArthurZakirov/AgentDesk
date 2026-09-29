@@ -12,7 +12,7 @@ The important distinction is the chat's **interaction role**, not merely whether
 
 ## Promotion status
 
-The default title prefix for separate user-visible delegated worker chats has been behaviorally validated and promoted to [Delegated chat naming](../agents-md-components/runtime-and-interaction/delegated-chat-naming.md). The broader grouping, provenance, notification-routing, and lifecycle requirements in this wishlist entry remain under investigation.
+The default title prefix for separate user-visible delegated worker chats has been behaviorally validated and promoted to [Delegation](../agents-md-components/runtime-and-interaction/delegation.md). The broader grouping, provenance, notification-routing, and lifecycle requirements in this wishlist entry remain under investigation.
 
 ## Observed problem
 
