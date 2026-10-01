@@ -41,6 +41,7 @@ Restart Hammerspoon after the permission changes. A checked permission row is no
 - `ctrl+alt+cmd+h`: identify numbered displays.
 - `ctrl+alt+cmd+/`: searchable window picker.
 - `ctrl+alt+cmd+r`: reload the configuration.
+- `cmd+shift+7`: open ChatGPT's native Keyboard Shortcuts menu command on German/QWERTZ layouts. The [ChatGPT module](assets/hammerspoon/modules/chatgpt.lua) enables this binding only while ChatGPT is frontmost; plain slash typing and other apps keep their existing behavior. English and German menu titles are supported.
 
 The display module first uses the standard macOS **Window → Move to …** menu. This avoids a macOS Tahoe failure mode where Accessibility reports zero-sized `AXApplication` placeholders instead of usable window objects. Direct `hs.window` movement remains a fallback for applications without the standard menu.
 
