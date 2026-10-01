@@ -13,6 +13,11 @@ Supported workflows:
 
 - Voice typing / Dictation with a Control-Control shortcut.
 - A Raycast-friendly Google Drive launcher for Macs where Google Drive runs correctly but Raycast activation does not reopen its UI.
+- Reproduce Raycast editor aliases and the Option-Q App Exposé shortcut across Macs.
+
+## Cross-Mac Editor Shortcuts
+
+When setting up, repairing, or transferring Raycast aliases for Zsh, Codex guidance, or AgentDesk, or the Option-Q application-window overview, read [Cross-Mac shortcuts](references/cross-mac-shortcuts.md). It records the shared behavior, machine-specific path inputs, supported import procedure, native macOS setting, and verification. Keep workstation recipes in references and scripts; do not create another installed skill for every one-time setting.
 
 ## Voice Typing Workflow
 
