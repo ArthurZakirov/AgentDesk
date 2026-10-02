@@ -170,11 +170,13 @@ The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-
 │   ├── create-claude-command.sh
 │   ├── create-shared-skill.sh
 │   ├── generate-readme.py
+│   ├── install-git-default-sync.sh
 │   ├── install-git-hooks.sh
 │   ├── install-global-guidance.sh
 │   ├── regenerate-agents-md.py
 │   ├── repository_registry.py
 │   ├── setup-local-links.sh
+│   ├── sync-default-branch.py
 │   └── update-readme.sh
 ├── skills/
 │   ├── aerospace-macos-setup/
