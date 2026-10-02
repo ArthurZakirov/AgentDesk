@@ -6,26 +6,36 @@
       "type": "shell",
       "command": "git review-range",
       "problemMatcher": [],
-      "presentation": {
-        "echo": false,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "dedicated",
-        "close": true
-      }
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    },
+    {
+      "label": "Git: Review Last Commit",
+      "type": "shell",
+      "command": "git review HEAD",
+      "problemMatcher": [],
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    },
+    {
+      "label": "Git: Review Specific Commit",
+      "type": "shell",
+      "command": "git review ${input:reviewCommit}",
+      "problemMatcher": [],
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
     },
     {
       "label": "Git: Unreview",
       "type": "shell",
       "command": "git unreview",
       "problemMatcher": [],
-      "presentation": {
-        "echo": false,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "dedicated",
-        "close": true
-      }
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "reviewCommit",
+      "type": "promptString",
+      "description": "Commit to review (hash, tag, or Git revision)",
+      "default": "HEAD"
     }
   ]
 }
