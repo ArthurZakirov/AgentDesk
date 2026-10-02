@@ -1,0 +1,140 @@
+#!/usr/bin/env python3
+"""Create and remove isolated Git review worktrees."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+
+def git(*args: str, cwd: Path | None = None, capture: bool = True) -> str:
+    result = subprocess.run(
+        ["git", *args], cwd=cwd, check=True, text=True,
+        stdout=subprocess.PIPE if capture else None,
+    )
+    return result.stdout.strip() if capture else ""
+
+
+def common_dir(cwd: Path) -> Path:
+    return Path(git("rev-parse", "--path-format=absolute", "--git-common-dir", cwd=cwd))
+
+
+def source_root(cwd: Path) -> Path:
+    return Path(git("rev-parse", "--show-toplevel", cwd=cwd))
+
+
+def state_root(common: Path) -> Path:
+    repo_name = common.parent.name if common.name == ".git" else common.name
+    digest = hashlib.sha256(str(common).encode()).hexdigest()[:10]
+    return Path.home() / ".local" / "share" / "agentdesk" / "reviews" / f"{repo_name}-{digest}"
+
+
+def default_base(cwd: Path) -> str:
+    branch = git("branch", "--show-current", cwd=cwd)
+    config_remote = subprocess.run(
+        ["git", "config", "--get", f"branch.{branch}.remote"],
+        cwd=cwd, text=True, stdout=subprocess.PIPE,
+    ).stdout.strip() if branch else ""
+    remote = config_remote if config_remote and config_remote != "." else "origin"
+    git("fetch", remote, cwd=cwd, capture=False)
+    try:
+        return git("symbolic-ref", "--short", f"refs/remotes/{remote}/HEAD", cwd=cwd)
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit(f"Cannot determine {remote}'s default branch.") from exc
+
+
+def open_vscode(path: Path) -> None:
+    code = shutil.which("code")
+    if code:
+        subprocess.Popen([code, "-r", str(path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    else:
+        print(f"Review worktree ready: {path}")
+
+
+def create_review(cwd: Path, base: str, target: str, mode: str) -> Path:
+    source = source_root(cwd)
+    common = common_dir(cwd)
+    target_sha = git("rev-parse", target, cwd=cwd)
+    base_sha = git("rev-parse", base, cwd=cwd)
+    material_base = git("merge-base", base_sha, target_sha, cwd=cwd) if mode == "range" else base_sha
+
+    root = state_root(common)
+    root.mkdir(parents=True, exist_ok=True)
+    review = Path(tempfile.mkdtemp(prefix="review-", dir=root))
+    try:
+        git("worktree", "add", "--detach", str(review), material_base, cwd=source, capture=False)
+        patch = subprocess.run(
+            ["git", "diff", "--binary", material_base, target_sha],
+            cwd=source, check=True, stdout=subprocess.PIPE,
+        ).stdout
+        subprocess.run(["git", "apply", "--index"], cwd=review, input=patch, check=True)
+        git("reset", cwd=review, capture=False)
+        metadata = {
+            "agentdesk_review": True,
+            "source_worktree": str(source),
+            "base": material_base,
+            "target": target_sha,
+            "mode": mode,
+        }
+        review_git_dir = Path(git("rev-parse", "--path-format=absolute", "--git-dir", cwd=review))
+        (review_git_dir / "AGENTDESK_REVIEW.json").write_text(json.dumps(metadata, indent=2) + "\n")
+        open_vscode(review)
+        print(review)
+        return review
+    except Exception:
+        subprocess.run(["git", "worktree", "remove", "--force", str(review)], cwd=source)
+        raise
+
+
+def unreview(cwd: Path) -> None:
+    review = source_root(cwd)
+    review_git_dir = Path(git("rev-parse", "--path-format=absolute", "--git-dir", cwd=review))
+    marker = review_git_dir / "AGENTDESK_REVIEW.json"
+    if not marker.exists():
+        raise SystemExit("Not in an AgentDesk review worktree.")
+    data = json.loads(marker.read_text())
+    if not data.get("agentdesk_review"):
+        raise SystemExit("Invalid AgentDesk review metadata.")
+    source = Path(data["source_worktree"])
+    code = shutil.which("code")
+    if code:
+        subprocess.Popen([code, "-r", str(source)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.Popen(
+        ["git", "-C", str(source), "worktree", "remove", "--force", str(review)],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+    print(source)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    sub = parser.add_subparsers(dest="command", required=True)
+    one = sub.add_parser("commit")
+    one.add_argument("commit")
+    rng = sub.add_parser("range")
+    rng.add_argument("base", nargs="?")
+    rng.add_argument("target", nargs="?", default="HEAD")
+    sub.add_parser("unreview")
+    args = parser.parse_args()
+    cwd = Path.cwd()
+
+    if args.command == "commit":
+        commit = git("rev-parse", args.commit, cwd=cwd)
+        parent = git("rev-parse", f"{commit}^", cwd=cwd)
+        create_review(cwd, parent, commit, "commit")
+    elif args.command == "range":
+        create_review(cwd, args.base or default_base(cwd), args.target, "range")
+    else:
+        unreview(cwd)
+
+
+if __name__ == "__main__":
+    main()

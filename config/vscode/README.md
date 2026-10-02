@@ -1,14 +1,16 @@
 # VS Code user configuration
 
-This directory contains portable VS Code user-level configuration that should be
-available across repositories rather than checked into each project.
+This directory contains portable VS Code user-level configuration shared across
+repositories.
 
-## User tasks
+## Git review tasks
 
 `tasks.json` defines:
 
-- `Git: Review Range` — runs `git review-range` in the active workspace.
-- `Git: Unreview` — runs `git unreview` in the active workspace.
+- `Git: Review Range` — opens the current branch diff in an isolated review worktree.
+- `Git: Review Last Commit` — opens HEAD against its parent in an isolated review worktree.
+- `Git: Review Specific Commit` — prompts for a hash, tag, or revision and opens that commit.
+- `Git: Unreview` — returns to the recorded source worktree and removes the review worktree.
 
 Install with:
 
@@ -16,8 +18,9 @@ Install with:
 ./scripts/install-vscode-tasks.sh
 ```
 
-In VS Code use `⇧⌘P` → `Tasks: Run Task`, then choose the Git task.
+Use `⇧⌘P` → `Tasks: Run Task`, then choose the Git task. The source checkout
+stays untouched while VS Code displays ordinary working-tree changes in the
+temporary review checkout, preserving editor navigation such as go-to-definition.
 
-VS Code user tasks are the native configuration mechanism for cross-workspace
-shell/process tasks. A task label is not itself registered as a top-level Command
-Palette command; that would require a VS Code extension.
+A task label is not itself a top-level Command Palette command; registering
+`Git: Review Range` directly at the palette root would require a VS Code extension.
