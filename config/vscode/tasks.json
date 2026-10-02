@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Git: Review Range",
+      "type": "shell",
+      "command": "git review-range",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "close": true
+      }
+    },
+    {
+      "label": "Git: Unreview",
+      "type": "shell",
+      "command": "git unreview",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "close": true
+      }
+    }
+  ]
+}

@@ -173,6 +173,7 @@ The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-
 │   ├── install-git-config.sh
 │   ├── install-git-hooks.sh
 │   ├── install-global-guidance.sh
+│   ├── install-vscode-tasks.sh
 │   ├── regenerate-agents-md.py
 │   ├── repository_registry.py
 │   ├── setup-local-links.sh
