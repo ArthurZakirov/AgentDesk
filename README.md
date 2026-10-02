@@ -58,6 +58,10 @@ For composing the shared manifest with ordered, separately owned overlays, see [
 
 ChatGPT-specific settings that are manually applied in the product are versioned separately under [`chatgpt/`](chatgpt/). The canonical personalization text is [`chatgpt/personalization-instructions.md`](chatgpt/personalization-instructions.md); it is intentionally separate from generated `AGENTS.md` guidance.
 
+## Codex Desktop LangSmith credentials
+
+For Codex Desktop tracing without storing the LangSmith API key in `~/.codex/langsmith.json`, use the [Bitwarden-backed LaunchAgent setup](docs/codex-langsmith-bitwarden-env.md). The reusable installer is [`scripts/manage-codex-langsmith-env.sh`](scripts/manage-codex-langsmith-env.sh).
+
 ## Install As A Claude Code Plugin
 
 ```text
@@ -172,6 +176,7 @@ The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-
 │   ├── generate-readme.py
 │   ├── install-git-hooks.sh
 │   ├── install-global-guidance.sh
+│   ├── manage-codex-langsmith-env.sh
 │   ├── regenerate-agents-md.py
 │   ├── repository_registry.py
 │   ├── setup-local-links.sh
