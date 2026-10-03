@@ -13,7 +13,9 @@ html[data-lpg-active] body > *:not(#lpg-root) {
 [data-lpg-hidden-card],
 [data-lpg-hidden-sidebar],
 [data-lpg-hidden-interests],
-[data-lpg-hidden-nav] {
+[data-lpg-hidden-nav],
+[data-lpg-hidden-search],
+[data-lpg-hidden-business] {
   display: none !important;
 }
 

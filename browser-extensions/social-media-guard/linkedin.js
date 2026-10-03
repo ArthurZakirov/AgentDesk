@@ -147,11 +147,19 @@ const HIDDEN_NAV_LABELS = new Set([
 ]);
 
 function hidePrimaryNavigationItems() {
-  document.querySelectorAll("[data-lpg-hidden-nav]").forEach((element) => {
+  document.querySelectorAll("[data-lpg-hidden-nav], [data-lpg-hidden-search], [data-lpg-hidden-business]").forEach((element) => {
     element.removeAttribute("data-lpg-hidden-nav");
+    element.removeAttribute("data-lpg-hidden-search");
+    element.removeAttribute("data-lpg-hidden-business");
   });
 
   if (mode === "off") return;
+
+  const search = document.querySelector(
+    'header input[placeholder*="Search" i], header [role="search"], header .search-global-typeahead'
+  );
+  const searchContainer = search?.closest("form, div");
+  searchContainer?.setAttribute("data-lpg-hidden-search", "");
 
   for (const candidate of document.querySelectorAll('header a, header button, nav a, nav button')) {
     const label = candidate.textContent?.trim().toLowerCase()
@@ -162,11 +170,16 @@ function hidePrimaryNavigationItems() {
       url && HIDDEN_NAV_PATHS.some((pattern) => pattern.test(url.pathname))
     );
     const hiddenByLabel = HIDDEN_NAV_LABELS.has(label);
+    const hiddenBusiness = label === "for business";
 
-    if (!hiddenByPath && !hiddenByLabel) continue;
+    if (!hiddenByPath && !hiddenByLabel && !hiddenBusiness) continue;
 
     const navItem = candidate.closest("li") || candidate;
-    navItem.setAttribute("data-lpg-hidden-nav", "");
+    if (hiddenBusiness) {
+      navItem.setAttribute("data-lpg-hidden-business", "");
+    } else {
+      navItem.setAttribute("data-lpg-hidden-nav", "");
+    }
   }
 }
 
