@@ -12,6 +12,8 @@ A local Chrome extension that removes the reward surface from LinkedIn member pr
 
 In both Strict and Minimal modes, `/mynetwork` and every subpath below it (for example `/mynetwork/...`) are blocked and fully covered when opened directly.
 
+The extension also hides selected recommendation/distraction cards wherever LinkedIn renders them, including **Today’s puzzles**, **Add to your feed**, **People you may know**, and **You might like**. This also applies on Arthur's own allowed profile without hiding the profile itself.
+
 The extension intentionally avoids selectors for Experience, Activity, Education, and similar sections. Hiding the whole profile surface is simpler and less sensitive to LinkedIn DOM changes.
 
 ## Install locally

@@ -52,6 +52,32 @@ function getProfileImage() {
     || null;
 }
 
+const HIDDEN_CARD_TITLES = new Set([
+  "today’s puzzles",
+  "today's puzzles",
+  "add to your feed",
+  "people you may know",
+  "you might like",
+]);
+
+function hideDistractingCards() {
+  document.querySelectorAll("[data-lpg-hidden-card]").forEach((element) => {
+    element.removeAttribute("data-lpg-hidden-card");
+  });
+
+  if (mode === "off") return;
+
+  const candidates = document.querySelectorAll("h2, h3, h4, strong, span");
+  for (const candidate of candidates) {
+    const title = candidate.textContent?.trim().toLowerCase();
+    if (!HIDDEN_CARD_TITLES.has(title)) continue;
+
+    const card = candidate.closest(".artdeco-card, section")
+      || candidate.parentElement?.parentElement;
+    card?.setAttribute("data-lpg-hidden-card", "");
+  }
+}
+
 function ensureRoot() {
   if (!document.body) return null;
 
@@ -157,15 +183,19 @@ if ((isProfileUrl() && !isAllowedProfileUrl()) || isMyNetworkUrl()) {
 chrome.storage.sync.get({ mode: DEFAULT_MODE }).then((settings) => {
   mode = settings.mode;
   renderProfileGuard();
+  hideDistractingCards();
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== "sync" || !changes.mode) return;
   mode = changes.mode.newValue ?? DEFAULT_MODE;
   renderProfileGuard();
+  hideDistractingCards();
 });
 
 const observer = new MutationObserver((mutations) => {
+  if (mode !== "off") hideDistractingCards();
+
   if ((!isProfileUrl() && !isMyNetworkUrl()) || mode === "off") return;
 
   const onlyGuardChanges = mutations.every((mutation) => {
@@ -184,8 +214,13 @@ setInterval(() => {
   renderProfileGuard();
 }, 250);
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", renderProfileGuard, { once: true });
-} else {
+function applyPageFilters() {
   renderProfileGuard();
+  hideDistractingCards();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", applyPageFilters, { once: true });
+} else {
+  applyPageFilters();
 }

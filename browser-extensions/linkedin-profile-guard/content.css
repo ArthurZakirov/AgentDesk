@@ -10,6 +10,10 @@ html[data-lpg-active] body > *:not(#lpg-root) {
   visibility: visible !important;
 }
 
+[data-lpg-hidden-card] {
+  display: none !important;
+}
+
 html[data-lpg-active] #lpg-root {
   position: fixed;
   inset: 0;
