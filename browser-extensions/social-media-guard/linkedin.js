@@ -114,6 +114,30 @@ function hideOwnProfileSidebar() {
   sidebar?.setAttribute("data-lpg-hidden-sidebar", "");
 }
 
+const HIDDEN_NAV_PATHS = [
+  /^\/feed\/?$/,
+  /^\/mynetwork(?:\/|$)/,
+  /^\/jobs(?:\/|$)/,
+  /^\/messaging(?:\/|$)/,
+  /^\/notifications(?:\/|$)/,
+];
+
+function hidePrimaryNavigationItems() {
+  document.querySelectorAll("[data-lpg-hidden-nav]").forEach((element) => {
+    element.removeAttribute("data-lpg-hidden-nav");
+  });
+
+  if (mode === "off") return;
+
+  for (const anchor of document.querySelectorAll('header a[href], nav a[href]')) {
+    const url = parseLinkedInUrl(anchor.href);
+    if (!url || !HIDDEN_NAV_PATHS.some((pattern) => pattern.test(url.pathname))) continue;
+
+    const navItem = anchor.closest("li") || anchor;
+    navItem.setAttribute("data-lpg-hidden-nav", "");
+  }
+}
+
 function ensureRoot() {
   if (!document.body) return null;
 
@@ -221,6 +245,7 @@ chrome.storage.sync.get({ mode: DEFAULT_MODE }).then((settings) => {
   renderProfileGuard();
   hideDistractingCards();
   hideOwnProfileSidebar();
+  hidePrimaryNavigationItems();
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
@@ -229,12 +254,14 @@ chrome.storage.onChanged.addListener((changes, area) => {
   renderProfileGuard();
   hideDistractingCards();
   hideOwnProfileSidebar();
+  hidePrimaryNavigationItems();
 });
 
 const observer = new MutationObserver((mutations) => {
   if (mode !== "off") {
     hideDistractingCards();
     hideOwnProfileSidebar();
+    hidePrimaryNavigationItems();
   }
 
   if ((!isProfileUrl() && !isMyNetworkUrl()) || mode === "off") return;
@@ -261,6 +288,7 @@ function applyPageFilters() {
   renderProfileGuard();
   hideDistractingCards();
   hideOwnProfileSidebar();
+  hidePrimaryNavigationItems();
 }
 
 if (document.readyState === "loading") {

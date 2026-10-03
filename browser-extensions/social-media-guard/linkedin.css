@@ -11,7 +11,8 @@ html[data-lpg-active] body > *:not(#lpg-root) {
 }
 
 [data-lpg-hidden-card],
-[data-lpg-hidden-sidebar] {
+[data-lpg-hidden-sidebar],
+[data-lpg-hidden-nav] {
   display: none !important;
 }
 
