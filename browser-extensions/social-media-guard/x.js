@@ -45,6 +45,18 @@ function isConnectPeople(value = location.href) {
   return Boolean(url && CONNECT_PEOPLE_PATH.test(url.pathname));
 }
 
+function isHomeUrl(value = location.href) {
+  const url = parseXUrl(value);
+  return Boolean(url && /^\/home\/?$/.test(url.pathname));
+}
+
+function redirectHomeToOwnProfile() {
+  if (mode === "off" || !isHomeUrl()) return false;
+
+  location.replace("https://x.com/ArthurZakir");
+  return true;
+}
+
 function ensureBlocker() {
   if (!document.body) return null;
 
@@ -164,6 +176,8 @@ function blockProfileNavigation(event) {
 }
 
 function applyXFilters() {
+  if (redirectHomeToOwnProfile()) return;
+
   renderProfileBlocker();
   hideRecommendationSurfaces();
   hideSidebarItems();
