@@ -97,6 +97,31 @@ function nearestModule(heading) {
   return heading.closest('[data-testid="cellInnerDiv"]') ?? heading.parentElement;
 }
 
+const HIDDEN_NAV_LABELS = new Set([
+  "home",
+  "notifications",
+  "follow",
+  "grok",
+]);
+
+function hideSidebarItems() {
+  document.querySelectorAll("[data-xsg-hidden-nav]").forEach((element) => {
+    element.removeAttribute("data-xsg-hidden-nav");
+  });
+
+  if (mode === "off") return;
+
+  const primaryNav = document.querySelector('nav[aria-label="Primary"], nav[role="navigation"]');
+  if (!primaryNav) return;
+
+  for (const item of primaryNav.querySelectorAll('a, [role="link"]')) {
+    const label = normalizeText(item.getAttribute("aria-label") || item.textContent);
+    if (HIDDEN_NAV_LABELS.has(label)) {
+      item.setAttribute("data-xsg-hidden-nav", "");
+    }
+  }
+}
+
 function hideRecommendationSurfaces() {
   const activePage = isConnectPeople() || isOwnProfile();
 
@@ -141,6 +166,7 @@ function blockProfileNavigation(event) {
 function applyXFilters() {
   renderProfileBlocker();
   hideRecommendationSurfaces();
+  hideSidebarItems();
 }
 
 document.addEventListener("click", blockProfileNavigation, true);
@@ -162,7 +188,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 new MutationObserver(() => {
-  if (mode !== "off") hideRecommendationSurfaces();
+  if (mode === "off") return;
+  hideRecommendationSurfaces();
+  hideSidebarItems();
 }).observe(document.documentElement, { childList: true, subtree: true });
 
 setInterval(() => {

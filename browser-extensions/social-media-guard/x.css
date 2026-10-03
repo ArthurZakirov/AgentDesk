@@ -1,4 +1,5 @@
-[data-xsg-hidden] {
+[data-xsg-hidden],
+[data-xsg-hidden-nav] {
   display: none !important;
 }
 
