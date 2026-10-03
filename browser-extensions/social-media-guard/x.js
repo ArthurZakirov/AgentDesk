@@ -122,7 +122,8 @@ function hideRecommendationSurfaces() {
 
   if (isOwnProfile()) {
     for (const heading of exactHeading("who to follow")) {
-      nearestModule(heading)?.setAttribute("data-xsg-hidden", "");
+      const recommendationCell = heading.closest('[data-testid="cellInnerDiv"]');
+      recommendationCell?.setAttribute("data-xsg-hidden", "");
     }
   }
 }
