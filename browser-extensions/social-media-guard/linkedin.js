@@ -58,6 +58,18 @@ const HIDDEN_CARD_TITLES = new Set([
   "add to your feed",
 ]);
 
+function nearestSidebarCard(element, sidebar) {
+  let node = element;
+
+  while (node && node !== sidebar) {
+    if (node.classList?.contains("artdeco-card")) return node;
+    if (node.parentElement === sidebar) return node;
+    node = node.parentElement;
+  }
+
+  return null;
+}
+
 function hideDistractingCards() {
   if (!parseLinkedInUrl() || mode === "off") {
     document.querySelectorAll("[data-lpg-hidden-card]").forEach((element) => {
@@ -66,14 +78,15 @@ function hideDistractingCards() {
     return;
   }
 
-  const candidates = document.querySelectorAll("h2, h3, h4, strong, span");
-  for (const candidate of candidates) {
-    const title = candidate.textContent?.trim().toLowerCase();
-    if (!HIDDEN_CARD_TITLES.has(title)) continue;
+  const sidebars = document.querySelectorAll("aside, .scaffold-layout__aside");
+  for (const sidebar of sidebars) {
+    for (const candidate of sidebar.querySelectorAll("*")) {
+      const title = candidate.textContent?.trim().toLowerCase();
+      if (!HIDDEN_CARD_TITLES.has(title)) continue;
 
-    const card = candidate.closest(".artdeco-card, section")
-      || candidate.parentElement?.parentElement;
-    card?.setAttribute("data-lpg-hidden-card", "");
+      nearestSidebarCard(candidate, sidebar)
+        ?.setAttribute("data-lpg-hidden-card", "");
+    }
   }
 }
 
