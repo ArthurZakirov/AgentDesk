@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LinkedIn Profile Guard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <h1>Profile Guard</h1>
+    <p>Choose what happens when LinkedIn opens a member profile.</p>
+
+    <label>
+      <input type="radio" name="mode" value="strict">
+      <span><strong>Strict</strong><small>Block profile navigation and cover direct profile URLs.</small></span>
+    </label>
+
+    <label>
+      <input type="radio" name="mode" value="minimal">
+      <span><strong>Minimal</strong><small>Show only the person's name and profile image.</small></span>
+    </label>
+
+    <label>
+      <input type="radio" name="mode" value="off">
+      <span><strong>Off</strong><small>Leave LinkedIn unchanged.</small></span>
+    </label>
+
+    <p id="status" aria-live="polite"></p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

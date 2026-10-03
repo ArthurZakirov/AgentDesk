@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Profile Guard",
+  "version": "0.1.0",
+  "description": "Blocks or minimizes LinkedIn member profiles to prevent unintentional profile browsing.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "LinkedIn Profile Guard",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_start"
+    }
+  ]
+}
