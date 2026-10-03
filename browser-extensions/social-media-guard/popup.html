@@ -3,27 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>LinkedIn Profile Guard</title>
+  <title>Social Media Guard</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <main>
-    <h1>Profile Guard</h1>
-    <p>Choose what happens when LinkedIn opens a member profile.</p>
+    <h1>Social Media Guard</h1>
+    <p>Control how much people-discovery content stays visible across LinkedIn and X.</p>
 
     <label>
       <input type="radio" name="mode" value="strict">
-      <span><strong>Strict</strong><small>Block profile navigation and cover direct profile URLs.</small></span>
+      <span><strong>Strict</strong><small>Hide other profiles and recommendation surfaces on LinkedIn and X.</small></span>
     </label>
 
     <label>
       <input type="radio" name="mode" value="minimal">
-      <span><strong>Minimal</strong><small>Show only the person's name and profile image.</small></span>
+      <span><strong>Minimal</strong><small>LinkedIn profiles show only name and image; X profiles remain hidden.</small></span>
     </label>
 
     <label>
       <input type="radio" name="mode" value="off">
-      <span><strong>Off</strong><small>Leave LinkedIn unchanged.</small></span>
+      <span><strong>Off</strong><small>Leave LinkedIn and X unchanged.</small></span>
     </label>
 
     <p id="status" aria-live="polite"></p>

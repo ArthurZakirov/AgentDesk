@@ -56,16 +56,15 @@ const HIDDEN_CARD_TITLES = new Set([
   "today’s puzzles",
   "today's puzzles",
   "add to your feed",
-  "people you may know",
-  "you might like",
 ]);
 
 function hideDistractingCards() {
-  document.querySelectorAll("[data-lpg-hidden-card]").forEach((element) => {
-    element.removeAttribute("data-lpg-hidden-card");
-  });
-
-  if (mode === "off") return;
+  if (!parseLinkedInUrl() || mode === "off") {
+    document.querySelectorAll("[data-lpg-hidden-card]").forEach((element) => {
+      element.removeAttribute("data-lpg-hidden-card");
+    });
+    return;
+  }
 
   const candidates = document.querySelectorAll("h2, h3, h4, strong, span");
   for (const candidate of candidates) {
@@ -76,6 +75,18 @@ function hideDistractingCards() {
       || candidate.parentElement?.parentElement;
     card?.setAttribute("data-lpg-hidden-card", "");
   }
+}
+
+function hideOwnProfileSidebar() {
+  if (mode === "off" || !isAllowedProfileUrl()) {
+    document.querySelectorAll("[data-lpg-hidden-sidebar]").forEach((element) => {
+      element.removeAttribute("data-lpg-hidden-sidebar");
+    });
+    return;
+  }
+
+  const sidebar = document.querySelector("aside, .scaffold-layout__aside");
+  sidebar?.setAttribute("data-lpg-hidden-sidebar", "");
 }
 
 function ensureRoot() {
@@ -184,6 +195,7 @@ chrome.storage.sync.get({ mode: DEFAULT_MODE }).then((settings) => {
   mode = settings.mode;
   renderProfileGuard();
   hideDistractingCards();
+  hideOwnProfileSidebar();
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
@@ -191,10 +203,14 @@ chrome.storage.onChanged.addListener((changes, area) => {
   mode = changes.mode.newValue ?? DEFAULT_MODE;
   renderProfileGuard();
   hideDistractingCards();
+  hideOwnProfileSidebar();
 });
 
 const observer = new MutationObserver((mutations) => {
-  if (mode !== "off") hideDistractingCards();
+  if (mode !== "off") {
+    hideDistractingCards();
+    hideOwnProfileSidebar();
+  }
 
   if ((!isProfileUrl() && !isMyNetworkUrl()) || mode === "off") return;
 
@@ -217,6 +233,7 @@ setInterval(() => {
 function applyPageFilters() {
   renderProfileGuard();
   hideDistractingCards();
+  hideOwnProfileSidebar();
 }
 
 if (document.readyState === "loading") {
