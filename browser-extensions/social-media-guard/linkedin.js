@@ -36,7 +36,7 @@ function isMyNetworkUrl(value = location.href) {
 
 function isFeedUrl(value = location.href) {
   const url = parseLinkedInUrl(value);
-  return Boolean(url && /^\/feed\/?$/.test(url.pathname));
+  return Boolean(url && (/^\/feed\/?$/.test(url.pathname) || url.pathname === "/"));
 }
 
 function redirectFeedToOwnProfile() {
@@ -115,12 +115,21 @@ function hideOwnProfileSidebar() {
 }
 
 const HIDDEN_NAV_PATHS = [
+  /^\/$/,
   /^\/feed\/?$/,
   /^\/mynetwork(?:\/|$)/,
   /^\/jobs(?:\/|$)/,
   /^\/messaging(?:\/|$)/,
   /^\/notifications(?:\/|$)/,
 ];
+
+const HIDDEN_NAV_LABELS = new Set([
+  "home",
+  "my network",
+  "jobs",
+  "messaging",
+  "notifications",
+]);
 
 function hidePrimaryNavigationItems() {
   document.querySelectorAll("[data-lpg-hidden-nav]").forEach((element) => {
@@ -129,11 +138,19 @@ function hidePrimaryNavigationItems() {
 
   if (mode === "off") return;
 
-  for (const anchor of document.querySelectorAll('header a[href], nav a[href]')) {
-    const url = parseLinkedInUrl(anchor.href);
-    if (!url || !HIDDEN_NAV_PATHS.some((pattern) => pattern.test(url.pathname))) continue;
+  for (const candidate of document.querySelectorAll('header a, header button, nav a, nav button')) {
+    const label = candidate.textContent?.trim().toLowerCase()
+      || candidate.getAttribute("aria-label")?.trim().toLowerCase()
+      || "";
+    const url = candidate.href ? parseLinkedInUrl(candidate.href) : null;
+    const hiddenByPath = Boolean(
+      url && HIDDEN_NAV_PATHS.some((pattern) => pattern.test(url.pathname))
+    );
+    const hiddenByLabel = HIDDEN_NAV_LABELS.has(label);
 
-    const navItem = anchor.closest("li") || anchor;
+    if (!hiddenByPath && !hiddenByLabel) continue;
+
+    const navItem = candidate.closest("li") || candidate;
     navItem.setAttribute("data-lpg-hidden-nav", "");
   }
 }
@@ -220,6 +237,13 @@ function blockRestrictedNavigation(event) {
   const anchor = event.target.closest?.("a[href]");
   if (!anchor) return;
 
+  if (isFeedUrl(anchor.href)) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    location.assign("https://www.linkedin.com/in/arthurzakirov/");
+    return;
+  }
+
   const blockedProfile = mode === "strict"
     && isProfileUrl(anchor.href)
     && !isAllowedProfileUrl(anchor.href);
@@ -242,19 +266,13 @@ if ((isProfileUrl() && !isAllowedProfileUrl()) || isMyNetworkUrl()) {
 
 chrome.storage.sync.get({ mode: DEFAULT_MODE }).then((settings) => {
   mode = settings.mode;
-  renderProfileGuard();
-  hideDistractingCards();
-  hideOwnProfileSidebar();
-  hidePrimaryNavigationItems();
+  applyPageFilters();
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== "sync" || !changes.mode) return;
   mode = changes.mode.newValue ?? DEFAULT_MODE;
-  renderProfileGuard();
-  hideDistractingCards();
-  hideOwnProfileSidebar();
-  hidePrimaryNavigationItems();
+  applyPageFilters();
 });
 
 const observer = new MutationObserver((mutations) => {
@@ -279,7 +297,7 @@ observer.observe(document.documentElement, { childList: true, subtree: true });
 setInterval(() => {
   if (location.href === lastUrl) return;
   lastUrl = location.href;
-  renderProfileGuard();
+  applyPageFilters();
 }, 250);
 
 function applyPageFilters() {
