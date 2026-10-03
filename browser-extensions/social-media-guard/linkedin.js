@@ -114,6 +114,21 @@ function hideOwnProfileSidebar() {
   sidebar?.setAttribute("data-lpg-hidden-sidebar", "");
 }
 
+function hideOwnProfileInterests() {
+  document.querySelectorAll("[data-lpg-hidden-interests]").forEach((element) => {
+    element.removeAttribute("data-lpg-hidden-interests");
+  });
+
+  if (mode === "off" || !isAllowedProfileUrl()) return;
+
+  for (const heading of document.querySelectorAll("h2, h3, span")) {
+    if (heading.textContent?.trim().toLowerCase() !== "interests") continue;
+
+    const section = heading.closest("section, .artdeco-card");
+    section?.setAttribute("data-lpg-hidden-interests", "");
+  }
+}
+
 const HIDDEN_NAV_PATHS = [
   /^\/$/,
   /^\/feed\/?$/,
@@ -279,6 +294,7 @@ const observer = new MutationObserver((mutations) => {
   if (mode !== "off") {
     hideDistractingCards();
     hideOwnProfileSidebar();
+    hideOwnProfileInterests();
     hidePrimaryNavigationItems();
   }
 
@@ -306,6 +322,7 @@ function applyPageFilters() {
   renderProfileGuard();
   hideDistractingCards();
   hideOwnProfileSidebar();
+  hideOwnProfileInterests();
   hidePrimaryNavigationItems();
 }
 
