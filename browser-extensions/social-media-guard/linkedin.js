@@ -147,10 +147,11 @@ const HIDDEN_NAV_LABELS = new Set([
 ]);
 
 function hidePrimaryNavigationItems() {
-  document.querySelectorAll("[data-lpg-hidden-nav], [data-lpg-hidden-search], [data-lpg-hidden-business]").forEach((element) => {
+  document.querySelectorAll("[data-lpg-hidden-nav], [data-lpg-hidden-search], [data-lpg-hidden-business], [data-lpg-hidden-logo]").forEach((element) => {
     element.removeAttribute("data-lpg-hidden-nav");
     element.removeAttribute("data-lpg-hidden-search");
     element.removeAttribute("data-lpg-hidden-business");
+    element.removeAttribute("data-lpg-hidden-logo");
   });
 
   if (mode === "off") return;
@@ -160,6 +161,11 @@ function hidePrimaryNavigationItems() {
   );
   const searchContainer = search?.closest("form, div");
   searchContainer?.setAttribute("data-lpg-hidden-search", "");
+
+  const logo = document.querySelector(
+    'header .global-nav__branding, header a[aria-label="LinkedIn"], header a[data-tracking-control-name*="logo" i]'
+  );
+  logo?.setAttribute("data-lpg-hidden-logo", "");
 
   for (const candidate of document.querySelectorAll('header a, header button, nav a, nav button')) {
     const label = candidate.textContent?.trim().toLowerCase()

@@ -15,7 +15,8 @@ html[data-lpg-active] body > *:not(#lpg-root) {
 [data-lpg-hidden-interests],
 [data-lpg-hidden-nav],
 [data-lpg-hidden-search],
-[data-lpg-hidden-business] {
+[data-lpg-hidden-business],
+[data-lpg-hidden-logo] {
   display: none !important;
 }
 
