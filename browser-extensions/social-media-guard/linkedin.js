@@ -34,6 +34,18 @@ function isMyNetworkUrl(value = location.href) {
   return Boolean(url && MY_NETWORK_PATH.test(url.pathname));
 }
 
+function isFeedUrl(value = location.href) {
+  const url = parseLinkedInUrl(value);
+  return Boolean(url && /^\/feed\/?$/.test(url.pathname));
+}
+
+function redirectFeedToOwnProfile() {
+  if (mode === "off" || !isFeedUrl()) return false;
+
+  location.replace("https://www.linkedin.com/in/arthurzakirov/");
+  return true;
+}
+
 function getProfileName() {
   const heading = document.querySelector("main h1");
   if (heading?.textContent?.trim()) return heading.textContent.trim();
@@ -244,6 +256,8 @@ setInterval(() => {
 }, 250);
 
 function applyPageFilters() {
+  if (redirectFeedToOwnProfile()) return;
+
   renderProfileGuard();
   hideDistractingCards();
   hideOwnProfileSidebar();
