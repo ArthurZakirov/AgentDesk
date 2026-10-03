@@ -170,6 +170,7 @@ The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-
 │   ├── create-claude-command.sh
 │   ├── create-shared-skill.sh
 │   ├── generate-readme.py
+│   ├── generate_raycast_quicklinks.py
 │   ├── install-git-hooks.sh
 │   ├── install-global-guidance.sh
 │   ├── regenerate-agents-md.py
