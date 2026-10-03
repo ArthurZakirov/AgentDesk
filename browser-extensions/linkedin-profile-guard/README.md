@@ -6,9 +6,11 @@ A local Chrome extension that removes the reward surface from LinkedIn member pr
 
 | Mode | Result |
 | --- | --- |
-| **Strict** | Default. Prevents normal clicks to `/in/...` profiles and fully covers profiles opened directly or in a new tab. |
-| **Minimal** | Covers the profile but retains only the person's name and, when LinkedIn exposes it in the loaded DOM, their profile image. |
+| **Strict** | Default. Prevents normal clicks to `/in/...` profiles and fully covers profiles opened directly or in a new tab. Arthur's own `/in/arthurzakirov/` profile is always allowed. |
+| **Minimal** | Covers other member profiles but retains only the person's name and, when LinkedIn exposes it in the loaded DOM, their profile image. Arthur's own profile remains fully accessible. |
 | **Off** | Leaves LinkedIn unchanged. |
+
+In both Strict and Minimal modes, `/mynetwork` and every subpath below it (for example `/mynetwork/...`) are blocked and fully covered when opened directly.
 
 The extension intentionally avoids selectors for Experience, Activity, Education, and similar sections. Hiding the whole profile surface is simpler and less sensitive to LinkedIn DOM changes.
 

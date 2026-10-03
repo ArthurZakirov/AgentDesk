@@ -1,16 +1,37 @@
 const DEFAULT_MODE = "strict";
 const PROFILE_PATH = /^\/in\/[^/]+\/?/;
+const MY_NETWORK_PATH = /^\/mynetwork(?:\/|$)/;
+const ALLOWED_PROFILE_PATHS = new Set(["/in/arthurzakirov"]);
 
 let mode = DEFAULT_MODE;
 let lastUrl = location.href;
 
-function isProfileUrl(value = location.href) {
+function parseLinkedInUrl(value = location.href) {
   try {
-    return new URL(value, location.origin).hostname.endsWith("linkedin.com")
-      && PROFILE_PATH.test(new URL(value, location.origin).pathname);
+    const url = new URL(value, location.origin);
+    return url.hostname.endsWith("linkedin.com") ? url : null;
   } catch {
-    return false;
+    return null;
   }
+}
+
+function normalizeProfilePath(pathname) {
+  return pathname.replace(/\/+$/, "").toLowerCase();
+}
+
+function isAllowedProfileUrl(value = location.href) {
+  const url = parseLinkedInUrl(value);
+  return url ? ALLOWED_PROFILE_PATHS.has(normalizeProfilePath(url.pathname)) : false;
+}
+
+function isProfileUrl(value = location.href) {
+  const url = parseLinkedInUrl(value);
+  return Boolean(url && PROFILE_PATH.test(url.pathname));
+}
+
+function isMyNetworkUrl(value = location.href) {
+  const url = parseLinkedInUrl(value);
+  return Boolean(url && MY_NETWORK_PATH.test(url.pathname));
 }
 
 function getProfileName() {
@@ -45,7 +66,9 @@ function ensureRoot() {
 
 function renderProfileGuard() {
   const profile = isProfileUrl();
-  const active = profile && mode !== "off";
+  const myNetwork = isMyNetworkUrl();
+  const active = mode !== "off"
+    && ((profile && !isAllowedProfileUrl()) || myNetwork);
 
   document.documentElement.toggleAttribute("data-lpg-active", active);
   document.documentElement.dataset.lpgMode = active ? mode : "";
@@ -61,11 +84,13 @@ function renderProfileGuard() {
   const card = document.createElement("section");
   card.className = "lpg-card";
 
-  if (mode === "strict") {
+  if (myNetwork || mode === "strict") {
     card.innerHTML = `
       <p class="lpg-kicker">LinkedIn Profile Guard</p>
-      <h1>Profile hidden</h1>
-      <p>This member profile is intentionally unavailable in Strict mode.</p>
+      <h1>${myNetwork ? "My Network hidden" : "Profile hidden"}</h1>
+      <p>${myNetwork
+        ? "LinkedIn My Network is intentionally unavailable."
+        : "This member profile is intentionally unavailable in Strict mode."}</p>
       <button id="lpg-back" type="button">Go back</button>
     `;
     root.replaceChildren(card);
@@ -103,21 +128,28 @@ function showBlockedClick() {
   setTimeout(() => toast.remove(), 1800);
 }
 
-function blockProfileNavigation(event) {
-  if (mode !== "strict") return;
+function blockRestrictedNavigation(event) {
+  if (mode === "off") return;
 
   const anchor = event.target.closest?.("a[href]");
-  if (!anchor || !isProfileUrl(anchor.href)) return;
+  if (!anchor) return;
+
+  const blockedProfile = mode === "strict"
+    && isProfileUrl(anchor.href)
+    && !isAllowedProfileUrl(anchor.href);
+  const blockedNetwork = isMyNetworkUrl(anchor.href);
+
+  if (!blockedProfile && !blockedNetwork) return;
 
   event.preventDefault();
   event.stopImmediatePropagation();
   showBlockedClick();
 }
 
-document.addEventListener("click", blockProfileNavigation, true);
-document.addEventListener("auxclick", blockProfileNavigation, true);
+document.addEventListener("click", blockRestrictedNavigation, true);
+document.addEventListener("auxclick", blockRestrictedNavigation, true);
 
-if (isProfileUrl()) {
+if ((isProfileUrl() && !isAllowedProfileUrl()) || isMyNetworkUrl()) {
   document.documentElement.setAttribute("data-lpg-active", "");
   document.documentElement.dataset.lpgMode = DEFAULT_MODE;
 }
@@ -134,7 +166,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 const observer = new MutationObserver((mutations) => {
-  if (!isProfileUrl() || mode !== "minimal") return;
+  if ((!isProfileUrl() && !isMyNetworkUrl()) || mode === "off") return;
 
   const onlyGuardChanges = mutations.every((mutation) => {
     const target = mutation.target;
