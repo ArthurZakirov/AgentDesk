@@ -158,6 +158,37 @@ function hideRecommendationSurfaces() {
   }
 
   if (isOwnProfile()) {
+    const userCells = [...document.querySelectorAll('[data-testid="UserCell"]')];
+    let recommendationModule = null;
+
+    for (const cell of userCells) {
+      let node = cell.parentElement;
+
+      while (node && node !== document.body) {
+        const userCellCount = node.querySelectorAll?.('[data-testid="UserCell"]').length ?? 0;
+        const tweetCount = node.querySelectorAll?.('[data-testid="tweet"]').length ?? 0;
+
+        if (userCellCount >= 2 && tweetCount === 0) {
+          recommendationModule = node;
+          break;
+        }
+
+        if (node.matches?.("main, [role='main']")) break;
+        node = node.parentElement;
+      }
+
+      if (recommendationModule) break;
+    }
+
+    if (recommendationModule) {
+      recommendationModule.setAttribute("data-xsg-hidden", "");
+    } else {
+      for (const cell of userCells) {
+        (cell.closest('[data-testid="cellInnerDiv"]') ?? cell)
+          .setAttribute("data-xsg-hidden", "");
+      }
+    }
+
     for (const heading of exactHeading("who to follow")) {
       const recommendationCell = heading.closest('[data-testid="cellInnerDiv"]');
       recommendationCell?.setAttribute("data-xsg-hidden", "");
