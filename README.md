@@ -102,6 +102,16 @@ curl -fsSL https://raw.githubusercontent.com/ArthurZakirov/AgentDesk/main/script
 
 The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-in generated `AGENTS.md` plus `agents-md-references/`, mirrors the canonical guidance sources under `$CODEX_HOME/agentdesk-source/`, rewrites maintenance/source links to those local files for editor navigation, and backs up existing guidance before replacement.
 
+### Repository workspace layout
+
+Configure the canonical personal, third-party, professional, and ticket workspace roots with:
+
+```bash
+python3 scripts/setup-repository-workspace.py
+```
+
+The setup migrates the legacy `Repos/open-source` directory into `Repos/third-party` only when no repository-name collision exists, exports the path variables from `~/.zshrc`, and injects the same non-secret values into Codex through `~/.codex/config.toml` → `[shell_environment_policy.set]`. Use `--check` to verify an existing setup.
+
 ## Included Skills
 
 <!-- BEGIN GENERATED SECTION: skills -->
@@ -175,6 +185,7 @@ The installer respects `$CODEX_HOME` (default `~/.codex`), installs the checked-
 │   ├── regenerate-agents-md.py
 │   ├── repository_registry.py
 │   ├── setup-local-links.sh
+│   ├── setup-repository-workspace.py
 │   └── update-readme.sh
 ├── skills/
 │   ├── aerospace-macos-setup/

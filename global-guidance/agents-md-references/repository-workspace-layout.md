@@ -1,0 +1,61 @@
+# Repository workspace layout
+
+Use these rules after the global Git workflow selects this reference for repository cloning, checkout placement, branching, or worktree creation.
+
+## Canonical roots
+
+Use the environment variables below instead of hardcoding machine-specific absolute paths.
+
+| Purpose | Root |
+| --- | --- |
+| Parent for canonical base clones | `$REPOS_DIR` |
+| Arthur-owned/personal repositories | `$PERSONAL_REPOS_DIR` |
+| Repositories owned by other people or organizations | `$THIRD_PARTY_REPOS_DIR` |
+| Employer/client/professional repositories | `$PROFESSIONAL_REPOS_DIR` |
+| Per-task workspaces | `$TICKETS_DIR` |
+
+`third-party` is the single canonical category for externally owned repositories, including open-source repositories. Do not create or use a parallel `open-source` repository root.
+
+Arthur's personal GitHub account is `ArthurZakirov`. Prefer SSH remotes for GitHub repositories unless the current environment requires another authenticated transport.
+
+## Clone before repository work
+
+- Before reading or changing repository content, ensure the repository has a local canonical base clone.
+- If the canonical clone already exists, reuse it rather than creating a second base clone. Fetch the latest remote refs before current-state analysis or implementation.
+- If it does not exist, clone it into the root selected by ownership:
+  - Arthur-owned/personal → `$PERSONAL_REPOS_DIR/<repo-name>`
+  - externally owned/third-party → `$THIRD_PARTY_REPOS_DIR/<repo-name>`
+  - employer/client/professional → `$PROFESSIONAL_REPOS_DIR/<repo-name>`
+- Do not create or modify repository files through GitHub web/API operations as a substitute for a local Git checkout. Remote operations such as opening a pull request may follow the local commit/push workflow.
+- When ownership is ambiguous, use repository/remote evidence and the user's context. Do not classify a repository as professional merely because it is private.
+
+## Ticket worktrees
+
+Any task that will change repository files gets an isolated task workspace.
+
+1. Resolve a work ID. Reuse an external ticket/issue ID when one exists; otherwise create a stable local ID such as `LOCAL-YYYYMMDD-<slug>`.
+2. Create the task root at `$TICKETS_DIR/<work-id>/`.
+3. Create repository worktrees only under `$TICKETS_DIR/<work-id>/Work Trees/`.
+4. For each repository involved in the task, create one worktree at `$TICKETS_DIR/<work-id>/Work Trees/<repo-name>`.
+5. Create the implementation branch from the latest fetched upstream default branch as required by the parent Git workflow. Prefer branch names beginning with the work ID unless a repository-specific convention requires another format.
+
+For cross-repository work, all worktrees for the same task share the same `$TICKETS_DIR/<work-id>/Work Trees/` parent.
+
+Do not place task worktrees:
+
+- inside `$REPOS_DIR` or any of its ownership roots;
+- directly inside `$TICKETS_DIR`; or
+- directly inside `$TICKETS_DIR/<work-id>/` without the `Work Trees` level.
+
+The canonical base clone stays in its repository root; the ticket worktree is the mutable implementation checkout.
+
+## Machine setup
+
+Run `scripts/setup-repository-workspace.py` from the AgentDesk checkout when provisioning or repairing this layout. It:
+
+- creates the canonical repository and ticket directories;
+- migrates the legacy `$REPOS_DIR/open-source` contents into `$THIRD_PARTY_REPOS_DIR`, failing before any move if names collide;
+- writes the non-secret path variables to `~/.zshrc`; and
+- writes the same concrete path values into Codex's `~/.codex/config.toml` under `[shell_environment_policy.set]`.
+
+Codex uses `shell_environment_policy.set` for these explicit command-environment values; do not invent a parallel `~/.codex/.env` source of truth.
