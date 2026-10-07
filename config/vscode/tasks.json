@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Git: Review Range",
+      "type": "shell",
+      "command": "git review-range",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    },
+    {
+      "label": "Git: Review Last Commit",
+      "type": "shell",
+      "command": "git review HEAD",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    },
+    {
+      "label": "Git: Review Specific Commit",
+      "type": "shell",
+      "command": "git review ${input:reviewCommit}",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    },
+    {
+      "label": "Git: Unreview",
+      "type": "shell",
+      "command": "git unreview",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "reviewCommit",
+      "type": "promptString",
+      "description": "Commit to review (hash, tag, or Git revision)",
+      "default": "HEAD"
+    }
+  ]
+}

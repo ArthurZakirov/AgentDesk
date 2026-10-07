@@ -1,0 +1,10 @@
+[alias]
+	# Open one commit as editable changes in an isolated disposable review worktree.
+	review = "!agentdesk-git-review commit"
+
+	# Open the cumulative branch/PR diff in an isolated disposable review worktree.
+	# With no arguments, compare HEAD with the fetched upstream default branch.
+	review-range = "!agentdesk-git-review range"
+
+	# Leave an isolated review worktree and return VS Code to its source worktree.
+	unreview = "!agentdesk-git-review unreview"
