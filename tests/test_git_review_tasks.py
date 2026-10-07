@@ -5,12 +5,16 @@ from pathlib import Path
 import subprocess
 import time
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_unreview_from_active_file_directory(tmp_path):
+@pytest.mark.parametrize("from_source", [False, True])
+@pytest.mark.parametrize("review_mode", ["commit", "range"])
+def test_unreview_without_active_editor(tmp_path, from_source, review_mode):
     tasks = json.loads((ROOT / 'config/vscode/tasks.json').read_text())['tasks']
-    assert all(task['options']['cwd'] == '${fileDirname}' for task in tasks)
+    assert all(task['options']['cwd'] == '${workspaceFolder}' for task in tasks)
     unreview_task = next(task for task in tasks if task['label'] == 'Git: Unreview')
     source = tmp_path / 'source'
     source.mkdir()
@@ -19,7 +23,7 @@ def test_unreview_from_active_file_directory(tmp_path):
     bin_dir = tmp_path / 'bin'
     bin_dir.mkdir()
     code = bin_dir / 'code'
-    code.write_text('#!/bin/sh\nexit 0\n')
+    code.write_text('#!/bin/sh\nprintf \'%s\\n\' \"$2\" >> \"$HOME/opened-folders\"\n')
     code.chmod(0o755)
     helper = bin_dir / 'agentdesk-git-review'
     helper.write_bytes((ROOT / 'scripts/git-review-worktree.py').read_bytes())
@@ -41,16 +45,18 @@ def test_unreview_from_active_file_directory(tmp_path):
     git('commit', '-m', 'base')
     file.write_text('after\n')
     git('commit', '-am', 'target')
-    review = Path(git('review', 'HEAD').splitlines()[-1])
+    review_output = git('review', 'HEAD') if review_mode == 'commit' else git('review-range', 'HEAD^')
+    review = Path(review_output.splitlines()[-1])
     assert (review / 'nested/file.txt').read_text() == 'after\n'
-    # VS Code resolves ${fileDirname} from the active review editor, even
-    # when the window's original workspace folder is the source checkout.
-    result = subprocess.run(unreview_task['command'].split(), cwd=review / 'nested',
+    # Exercise both the review checkout and the original workspace folder.
+    task_cwd = source if from_source else review / 'nested'
+    result = subprocess.run(unreview_task['command'].split(), cwd=task_cwd,
                             env=env, check=True, capture_output=True, text=True)
     assert result.stdout.strip() == str(source)
     deadline = time.monotonic() + 5
     while review.exists() and time.monotonic() < deadline:
         time.sleep(0.05)
     assert not review.exists()
+    assert (tmp_path / 'opened-folders').read_text().splitlines() == [str(review), str(source)]
     assert file.read_text() == 'after\n'
     assert git('status', '--porcelain') == ''

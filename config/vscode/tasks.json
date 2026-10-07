@@ -5,7 +5,7 @@
       "label": "Git: Review Range",
       "type": "shell",
       "command": "git review-range",
-      "options": { "cwd": "${fileDirname}" },
+      "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": [],
       "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
     },
@@ -13,7 +13,7 @@
       "label": "Git: Review Last Commit",
       "type": "shell",
       "command": "git review HEAD",
-      "options": { "cwd": "${fileDirname}" },
+      "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": [],
       "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
     },
@@ -21,7 +21,7 @@
       "label": "Git: Review Specific Commit",
       "type": "shell",
       "command": "git review ${input:reviewCommit}",
-      "options": { "cwd": "${fileDirname}" },
+      "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": [],
       "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
     },
@@ -29,7 +29,7 @@
       "label": "Git: Unreview",
       "type": "shell",
       "command": "git unreview",
-      "options": { "cwd": "${fileDirname}" },
+      "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": [],
       "presentation": { "echo": false, "reveal": "silent", "focus": false, "panel": "dedicated", "close": true }
     }

@@ -18,9 +18,10 @@ Install with:
 ./scripts/install-vscode-tasks.sh
 ```
 
-The tasks run in the directory of the active editor file. Select a file in the
-repository you want to review; for `Git: Unreview`, select a file in the temporary
-review checkout. This also works when the window contains several repositories.
+The tasks run from the workspace folder and do not require an open editor.
+`Git: Unreview` also finds a review launched from the source checkout. If several
+reviews exist for that checkout, run `git unreview` inside the review you want to
+close; the helper refuses to choose one arbitrarily.
 
 Use `⇧⌘P` → `Tasks: Run Task`, then choose the Git task. The source checkout
 stays untouched while VS Code displays ordinary working-tree changes in the

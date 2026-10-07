@@ -53,7 +53,7 @@ def default_base(cwd: Path) -> str:
 def open_vscode(path: Path) -> None:
     code = shutil.which("code")
     if code:
-        subprocess.Popen([code, "-r", str(path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run([code, "-r", str(path)], check=True)
     else:
         print(f"Review worktree ready: {path}")
 
@@ -98,19 +98,36 @@ def unreview(cwd: Path) -> None:
     review_git_dir = Path(git("rev-parse", "--path-format=absolute", "--git-dir", cwd=review))
     marker = review_git_dir / "AGENTDESK_REVIEW.json"
     if not marker.exists():
-        raise SystemExit("Not in an AgentDesk review worktree.")
+        # User tasks run from the workspace folder, which can still be the
+        # source checkout while VS Code displays files from a review worktree.
+        candidates = []
+        listing = git("worktree", "list", "--porcelain", "-z", cwd=review)
+        for field in listing.split("\0"):
+            if not field.startswith("worktree "):
+                continue
+            candidate = Path(field[len("worktree "):])
+            if not candidate.is_dir():
+                continue
+            candidate_git_dir = Path(git(
+                "rev-parse", "--path-format=absolute", "--git-dir", cwd=candidate,
+            ))
+            candidate_marker = candidate_git_dir / "AGENTDESK_REVIEW.json"
+            if not candidate_marker.exists():
+                continue
+            data = json.loads(candidate_marker.read_text())
+            if data.get("agentdesk_review") and Path(data["source_worktree"]) == review:
+                candidates.append((candidate, candidate_marker))
+        if len(candidates) != 1:
+            if candidates:
+                raise SystemExit("Multiple review worktrees found. Run git unreview inside the review you want to close.")
+            raise SystemExit("No AgentDesk review worktree found for this checkout.")
+        review, marker = candidates[0]
     data = json.loads(marker.read_text())
     if not data.get("agentdesk_review"):
         raise SystemExit("Invalid AgentDesk review metadata.")
     source = Path(data["source_worktree"])
-    code = shutil.which("code")
-    if code:
-        subprocess.Popen([code, "-r", str(source)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    subprocess.Popen(
-        ["git", "-C", str(source), "worktree", "remove", "--force", str(review)],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        start_new_session=True,
-    )
+    open_vscode(source)
+    git("worktree", "remove", "--force", str(review), cwd=source, capture=False)
     print(source)
 
 
