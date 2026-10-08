@@ -14,6 +14,7 @@ dofile(hs.configdir .. "/modules/spaces.lua")
 dofile(hs.configdir .. "/modules/window_picker.lua")
 dofile(hs.configdir .. "/modules/chrome.lua")
 dofile(hs.configdir .. "/modules/claude.lua")
+dofile(hs.configdir .. "/modules/chatgpt.lua")
 dofile(hs.configdir .. "/modules/layout.lua")
 
 hs.hotkey.bind(AgentDesk.hyper, "r", hs.reload)
