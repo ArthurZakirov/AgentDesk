@@ -1,0 +1,99 @@
+html[data-lpg-active] body {
+  overflow: hidden !important;
+}
+
+html[data-lpg-active] body > *:not(#lpg-root) {
+  visibility: hidden !important;
+}
+
+#lpg-root {
+  visibility: visible !important;
+}
+
+[data-lpg-hidden-card],
+[data-lpg-hidden-sidebar],
+[data-lpg-hidden-interests],
+[data-lpg-hidden-nav],
+[data-lpg-hidden-search],
+[data-lpg-hidden-business],
+[data-lpg-hidden-logo] {
+  display: none !important;
+}
+
+html[data-lpg-active] #lpg-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: Canvas;
+  color: CanvasText;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.lpg-card {
+  width: min(480px, 100%);
+  text-align: center;
+}
+
+.lpg-card h1 {
+  margin: 8px 0;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.lpg-card p {
+  margin: 0 auto 16px;
+  max-width: 420px;
+  color: color-mix(in srgb, CanvasText 65%, Canvas);
+  line-height: 1.5;
+}
+
+.lpg-kicker {
+  margin-bottom: 6px !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lpg-card button {
+  appearance: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: Canvas;
+  color: CanvasText;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lpg-avatar-slot {
+  min-height: 112px;
+  display: grid;
+  place-items: center;
+}
+
+.lpg-avatar {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lpg-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 2147483647;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 32px);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: CanvasText;
+  color: Canvas;
+  font: 600 13px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 4px 18px color-mix(in srgb, CanvasText 20%, transparent);
+}

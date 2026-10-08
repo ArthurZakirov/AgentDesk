@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Social Media Guard",
+  "version": "0.2.0",
+  "description": "Reduces distracting profile and recommendation surfaces on LinkedIn and X.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Social Media Guard",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["linkedin.js"],
+      "css": ["linkedin.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://x.com/*"],
+      "js": ["x.js"],
+      "css": ["x.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

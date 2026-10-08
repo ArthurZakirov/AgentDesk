@@ -1,0 +1,70 @@
+[data-xsg-hidden],
+[data-xsg-hidden-nav] {
+  display: none !important;
+}
+
+html[data-xsg-active] body {
+  overflow: hidden !important;
+}
+
+html[data-xsg-active] body > *:not(#xsg-root) {
+  visibility: hidden !important;
+}
+
+#xsg-root {
+  visibility: visible !important;
+}
+
+html[data-xsg-active] #xsg-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid !important;
+  place-items: center;
+  padding: 24px;
+  background: Canvas;
+  color: CanvasText;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#xsg-root[hidden] {
+  display: none !important;
+}
+
+.xsg-card {
+  width: min(480px, 100%);
+  text-align: center;
+}
+
+.xsg-card h1 {
+  margin: 8px 0;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.xsg-card p {
+  margin: 0 auto 16px;
+  max-width: 420px;
+  color: color-mix(in srgb, CanvasText 65%, Canvas);
+  line-height: 1.5;
+}
+
+.xsg-kicker {
+  margin-bottom: 6px !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.xsg-card button {
+  appearance: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: Canvas;
+  color: CanvasText;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
