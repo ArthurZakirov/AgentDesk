@@ -17,7 +17,7 @@ from bedtime_guard import clock_now, parse_clock
 
 
 MANAGED_MARKER = "agentdesk-bedtime-device-guard"
-INSTALL_DIR_NAME = "bedtime-device-guard"
+INSTALL_DIR_NAME = "hooks-json/bedtime-device-guard"
 
 
 def codex_home_from_args(value: str | None) -> Path:
@@ -172,6 +172,10 @@ def install(args: argparse.Namespace) -> int:
 
     document = read_hooks(hooks_path)
     hooks, groups = validate_hooks_shape(document)
+    legacy_dir = codex_home / "bedtime-device-guard"
+    if legacy_dir.exists() and not install_dir.exists():
+        install_dir.parent.mkdir(parents=True, exist_ok=True)
+        legacy_dir.rename(install_dir)
     install_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy2(Path(__file__).with_name("bedtime_guard.py"), script_destination)
     atomic_json_write(
