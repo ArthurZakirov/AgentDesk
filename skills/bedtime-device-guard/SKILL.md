@@ -76,8 +76,8 @@ On Windows, replace `python3` with `py -3`.
 For a behavior check without waiting for bedtime, invoke the installed hook with `--now` and a local ISO timestamp. The test-only time override changes no configuration:
 
 ```bash
-python3 "$HOME/.codex/bedtime-device-guard/bedtime_guard.py" \
-  --config "$HOME/.codex/bedtime-device-guard/config.json" \
+python3 "$HOME/.codex/hooks-json/bedtime-device-guard/bedtime_guard.py" \
+  --config "$HOME/.codex/hooks-json/bedtime-device-guard/config.json" \
   --now 2030-01-01T23:00:00
 ```
 

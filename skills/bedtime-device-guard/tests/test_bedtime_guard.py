@@ -154,7 +154,7 @@ class InstallerTests(unittest.TestCase):
             self.assertTrue(any(h.get("command") == "other" for h in handlers))
             self.assertEqual(
                 json.loads(
-                    (home / "bedtime-device-guard" / "config.json").read_text(encoding="utf-8")
+                    (home / "hooks-json" / "bedtime-device-guard" / "config.json").read_text(encoding="utf-8")
                 )["start"],
                 "23:15",
             )
@@ -185,7 +185,7 @@ class InstallerTests(unittest.TestCase):
             self.assertEqual(remaining["other"], "preserved")
             self.assertIn("Stop", remaining["hooks"])
             self.assertNotIn("UserPromptSubmit", remaining["hooks"])
-            self.assertFalse((home / "bedtime-device-guard").exists())
+            self.assertFalse((home / "hooks-json" / "bedtime-device-guard").exists())
 
     def test_invalid_existing_json_is_not_overwritten(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
