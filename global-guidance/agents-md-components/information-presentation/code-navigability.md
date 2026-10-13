@@ -1,0 +1,8 @@
+<a id="code-navigability"></a>
+# 🧭 Code navigability
+
+When writing, modifying, or reviewing code, optimize for the human reviewer’s ability to traverse relationships using the repository’s IDE and language server: Go to Definition, Find References, type/member navigation, call hierarchy, local search, and workspace search. Prefer resolvable symbols, informative types, explicit dependencies, and stable, searchable names over avoidable string-based indirection or opaque dynamic state. Treat data fields as navigable interfaces too: prefer explicit structured contracts for recurring JSON/dictionary shapes and centrally defined column/schema identifiers for DataFrame pipelines where they improve discoverability. Do not add type casts or abstraction solely to satisfy a checker when they misrepresent runtime behavior.
+
+Before substantial code work, follow the repository’s existing toolchain to ensure dependencies, interpreter/runtime, workspace settings, and language-server resolution are usable; do not overwrite a deliberate developer-selected interpreter or introduce a competing environment manager. Verify what is possible headlessly and distinguish that from what requires an actual IDE check.
+
+Apply existing static-analysis and repository checks; where a project lacks coverage, propose narrowly scoped, incremental checks rather than blanket strict-mode changes. For Python, prefer explicit, meaningful types at public boundaries and for fixtures, mocks, and shared test state; validate import and member resolution with Pyright when available. See SystemSmith’s `code-navigability` skill for patterns and verification limits.
