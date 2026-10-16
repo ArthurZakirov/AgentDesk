@@ -81,6 +81,27 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
 
 
+def test_requirements_scope_validation_trigger_and_reference() -> None:
+    entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    procedure = (FIXTURE / "agents-md-references" / "requirements-scope-validation.md").read_text(encoding="utf-8")
+    assert "- [🎯 Requirements and scope validation](#requirements-scope-validation)" in entrypoint
+    assert "**Before making an implementation change:**" in entrypoint
+    assert "whether requested by the user or initiated by the agent" in entrypoint
+    assert "[requirements and scope validation procedure](agents-md-references/requirements-scope-validation.md)" in entrypoint
+    assert "**Establish the baseline.**" in procedure
+    assert "**Identify intended changes.**" in procedure
+    assert "**Test proportionality at the boundary.**" in procedure
+    assert "**Proceed or clarify.**" in procedure
+    assert "**Verify the outcome.**" in procedure
+    for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Optional scope expansion**", "**Unresolved**"):
+        assert category in procedure
+        assert category not in entrypoint
+    assert "focused unit tests" in procedure
+    assert "new end-to-end framework" in procedure
+    assert "separately triggered [effort checkpoint procedure](effort-scope-checkpoints.md)" in procedure
+    assert "Before making an implementation change" not in procedure
+
+
 def test_effort_checkpoint_reference_contains_procedure() -> None:
     entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
     procedure_path = FIXTURE / "agents-md-references" / "effort-scope-checkpoints.md"

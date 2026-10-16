@@ -1,0 +1,21 @@
+# Requirements and scope validation procedure
+
+Evaluate intended changes against the accepted outcome and normal engineering obligations **before** labeling them necessary, supporting, or extra. Neither the user's suggestion nor the agent's initiative establishes that a measure belongs in scope.
+
+1. **Establish the baseline.** Inspect the controlling request or ticket, acceptance criteria, specifications, recorded decisions, existing behavior, and applicable technical contracts. Also check the repository's existing tests, CI requirements, nearby implementations, documented conventions, and applicable team engineering standards. Requirements need not all be spelled out in acceptance criteria; do not invent a ticket or demand one for a personal tool.
+2. **Identify intended changes.** Include changes proposed by the user **and** changes the agent plans autonomously: implementation details, tests, validation, error handling, fallbacks, integration work, and cleanup. Evaluate a coherent change set rather than interrupting every trivial edit.
+3. **Determine what belongs in the work.** Ground each material measure in the baseline and distinguish:
+
+   | Classification | Decision basis |
+   | --- | --- |
+   | **Explicitly required** | The accepted outcome, acceptance criteria, contract, or authorized scope decision directly calls for it. |
+   | **Implicitly expected engineering work** | A proportionate part of delivering a correct, maintainable change under established repository/team conventions or ordinary applicable engineering standards (for example, focused unit tests for changed logic). The absence of an explicit acceptance criterion is not proof that it is extra. |
+   | **Technically necessary** | Required by a demonstrated dependency, invariant, or system constraint to deliver the accepted outcome; use the smallest sufficient approach. |
+   | **Optional scope expansion** | Adds independent behavior, generalized infrastructure, extensive testing, hardening, refactoring, or maintenance burden beyond what the outcome and standards justify. A generic appeal to "best practices" is not sufficient evidence. |
+   | **Unresolved** | Depends on missing domain rules, an unknown contract, or an unverified assumption; inspect available evidence instead of guessing. |
+
+4. **Test proportionality at the boundary.** Ask whether the measure is needed to make this change reliably complete, consistent with comparable code, and appropriately verifiable—or whether it creates a separately valuable capability or materially increases review, maintenance, and delivery cost. For example, focused unit tests may be routine completion work; introducing a new end-to-end framework or broad regression suite is not automatically justified by the same expectation. There is no universal quantitative cutoff: use local evidence and the trade-off.
+5. **Proceed or clarify.** Implement explicit requirements, proportionate engineering obligations, and demonstrated technical necessities. Do not silently promote optional measures into prerequisites, even when the user suggested them. Seek a scope decision from the accountable owner before a material expansion of shared work; the user can decide scope for a personal tool they control, but not others' capacity or shared-system commitments. For a blocking unresolved question, ask for the narrow missing decision while continuing independent authorized work. Do not manufacture approvals for routine implementation choices.
+6. **Verify the outcome.** Check that the delivered change satisfies the agreed outcome and relevant engineering standards without unapproved additions. Reevaluate discoveries against the same baseline rather than treating an initial implementation plan as authority.
+
+This procedure decides **what work belongs in scope**. The separately triggered [effort checkpoint procedure](effort-scope-checkpoints.md) assesses **whether the resulting human effort is justified**; do not duplicate its capacity calculations here.
