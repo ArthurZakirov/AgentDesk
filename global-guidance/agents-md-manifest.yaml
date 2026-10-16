@@ -14,6 +14,7 @@ components:
   - path: agents-md-components/reasoning-and-agent-behavior/reasoning-and-agent-behavior.md
     children:
       - path: agents-md-components/reasoning-and-agent-behavior/problem-intent-and-proposed-solutions.md
+      - path: agents-md-components/reasoning-and-agent-behavior/unresolved-implementation-decisions.md
       - path: agents-md-components/reasoning-and-agent-behavior/requirements-scope-validation.md
       - path: agents-md-components/reasoning-and-agent-behavior/effort-scope-checkpoints.md
       - path: agents-md-components/reasoning-and-agent-behavior/evidence-grounding.md
