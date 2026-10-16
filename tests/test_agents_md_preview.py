@@ -68,8 +68,9 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "  - [⏱️ Effort and scope checkpoints](#effort-scope-checkpoints)" in rendered
     assert "**Before substantial work:**" in rendered
     assert "**During focused technical problem-solving:**" in rendered
-    assert "A single ordinary clarification does not activate this check." in rendered
     assert "**Find the baseline.**" in rendered
+    assert "3–5 story points per engineer" in rendered
+    assert "28.75 hours minus weekly sprint-planning hours" in rendered
     assert "**Estimate the remainder.**" in rendered
     assert "**Compare.**" in rendered
     assert "**Act.**" in rendered
