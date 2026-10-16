@@ -85,8 +85,9 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
     procedure = (FIXTURE / "agents-md-references" / "requirements-scope-validation.md").read_text(encoding="utf-8")
     assert "- [🎯 Requirements and scope validation](#requirements-scope-validation)" in entrypoint
-    assert "**Before making an implementation change:**" in entrypoint
+    assert "**Before implementing company or other shared work:**" in entrypoint
     assert "whether requested by the user or initiated by the agent" in entrypoint
+    assert "This does not apply to the user\u0027s personal projects when the user alone controls the scope." in entrypoint
     assert "[requirements and scope validation procedure](agents-md-references/requirements-scope-validation.md)" in entrypoint
     assert "**Establish the baseline.**" in procedure
     assert "**Identify intended changes.**" in procedure
@@ -99,7 +100,9 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     assert "focused unit tests" in procedure
     assert "new end-to-end framework" in procedure
     assert "separately triggered [effort checkpoint procedure](effort-scope-checkpoints.md)" in procedure
-    assert "Before making an implementation change" not in procedure
+    assert "Before implementing company or other shared work" not in procedure
+    assert "personal tool" not in procedure
+    assert "the requester can authorize it only when they hold the relevant scope authority" in procedure
 
 
 def test_effort_checkpoint_reference_contains_procedure() -> None:
