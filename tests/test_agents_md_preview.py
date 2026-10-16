@@ -66,7 +66,8 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "- [🧠 Information presentation](#information-presentation)" in rendered
     assert "  - [🧱 Structural and semantic coherence](#structural-semantic-coherence)" in rendered
     assert "  - [⏱️ Effort and scope checkpoints](#effort-scope-checkpoints)" in rendered
-    assert "**Before substantial work:**" in rendered
+    assert "**Before substantial human effort:**" in rendered
+    assert "Agent-only research or runtime does not count." in rendered
     assert "**During focused technical problem-solving:**" in rendered
     assert "troubleshooting why unexpected behavior occurs or expected behavior fails" in rendered
     assert "failures between interacting systems" in rendered
@@ -88,6 +89,8 @@ def test_effort_checkpoint_reference_contains_procedure() -> None:
     assert "[effort checkpoint procedure](agents-md-references/effort-scope-checkpoints.md)" in entrypoint
     assert "[effort capacity model](effort-capacity-model.md)" in procedure
     assert "**Team-ticket fallback:**" in procedure
+    assert "Estimate remaining **human effort**" in procedure
+    assert "Exclude unattended agent research, generation, and runtime" in procedure
     assert "**28.25 planned hours per engineer per week**" in procedure
     assert procedure.index("**Find the baseline.**") < procedure.index("**Team-ticket fallback:**") < procedure.index("**Estimate the remainder.**")
     assert "| Refinement |" not in procedure
