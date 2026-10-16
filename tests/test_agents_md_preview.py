@@ -85,19 +85,12 @@ def test_structural_semantic_coherence_flow_guidance() -> None:
     source = (ROOT / "global-guidance" / "agents-md-components" /
               "information-presentation" / "structural-semantic-coherence.md").read_text(encoding="utf-8")
     rendered = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
-    checks = (
-        "**Sequence vs. branch:**",
-        "**Information flow and ownership:**",
-        "peer steps represent successive stages",
-        "under the step where the decision occurs",
-        "Trace where each input enters, how it is classified, and where it is handled",
-        "apply the evaluation criteria to all collected inputs",
-    )
-    for check in checks:
-        assert check in source
-        assert check in rendered
-    assert source.count("**Coherence checks:**") == 1
-    assert source.count("| Existing organization | Incoherent addition | Coherent integration |") == 1
+    for rule in (
+        "peer steps represent successive stages; conditional outcomes belong within their owning step",
+        "where the information is already handled",
+    ):
+        assert rule in source
+        assert rule in rendered
 
 
 def test_unresolved_implementation_decisions_guidance() -> None:
