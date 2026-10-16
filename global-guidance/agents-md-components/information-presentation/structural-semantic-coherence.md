@@ -1,9 +1,9 @@
 <a id="structural-semantic-coherence"></a>
 # 🧱 Structural and semantic coherence
 
-When modifying an existing artifact, identify the **organizing principle of each affected group** before adding a sibling element. A group may be a directory of files, a section of headings, a sequence of workflow steps, a list of bullets, a collection of tests, a table of records, or a navigation hierarchy. Its peer elements should share a coherent **semantic role and level of abstraction** relative to that group's purpose. An ordered group also has a meaningful sequence.
+When modifying an existing artifact, identify the **organizing principle of each affected group** before adding a sibling element. A group may be a directory of files, a section of headings, a sequence of workflow steps, a list of bullets, a collection of tests, a table of records, or a navigation hierarchy. Its peer elements should share a coherent **semantic role and level of abstraction** relative to that group's purpose. In an ordered workflow, peer steps represent successive stages; conditional outcomes belong within their owning step.
 
-**Placement rule:** Determine what existing peers have in common and what each peer represents. Then decide whether the new information belongs **inside an existing element**, **as a new peer at the appropriate position**, or **in a separate group or parent**. Do not append an item or create a new file merely because it is convenient. Do not elevate a detail to the rank of its container, or mix a rule's subject matter with its applicability/scope as if they were instances of the same category.
+**Placement rule:** Determine what existing peers have in common, what each peer represents, and where the information is already handled. Then decide whether the new information belongs **inside an existing element**, **as a new peer at the appropriate position**, or **in a separate group or parent**. Do not append an item or create a new file merely because it is convenient. Do not elevate a detail to the rank of its container, or mix a rule's subject matter with its applicability/scope as if they were instances of the same category.
 
 | Existing organization | Incoherent addition | Coherent integration |
 | --- | --- | --- |

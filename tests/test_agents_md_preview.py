@@ -81,6 +81,18 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
 
 
+def test_structural_semantic_coherence_flow_guidance() -> None:
+    source = (ROOT / "global-guidance" / "agents-md-components" /
+              "information-presentation" / "structural-semantic-coherence.md").read_text(encoding="utf-8")
+    rendered = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    for rule in (
+        "peer steps represent successive stages; conditional outcomes belong within their owning step",
+        "where the information is already handled",
+    ):
+        assert rule in source
+        assert rule in rendered
+
+
 def test_unresolved_implementation_decisions_guidance() -> None:
     entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
     source = (ROOT / "global-guidance" / "agents-md-components" /
