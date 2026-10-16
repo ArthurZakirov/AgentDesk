@@ -91,10 +91,11 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     assert "[requirements and scope validation procedure](agents-md-references/requirements-scope-validation.md)" in entrypoint
     assert "**Establish the baseline.**" in procedure
     assert "**Identify intended changes.**" in procedure
-    assert "**Test proportionality at the boundary.**" in procedure
-    assert "**Proceed or clarify.**" in procedure
-    assert "**Verify the outcome.**" in procedure
-    for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Optional scope expansion**", "**Unresolved**"):
+    assert "**Test proportionality and scope fit.**" in procedure
+    assert "**Clarify and record scope decisions.**" in procedure
+    assert "**Implement and verify agreed work.**" in procedure
+    assert procedure.index("**Establish the baseline.**") < procedure.index("**Identify intended changes.**") < procedure.index("**Determine what belongs in the work.**") < procedure.index("**Test proportionality and scope fit.**") < procedure.index("**Clarify and record scope decisions.**") < procedure.index("**Implement and verify agreed work.**")
+    for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Proposed scope expansion**", "**Unresolved**"):
         assert category in procedure
         assert category not in entrypoint
     assert "focused unit tests" in procedure
@@ -102,7 +103,14 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     assert "separately triggered [effort checkpoint procedure](effort-scope-checkpoints.md)" in procedure
     assert "Before implementing company or other shared work" not in procedure
     assert "personal tool" not in procedure
-    assert "the requester can authorize it only when they hold the relevant scope authority" in procedure
+    assert "current ticket and its accepted acceptance criteria as the controlling scope" in procedure
+    assert "a stakeholder\u0027s authority or evidence that a need is real does not by itself make the change part of this ticket" in procedure
+    assert "| **Refine the current ticket** |" in procedure
+    assert "| **Create a separate ticket** |" in procedure
+    assert "| **Defer or decline** |" in procedure
+    assert "revisit the estimate and priority" in procedure
+    assert "Do not unilaterally rewrite acceptance criteria, create a new ticket, or implement the expansion" in procedure
+    assert "Implement expanded requirements only after the agreed ticket update or separate work item authorizes them" in procedure
 
 
 def test_effort_checkpoint_reference_contains_procedure() -> None:
@@ -112,6 +120,8 @@ def test_effort_checkpoint_reference_contains_procedure() -> None:
 
     assert "[effort checkpoint procedure](agents-md-references/effort-scope-checkpoints.md)" in entrypoint
     assert "[effort capacity model](effort-capacity-model.md)" in procedure
+    assert "[requirements and scope validation procedure](requirements-scope-validation.md)" in procedure
+    assert "approval of an added requirement alone does not replace" in procedure
     assert "**Team-ticket fallback:**" in procedure
     assert "Estimate remaining **human effort**" in procedure
     assert "Exclude unattended agent research, generation, and runtime" in procedure
