@@ -95,9 +95,15 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     assert "**Clarify and record scope decisions.**" in procedure
     assert "**Implement and verify agreed work.**" in procedure
     assert procedure.index("**Establish the baseline.**") < procedure.index("**Identify intended changes.**") < procedure.index("**Determine what belongs in the work.**") < procedure.index("**Test proportionality and scope fit.**") < procedure.index("**Clarify and record scope decisions.**") < procedure.index("**Implement and verify agreed work.**")
+    assert "| Classification | Decision basis | Next step |" in procedure
+    assert "| --- | --- | --- |" in procedure
     for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Inferred / disputed requirement**", "**Proposed scope expansion**", "**Unresolved facts or contracts**"):
         assert category in procedure
         assert category not in entrypoint
+    assert "Confirm the convention and proportionality (step 4); then implement (step 6)." in procedure
+    assert "Compare interpretations (step 4), then clarify with the accountable parties (step 5)" in procedure
+    assert "route ticket refinement, a separate ticket, or deferral through step 5" in procedure
+    assert "Obtain evidence or expert input (step 5), then revisit this classification; do not guess." in procedure
     assert "focused unit tests" in procedure
     assert "new end-to-end framework" in procedure
     assert "separately triggered [effort checkpoint procedure](effort-scope-checkpoints.md)" in procedure
