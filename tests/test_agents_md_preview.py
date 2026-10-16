@@ -81,6 +81,31 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
 
 
+def test_unresolved_implementation_decisions_guidance() -> None:
+    entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    source = (ROOT / "global-guidance" / "agents-md-components" /
+              "reasoning-and-agent-behavior" / "unresolved-implementation-decisions.md").read_text(encoding="utf-8")
+    assert "- [🧩 Unresolved implementation decisions](#unresolved-implementation-decisions)" in entrypoint
+    assert source.splitlines()[1] in entrypoint
+    assert "| When | Then |" in source
+    assert source.count("| A change depends on unanswered requirements") == 1
+    assert source.count("| --- | --- |") == 1
+    assert "before implementing dependent behavior" in source
+    for step in (
+        "**Investigate first.**",
+        "**Get the missing decision.**",
+        "**Do not implement guesses.**",
+        "**Continue independent work.**",
+        "**Keep routine choices autonomous.**",
+    ):
+        assert step in source
+        assert step in entrypoint
+    assert "provisional implementations, speculative branches, or abstractions" in source
+    assert "future additions are strictly additive without rework" in source
+    assert "flexibility is itself a confirmed requirement" in source
+    assert entrypoint.index("Unresolved implementation decisions") < entrypoint.index("Requirements and scope validation")
+
+
 def test_requirements_scope_validation_trigger_and_reference() -> None:
     entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
     procedure = (FIXTURE / "agents-md-references" / "requirements-scope-validation.md").read_text(encoding="utf-8")
