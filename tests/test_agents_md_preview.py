@@ -67,7 +67,8 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "  - [🧱 Structural and semantic coherence](#structural-semantic-coherence)" in rendered
     assert "  - [⏱️ Effort and scope checkpoints](#effort-scope-checkpoints)" in rendered
     assert "**Before substantial work:**" in rendered
-    assert "**During work:**" in rendered
+    assert "**During focused technical problem-solving:**" in rendered
+    assert "A single ordinary clarification does not activate this check." in rendered
     assert "**Find the baseline.**" in rendered
     assert "**Estimate the remainder.**" in rendered
     assert "**Compare.**" in rendered

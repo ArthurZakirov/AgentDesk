@@ -1,12 +1,12 @@
 <a id="effort-scope-checkpoints"></a>
 # ⏱️ Effort and scope checkpoints
 
-Check effort before substantial work and again when actual progress changes the picture. This applies to any kind of deliverable, not just code or tests.
+Check effort before substantial work and when focused technical problem-solving becomes a repeated struggle. This applies across types of deliverables, not just code or tests.
 
 | When | Then |
 | --- | --- |
 | **Before substantial work:** The agent is about to start a time-consuming or review-heavy step. | Run the **effort check** below before committing to the step; no prior evidence of an overrun is required. |
-| **During work:** A substantial work/review increment finishes, affected scope expands, or requests for explanation/review repeatedly fail to establish understanding. | Run the **effort check** again using actual effort and remaining work. |
+| **During focused technical problem-solving:** Arthur is actively trying to understand or resolve a technical problem and repeatedly asks for explanations, code walkthroughs, visualizations, simplifications, or reviews without reaching stable understanding. | Before another explanation or implementation attempt, run the **effort check** using actual effort, review friction, and remaining work. A single ordinary clarification does not activate this check. |
 
 **Effort check** — keep the investigation proportionate:
 
