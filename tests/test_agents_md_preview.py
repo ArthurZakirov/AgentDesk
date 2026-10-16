@@ -68,6 +68,10 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "  - [⏱️ Effort and scope checkpoints](#effort-scope-checkpoints)" in rendered
     assert "**Before substantial work:**" in rendered
     assert "**During focused technical problem-solving:**" in rendered
+    assert "troubleshooting why unexpected behavior occurs or expected behavior fails" in rendered
+    assert "failures between interacting systems" in rendered
+    assert "repeatedly seeks explanations" in rendered
+    assert "before further debugging or explanation" in rendered
     assert rendered.count("[effort checkpoint procedure](agents-md-references/effort-scope-checkpoints.md)") == 2
     assert "**Find the baseline.**" not in rendered
     assert "3–5 story points per engineer" not in rendered
