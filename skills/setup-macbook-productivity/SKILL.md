@@ -1,6 +1,6 @@
 ---
 name: setup-macbook-productivity
-description: "Configure repeatable macOS productivity settings on a user's MacBook, including voice typing / Dictation and Raycast-friendly Google Drive launching. Use when Codex is asked to set up, repair, or document MacBook productivity features such as Dictation, shortcuts, microphone input, Google Drive for Desktop, Raycast launch behavior, or similar local macOS workflow preferences."
+description: "Configure repeatable macOS productivity settings on a user's MacBook, including voice typing / Dictation and Raycast-friendly Google Drive and Dell DDPM launching. Use when Codex is asked to set up, repair, or document MacBook productivity features such as Dictation, shortcuts, microphone input, Google Drive for Desktop, Dell Display and Peripheral Manager (DDPM/DDM), Raycast launch behavior, or similar local macOS workflow preferences."
 ---
 
 # Setup MacBook Productivity
@@ -12,6 +12,7 @@ Use this skill to configure local macOS productivity preferences with a bias tow
 Supported workflows:
 
 - Voice typing / Dictation with a Control-Control shortcut.
+- A [DDPM launcher setup](references/ddpm-raycast-launcher.md) for opening Dell’s full controls from Raycast without manually finding a menu-bar icon.
 - A Raycast-friendly Google Drive launcher for Macs where Google Drive runs correctly but Raycast activation does not reopen its UI.
 
 ## Voice Typing Workflow
@@ -130,6 +131,10 @@ Do not assume that a missing Google Drive menu-bar icon means Drive itself is br
 When those three conditions hold, prefer the launcher workaround above over reinstalling Drive or patching Raycast databases.
 
 On macOS versions that protect Control Center state behind TCC, do not bypass privacy controls to inspect or mutate protected menu-bar registries. Treat missing Screen Recording or Accessibility permission as a boundary, not as evidence that Drive is corrupt.
+
+## Dell DDPM + Raycast Workflow
+
+When Dell Display and Peripheral Manager runs in the menu bar but activating it from Raycast does not open its controls, follow the [DDPM launcher setup guide](references/ddpm-raycast-launcher.md). Use the bundled installer and verified context-menu mechanism; do not repeat generic reopen attempts or build another launcher from scratch.
 
 ## Boundaries
 
