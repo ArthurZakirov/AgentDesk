@@ -76,6 +76,7 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "**Clarify with stakeholders.**" in rendered
     assert "**Evaluate stakeholder input.**" in rendered
     assert "| Source | What it can validate | What it does not validate by itself |" in rendered
+    assert "| User as owner of a personal tool |" in rendered
     assert "| Recorded acceptance criteria |" in rendered
     assert "| Explicitly delegated authority |" in rendered
     assert "**Scope authority**" not in rendered
