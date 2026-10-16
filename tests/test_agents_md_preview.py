@@ -73,10 +73,12 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "28.75 hours minus weekly sprint-planning hours" in rendered
     assert "**Estimate the remainder.**" in rendered
     assert "**Compare.**" in rendered
-    assert "**Act.**" in rendered
-    assert "**Scope authority**" in rendered
-    assert "| Situation | Required action |" in rendered
-    assert "| Scope decision is pending |" in rendered
+    assert "**Clarify with stakeholders.**" in rendered
+    assert "**Evaluate stakeholder input.**" in rendered
+    assert "| Source | What it can validate | What it does not validate by itself |" in rendered
+    assert "| Recorded acceptance criteria |" in rendered
+    assert "| Explicitly delegated authority |" in rendered
+    assert "**Scope authority**" not in rendered
     assert "Global guidance component:" not in rendered
     assert sum(line == "---" for line in rendered.splitlines()) == 4
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
