@@ -66,8 +66,12 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "- [🧠 Information presentation](#information-presentation)" in rendered
     assert "  - [🧱 Structural and semantic coherence](#structural-semantic-coherence)" in rendered
     assert "  - [⏱️ Effort and scope checkpoints](#effort-scope-checkpoints)" in rendered
-    assert "**Before substantial implementation:**" in rendered
-    assert "**During implementation or review:**" in rendered
+    assert "**Before substantial work:**" in rendered
+    assert "**During work:**" in rendered
+    assert "**Find the baseline.**" in rendered
+    assert "**Estimate the remainder.**" in rendered
+    assert "**Compare.**" in rendered
+    assert "**Act.**" in rendered
     assert "Global guidance component:" not in rendered
     assert sum(line == "---" for line in rendered.splitlines()) == 4
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
