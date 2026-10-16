@@ -95,7 +95,7 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     assert "**Clarify and record scope decisions.**" in procedure
     assert "**Implement and verify agreed work.**" in procedure
     assert procedure.index("**Establish the baseline.**") < procedure.index("**Identify intended changes.**") < procedure.index("**Determine what belongs in the work.**") < procedure.index("**Test proportionality and scope fit.**") < procedure.index("**Clarify and record scope decisions.**") < procedure.index("**Implement and verify agreed work.**")
-    for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Proposed scope expansion**", "**Unresolved**"):
+    for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Inferred / disputed requirement**", "**Proposed scope expansion**", "**Unresolved facts or contracts**"):
         assert category in procedure
         assert category not in entrypoint
     assert "focused unit tests" in procedure
@@ -104,12 +104,20 @@ def test_requirements_scope_validation_trigger_and_reference() -> None:
     assert "Before implementing company or other shared work" not in procedure
     assert "personal tool" not in procedure
     assert "current ticket and its accepted acceptance criteria as the controlling scope" in procedure
-    assert "a stakeholder\u0027s authority or evidence that a need is real does not by itself make the change part of this ticket" in procedure
+    assert "accumulating or documenting a requirement does not approve it as part of this ticket" in procedure
     assert "| **Refine the current ticket** |" in procedure
     assert "| **Create a separate ticket** |" in procedure
     assert "| **Defer or decline** |" in procedure
     assert "revisit the estimate and priority" in procedure
-    assert "Do not unilaterally rewrite acceptance criteria, create a new ticket, or implement the expansion" in procedure
+    assert "Do not unilaterally rewrite acceptance criteria, create a new ticket, or implement an unapproved expansion" in procedure
+    assert "accumulated requirements, including a working `requirements.md`" in procedure
+    assert "Slack discussions, PR feedback" in procedure
+    assert "do not prematurely label it either required or scope creep" in procedure
+    assert "A plausible interpretation alone is not proof." in procedure
+    assert "Obtain evidence instead of inventing a mapping, heuristic, or contract." in procedure
+    assert "If a claimed implicit requirement is disputed" in procedure
+    assert "Seek domain or technical expertise for missing facts" in procedure
+    assert "contested scope with the appropriate decision-maker" in procedure
     assert "Implement expanded requirements only after the agreed ticket update or separate work item authorizes them" in procedure
 
 
