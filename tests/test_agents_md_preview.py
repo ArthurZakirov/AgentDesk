@@ -81,6 +81,52 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
 
 
+def test_requirements_scope_validation_trigger_and_reference() -> None:
+    entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    procedure = (FIXTURE / "agents-md-references" / "requirements-scope-validation.md").read_text(encoding="utf-8")
+    assert "- [🎯 Requirements and scope validation](#requirements-scope-validation)" in entrypoint
+    assert "**Before implementing company or other shared work:**" in entrypoint
+    assert "whether requested by the user or initiated by the agent" in entrypoint
+    assert "This does not apply to the user\u0027s personal projects when the user alone controls the scope." in entrypoint
+    assert "[requirements and scope validation procedure](agents-md-references/requirements-scope-validation.md)" in entrypoint
+    assert "**Establish the baseline.**" in procedure
+    assert "**Identify intended changes.**" in procedure
+    assert "**Test proportionality and scope fit.**" in procedure
+    assert "**Clarify and record scope decisions.**" in procedure
+    assert "**Implement and verify agreed work.**" in procedure
+    assert procedure.index("**Establish the baseline.**") < procedure.index("**Identify intended changes.**") < procedure.index("**Determine what belongs in the work.**") < procedure.index("**Test proportionality and scope fit.**") < procedure.index("**Clarify and record scope decisions.**") < procedure.index("**Implement and verify agreed work.**")
+    assert "| Classification | Decision basis | Next step |" in procedure
+    assert "| --- | --- | --- |" in procedure
+    for category in ("**Explicitly required**", "**Implicitly expected engineering work**", "**Technically necessary**", "**Inferred / disputed requirement**", "**Proposed scope expansion**", "**Unresolved facts or contracts**"):
+        assert category in procedure
+        assert category not in entrypoint
+    assert "Confirm the convention and proportionality (step 4); then implement (step 6)." in procedure
+    assert "Compare interpretations (step 4), then clarify with the accountable parties (step 5)" in procedure
+    assert "route ticket refinement, a separate ticket, or deferral through step 5" in procedure
+    assert "Obtain evidence or expert input (step 5), then revisit this classification; do not guess." in procedure
+    assert "focused unit tests" in procedure
+    assert "new end-to-end framework" in procedure
+    assert "separately triggered [effort checkpoint procedure](effort-scope-checkpoints.md)" in procedure
+    assert "Before implementing company or other shared work" not in procedure
+    assert "personal tool" not in procedure
+    assert "current ticket and its accepted acceptance criteria as the controlling scope" in procedure
+    assert "accumulating or documenting a requirement does not approve it as part of this ticket" in procedure
+    assert "| **Refine the current ticket** |" in procedure
+    assert "| **Create a separate ticket** |" in procedure
+    assert "| **Defer or decline** |" in procedure
+    assert "revisit the estimate and priority" in procedure
+    assert "Do not unilaterally rewrite acceptance criteria, create a new ticket, or implement an unapproved expansion" in procedure
+    assert "accumulated requirements, including a working `requirements.md`" in procedure
+    assert "Slack discussions, PR feedback" in procedure
+    assert "do not prematurely label it either required or scope creep" in procedure
+    assert "A plausible interpretation alone is not proof." in procedure
+    assert "Obtain evidence instead of inventing a mapping, heuristic, or contract." in procedure
+    assert "If a claimed implicit requirement is disputed" in procedure
+    assert "Seek domain or technical expertise for missing facts" in procedure
+    assert "contested scope with the appropriate decision-maker" in procedure
+    assert "Implement expanded requirements only after the agreed ticket update or separate work item authorizes them" in procedure
+
+
 def test_effort_checkpoint_reference_contains_procedure() -> None:
     entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
     procedure_path = FIXTURE / "agents-md-references" / "effort-scope-checkpoints.md"
@@ -88,6 +134,8 @@ def test_effort_checkpoint_reference_contains_procedure() -> None:
 
     assert "[effort checkpoint procedure](agents-md-references/effort-scope-checkpoints.md)" in entrypoint
     assert "[effort capacity model](effort-capacity-model.md)" in procedure
+    assert "[requirements and scope validation procedure](requirements-scope-validation.md)" in procedure
+    assert "approval of an added requirement alone does not replace" in procedure
     assert "**Team-ticket fallback:**" in procedure
     assert "Estimate remaining **human effort**" in procedure
     assert "Exclude unattended agent research, generation, and runtime" in procedure
