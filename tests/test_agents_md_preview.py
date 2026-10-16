@@ -74,6 +74,9 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "**Estimate the remainder.**" in rendered
     assert "**Compare.**" in rendered
     assert "**Act.**" in rendered
+    assert "**Scope authority**" in rendered
+    assert "| Situation | Required action |" in rendered
+    assert "| Scope decision is pending |" in rendered
     assert "Global guidance component:" not in rendered
     assert sum(line == "---" for line in rendered.splitlines()) == 4
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
