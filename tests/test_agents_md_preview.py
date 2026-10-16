@@ -91,21 +91,27 @@ def test_unresolved_implementation_decisions_guidance() -> None:
     assert source.count("| A change depends on unanswered requirements") == 1
     assert source.count("| --- | --- |") == 1
     assert "before implementing dependent behavior" in source
-    for step in (
-        "**Investigate first.**",
-        "**Surface the missing decision.**",
-        "**Do not implement guesses.**",
-        "**Continue independent work.**",
-        "**Keep routine choices autonomous.**",
-    ):
-        assert step in source
+
+    steps = (
+        "**Assess and investigate.**",
+        "**Surface the unresolved decision.**",
+        "**Handle pending work.**",
+    )
+    for n, step in enumerate(steps, 1):
+        assert source.count(f"{n}. {step}") == 1
         assert step in entrypoint
-    assert "provisional implementations, speculative branches, or abstractions" in source
+    assert all(f"{n}. **" not in source for n in (4, 5, 6))
     assert "documentation, prior decisions and chats, code, tests" in source
+    assert "without manufacturing stakeholder approvals" in source
     assert "the user can consult the accountable person" in source
     assert "Do not contact stakeholders on the user's behalf." in source
-    assert "future additions are strictly additive without rework" in source
-    assert "flexibility is itself a confirmed requirement" in source
+    assert "provisional behavior" in source
+    assert "speculative branches or abstractions" in source
+    assert "strictly additive without rework" in source
+    assert "**If independent work remains:**" in source
+    assert "**Otherwise:** Tell the user the task is blocked." in source
+    assert "For team-managed work, suggest coordinating with the team" in source
+    assert "Do not change ticket status or switch tasks without authorization." in source
     assert entrypoint.index("Unresolved implementation decisions") < entrypoint.index("Requirements and scope validation")
 
 
