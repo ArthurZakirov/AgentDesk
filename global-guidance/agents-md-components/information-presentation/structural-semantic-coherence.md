@@ -5,9 +5,15 @@ When modifying an existing artifact, identify the **organizing principle of each
 
 **Placement rule:** Determine what existing peers have in common and what each peer represents. Then decide whether the new information belongs **inside an existing element**, **as a new peer at the appropriate position**, or **in a separate group or parent**. Do not append an item or create a new file merely because it is convenient. Do not elevate a detail to the rank of its container, or mix a rule's subject matter with its applicability/scope as if they were instances of the same category.
 
+**Coherence checks:**
+
+- **Sequence vs. branch:** In an ordered workflow, peer steps represent successive stages. Keep `if/else` outcomes under the step where the decision occurs; do not turn an alternative outcome or a cross-cutting principle into another stage.
+- **Information flow and ownership:** Trace where each input enters, how it is classified, and where it is handled. If an existing stage already covers it, use or refine that stage rather than repeat the source, special-case the input, or duplicate the behavior downstream.
+
 | Existing organization | Incoherent addition | Coherent integration |
 | --- | --- | --- |
-| Markdown headings each represent a step in an ordered workflow. | Append an unnumbered, explanatory heading as another step-level sibling. | Incorporate the information into the relevant step, or introduce a correctly positioned step if it is a separate action. |
+| Numbered items represent successive workflow stages. | Add a new numbered step for an alternative outcome of an earlier decision. | Nest conditional outcomes under the decision step; reserve peer numbers for subsequent stages. |
+| A workflow collects input sources before evaluating the accumulated inputs. | Reintroduce one already collected source as a special case in the evaluation stage. | List the source where inputs enter; apply the evaluation criteria to all collected inputs without redundant source-specific handling. |
 | Each BDD `.feature` file owns the scenarios for one domain object. | Create a peer feature file for one scenario of an existing object. | Add the scenario to that object's feature file. |
 | A bullet list enumerates coding-style dimensions such as typing, formatting, and naming. | Add `new functions only` as another dimension, although it describes scope. | State the applicability rule separately; retain only style dimensions as list peers. |
 | A test directory groups files by module or component. | Create a new top-level file for a single regression case of an already covered component. | Put the test in the existing component's test file, unless it warrants a distinct test category. |

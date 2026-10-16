@@ -81,6 +81,25 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
 
 
+def test_structural_semantic_coherence_flow_guidance() -> None:
+    source = (ROOT / "global-guidance" / "agents-md-components" /
+              "information-presentation" / "structural-semantic-coherence.md").read_text(encoding="utf-8")
+    rendered = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    checks = (
+        "**Sequence vs. branch:**",
+        "**Information flow and ownership:**",
+        "peer steps represent successive stages",
+        "under the step where the decision occurs",
+        "Trace where each input enters, how it is classified, and where it is handled",
+        "apply the evaluation criteria to all collected inputs",
+    )
+    for check in checks:
+        assert check in source
+        assert check in rendered
+    assert source.count("**Coherence checks:**") == 1
+    assert source.count("| Existing organization | Incoherent addition | Coherent integration |") == 1
+
+
 def test_unresolved_implementation_decisions_guidance() -> None:
     entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
     source = (ROOT / "global-guidance" / "agents-md-components" /
