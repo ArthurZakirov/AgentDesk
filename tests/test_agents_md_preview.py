@@ -65,9 +65,65 @@ def test_agents_md_preview_exposes_grouped_navigation() -> None:
     assert "- [🧭 Reasoning and agent behavior](#reasoning-and-agent-behavior)" in rendered
     assert "- [🧠 Information presentation](#information-presentation)" in rendered
     assert "  - [🧱 Structural and semantic coherence](#structural-semantic-coherence)" in rendered
+    assert "  - [⏱️ Effort and scope checkpoints](#effort-scope-checkpoints)" in rendered
+    assert "**Before substantial human effort:**" in rendered
+    assert "Agent-only research or runtime does not count." in rendered
+    assert "**During focused technical problem-solving:**" in rendered
+    assert "troubleshooting why unexpected behavior occurs or expected behavior fails" in rendered
+    assert "failures between interacting systems" in rendered
+    assert "repeatedly seeks explanations" in rendered
+    assert "before further debugging or explanation" in rendered
+    assert rendered.count("[effort checkpoint procedure](agents-md-references/effort-scope-checkpoints.md)") == 2
+    assert "**Find the baseline.**" not in rendered
+    assert "3–5 story points per engineer" not in rendered
     assert "Global guidance component:" not in rendered
     assert sum(line == "---" for line in rendered.splitlines()) == 4
     assert sum(line == "<br><br>" for line in rendered.splitlines()) == 4
+
+
+def test_effort_checkpoint_reference_contains_procedure() -> None:
+    entrypoint = (FIXTURE / "AGENTS.md").read_text(encoding="utf-8")
+    procedure_path = FIXTURE / "agents-md-references" / "effort-scope-checkpoints.md"
+    procedure = procedure_path.read_text(encoding="utf-8")
+
+    assert "[effort checkpoint procedure](agents-md-references/effort-scope-checkpoints.md)" in entrypoint
+    assert "[effort capacity model](effort-capacity-model.md)" in procedure
+    assert "**Team-ticket fallback:**" in procedure
+    assert "Estimate remaining **human effort**" in procedure
+    assert "Exclude unattended agent research, generation, and runtime" in procedure
+    assert "**28.25 planned hours per engineer per week**" in procedure
+    assert procedure.index("**Find the baseline.**") < procedure.index("**Team-ticket fallback:**") < procedure.index("**Estimate the remainder.**")
+    assert "| Refinement |" not in procedure
+    assert "| Sprint planning |" not in procedure
+    for section in (
+        "**Find the baseline.**",
+        "**Estimate the remainder.**",
+        "**Compare.**",
+        "**Clarify with stakeholders.**",
+        "**Evaluate stakeholder input.**",
+        "| Source | What it can validate | What it does not validate by itself |",
+        "| User as owner of a personal tool |",
+    ):
+        assert section in procedure
+        assert section not in entrypoint
+
+
+def test_effort_capacity_model_is_separate_and_linked() -> None:
+    fixture_reference_dir = FIXTURE / "agents-md-references"
+    procedure = (fixture_reference_dir / "effort-scope-checkpoints.md").read_text(encoding="utf-8")
+    capacity_model = (fixture_reference_dir / "effort-capacity-model.md").read_text(encoding="utf-8")
+    assert "[effort capacity model](effort-capacity-model.md)" in procedure
+    for assumption in (
+        "3–5 story points per engineer",
+        "| Workweek | 40 hours |",
+        "| Daily Scrum | 5 × 15 minutes = 1.25 hours |",
+        "| Refinement | Approximately 1.5 hours |",
+        "| Sprint planning | 1 hour |",
+        "| Unplanned work (requests, assistance, incidents, bugs) | 20% = 8 hours |",
+        "Approximately 28.25 hours per week",
+    ):
+        assert assumption in capacity_model
+        assert assumption not in procedure
 
 
 def test_agents_md_components_are_physically_grouped() -> None:
